@@ -44,7 +44,7 @@
 </aside>
 
     <!-- Main Area -->
-    <div class="flex-1 flex flex-col ml-[303px] h-screen overflow-hidden">
+    <div class="flex-1 flex flex-col ml-[253px] h-screen overflow-hidden">
 
       <!-- Navbar -->
       <nav class="h-[95px] w-full bg-white shadow-md flex items-center justify-between px-[40px] flex-shrink-0">

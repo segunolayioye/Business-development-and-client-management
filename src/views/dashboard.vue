@@ -13,8 +13,8 @@ const scrollToQuickActions = () => {
     })
   }
 }
-
-// State for active tab
+         
+// State for active tab  
 const activeTab = ref('View All')
 
 // Client Data
@@ -41,7 +41,7 @@ const filteredClients = computed(() => {
   <div class="flex h-screen w-full bg-[#F4F0F0] overflow-hidden">
 
     <!-- Sidebar -->
-     <aside class="bg-[#0F151F] text-white w-[303px] h-screen fixed top-0 left-0 p-6 z-20 flex-shrink-0">
+     <aside class="bg-[#0F151F] text-white w-[253px] h-screen fixed top-0 left-0 p-6 z-20 flex-shrink-0">
       <div class="flex flex-col gap-[45px] mt-[95px]">
         <router-link to="/" class="flex gap-[10px] text-white hover:text-[#FD4F00]  bg-[#1E2736] px-[10px] py-[8px] rounded-[8px]">
           <img src="../assets/dashboard.svg" class="w-[18px] h-[18px] mt-[4px]"/>
@@ -74,7 +74,7 @@ const filteredClients = computed(() => {
     </aside>
 
     <!-- Right Area -->
-    <div class="flex flex-col flex-1 ml-[303px] h-screen overflow-hidden">
+    <div class="flex flex-col flex-1 ml-[253px] h-screen overflow-hidden">
 
       <!-- Navbar -->
       <nav class="h-[95px] w-full bg-white shadow-md flex items-center justify-between px-[29px] flex-shrink-0">
@@ -291,7 +291,7 @@ const filteredClients = computed(() => {
               <span class="text-xs font-medium">Compliance Alerts</span>
             </button>
             </router-link>
-            <router-link to="support" class="flex-1">   
+            <router-link to="help-center" class="flex-1">   
             <button class="w-full flex-1 bg-[#FD4F00] text-white rounded-xl py-4 flex flex-col items-center gap-2">
               <img src="../assets/headphone.svg" class="w-6 h-6"/>
               <span class="text-xs font-medium">View support tickets</span>
