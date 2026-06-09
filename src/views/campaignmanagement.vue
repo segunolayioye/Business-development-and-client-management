@@ -69,20 +69,15 @@
             <template v-for="(step, index) in steps" :key="index">
 
               <!-- Step -->
-              <div class="flex flex-col items-center gap-[6px]">
-                <div
-                  class="w-[44px] h-[44px] rounded-full flex items-center justify-center"
-                  :class="currentStep > index + 1 ? 'bg-[#22C55E]' :
-                          currentStep === index + 1 ? 'bg-[#22C55E]' :
-                          'bg-[#D9D9D9]'"
-                >
-                  <img :src="step.icon" class="w-[22px] h-[22px]" alt="step-icon"/>
-                </div>
-                <span
-                  class="text-[10px] text-center font-medium"
-                  :class="currentStep === index + 1 ? 'text-[#22C55E]' : 'text-[#000000]'"
-                >
-                  {{ step.label }}
+              <div
+                class="w-[44px] h-[44px] rounded-full flex items-center justify-center"
+                :class="currentStep > index + 1 ? 'bg-[#22C55E]' :
+                        currentStep === index + 1 ? 'bg-[#22C55E]' :
+                        'bg-[#D9D9D9]'"
+              >
+                <!-- Completed step: show checkmark. Current/future: show number -->
+                <span class="text-white font-bold text-[16px]">
+                  {{ currentStep > index + 1 ? '✓' : index + 1 }}
                 </span>
               </div>
 
@@ -232,19 +227,48 @@
         </div>
       </div>
     </div>
+    <Transition name="modal">
+  <div
+    v-if="showCampaignModal"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showCampaignModal = false"
+  >
+    <div class="bg-white rounded-2xl p-10 w-[420px] flex flex-col items-center gap-4 shadow-xl">
+
+      <!-- Green check circle -->
+      <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+        <span class="text-green-500 text-4xl font-bold">✓</span>
+      </div>
+
+      <h2 class="text-xl font-bold text-gray-900 mt-2">Campaign Created!</h2>
+      <p class="text-sm text-gray-500 text-center">
+        Your campaign has been successfully created and is now active.
+      </p>
+
+      <button
+        @click="$router.push('/campaigns')"
+        class="w-full bg-[#22C55E] text-white py-3 rounded-xl font-semibold text-sm mt-2 hover:bg-[#16a34a] transition-colors"
+      >
+        Back to Campaigns
+      </button>
+
+    </div>
+  </div>
+</Transition>
   </div>
 </template>
 
 <script setup>
+const showCampaignModal = ref(false)
 import { ref } from 'vue'
 
 const currentStep = ref(1)
 
 const steps = [
-  { label: 'Target Audience', icon: '../assets/double-profile.svg' },
-  { label: 'Channel & Message', icon: '💬' },
-  { label: 'Budget & Timeline', icon: '📈' },
-  { label: 'Metrics & Goals', icon: '🎯' },
+  { label: 'Target Audience' },
+  { label: 'Channel & Message' },
+  { label: 'Budget & Timeline' },
+  { label: 'Metrics & Goals' },
 ]
 
 const audiences = ['Retail', 'HNW', 'Institutional', 'SMEs', 'Cooperatives']
@@ -262,10 +286,16 @@ function toggleChannel(channel) {
 }
 
 function nextStep() {
-  if (currentStep.value < 4) currentStep.value++
+  if (currentStep.value < 4) {
+    currentStep.value++
+  } else {
+    showCampaignModal.value = true
+  }
 }
 
 function prevStep() {
   if (currentStep.value > 1) currentStep.value--
 }
+
+
 </script>

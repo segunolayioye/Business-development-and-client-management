@@ -171,157 +171,67 @@
 
         <!-- Product Catalog Cards -->
        <!-- Product Catalog Cards -->
+<!-- Product Catalog Cards -->
 <div class="grid grid-cols-4 gap-[16px] mt-[24px]">
-
-  <!-- Card 1 -->
-  <div v-show="activeTab === 'All' || activeTab === 'Real Estate'" class="bg-white rounded-[12px] p-[16px] flex flex-col gap-[12px]">
+  <div
+    v-for="product in products"
+    :key="product.id"
+    v-show="activeTab === 'All' || activeTab === product.tab"
+    class="bg-white rounded-[12px] p-[16px] flex flex-col gap-[12px]"
+  >
     <div class="flex justify-between items-start">
-      <div class="w-8 h-8 rounded-[8px] bg-[#FD4F0033]"><img src="../assets/orange-spin.svg" class="w-[30px] h-[30px]" alt="reit"></div>
+      <div :class="`w-8 h-8 rounded-[8px] ${product.iconBg}`">
+        <img :src="product.icon" class="w-[30px] h-[30px]"/>
+      </div>
       <div class="flex items-center gap-[8px]">
-        <span class="bg-[#FD4F0033] text-[#FD4F00] text-[10px] px-[8px] py-[2px] rounded-[4px]">SHARIAH</span>
+        <span :class="`${product.tagColor} text-[10px] px-[8px] py-[2px] rounded-[4px]`">{{ product.tag }}</span>
         <span class="text-[#4B5054] cursor-pointer">⋮</span>
       </div>
     </div>
+
     <div>
-      <p class="font-semibold text-[15px] text-[#0F151F]">Global REIT Fund</p>
-      <p class="text-xs text-[#4B5054]">Real Estate • High Yield</p>
+      <p class="font-semibold text-[15px] text-[#0F151F]">{{ product.name }}</p>
+      <p class="text-xs text-[#4B5054]">{{ product.subCategory }}</p>
     </div>
+
     <div class="flex flex-col gap-[8px] border-t border-[#F5F5F5] pt-[12px]">
       <div class="flex justify-between">
         <span class="text-xs text-[#4B5054]">Min Investment</span>
-        <span class="text-xs text-[#000000]">$5,000</span>
+        <span class="text-xs text-[#000000]">{{ product.minInvestment }}</span>
       </div>
       <div class="flex justify-between">
         <span class="text-xs text-[#4B5054]">Exp. Return</span>
-        <span class="text-xs font-medium text-[#FF8D28]">8.5% p.a.</span>
+        <span :class="`text-xs font-medium ${product.returnColor}`">{{ product.expReturn }}</span>
       </div>
       <div class="flex justify-between items-center">
         <span class="text-xs text-[#4B5054]">Risk Level</span>
-        <div class="flex gap-[3px]">
-          <div class="w-[10px] h-[10px] rounded-full bg-[#FF8D28]"></div>
-          <div class="w-[10px] h-[10px] rounded-full bg-[#FF8D28]"></div>
-          <div class="w-[10px] h-[10px] rounded-full bg-[#D9D9D9]"></div>
-          <div class="w-[10px] h-[10px] rounded-full bg-[#D9D9D9]"></div>
-          <div class="w-[10px] h-[10px] rounded-full bg-[#D9D9D9]"></div>
+        <div v-if="product.riskDots.length" class="flex gap-[3px]">
+          <div v-for="(color, i) in product.riskDots" :key="i"
+            class="w-[10px] h-[10px] rounded-full"
+            :style="{ backgroundColor: color }">
+          </div>
         </div>
+        <span v-else class="text-xs text-[#4B5054]">Pending Rating</span>
       </div>
     </div>
-    <div class="flex gap-[8px] mt-[4px]">
-      <button class="flex-1 bg-[#FD4F00] text-white text-sm py-[10px] rounded-[8px]">Details</button>
-      <button class="w-[40px] h-[40px] bg-[#FD4F00] text-white rounded-[8px] flex items-center justify-center text-lg">+</button>
+
+    <!-- Buttons -->
+    <div v-if="product.complete" class="flex gap-[8px] mt-[4px]">
+      <button
+        @click="openDetails(product)"
+        class="flex-1 bg-[#FD4F00] text-white text-sm py-[10px] rounded-[8px]"
+      >Details</button>
+      <button
+        @click="addToComparison(product)"
+        class="w-[40px] h-[40px] bg-[#FD4F00] text-white rounded-[8px] flex items-center justify-center text-lg"
+      >+</button>
+    </div>
+    <div v-else class="flex gap-[8px] mt-[4px]">
+      <router-link to="/create-product" class="w-full">
+        <button class="w-full bg-[#FD4F00] text-white text-sm py-[10px] rounded-[8px]">Continue Setup</button>
+      </router-link>
     </div>
   </div>
-
-  <!-- Card 2 -->
-  <div v-show="activeTab === 'All' || activeTab === 'Equities'" class="bg-white rounded-[12px] p-[16px] flex flex-col gap-[12px]">
-    <div class="flex justify-between items-start">
-      <div class="w-8 h-8 rounded-[8px] bg-[#A855F733]"><img src="../assets/purple-spin.svg" class="w-[30px] h-[30px]" alt="tech"></div>
-      <div class="flex items-center gap-[8px]">
-        <span class="bg-[#CB30E033] text-[#CB30E0] text-[10px] px-[8px] py-[2px] rounded-[4px]">GROWTH</span>
-        <span class="text-[#4B5054] cursor-pointer">⋮</span>
-      </div>
-    </div>
-    <div>
-      <p class="font-semibold text-[15px] text-[#0F151F]">Tech Ventures II</p>
-      <p class="text-xs text-[#4B5054]">Private Equity • Series B</p>
-    </div>
-    <div class="flex flex-col gap-[8px] border-t border-[#F5F5F5] pt-[12px]">
-      <div class="flex justify-between">
-        <span class="text-xs text-[#4B5054]">Min Investment</span>
-        <span class="text-xs text-[#000000]">$5,000</span>
-      </div>
-      <div class="flex justify-between">
-        <span class="text-xs text-[#4B5054]">Exp. Return</span>
-        <span class="text-xs font-medium text-[#A855F7]">18-22%</span>
-      </div>
-      <div class="flex justify-between items-center">
-        <span class="text-xs text-[#4B5054]">Risk Level</span>
-        <div class="flex gap-[3px]">
-          <div class="w-[10px] h-[10px] rounded-full bg-[#E50303]"></div>
-          <div class="w-[10px] h-[10px] rounded-full bg-[#E50303]"></div>
-          <div class="w-[10px] h-[10px] rounded-full bg-[#E50303]"></div>
-          <div class="w-[10px] h-[10px] rounded-full bg-[#E50303]"></div>
-          <div class="w-[10px] h-[10px] rounded-full bg-[#D9D9D9]"></div>
-        </div>
-      </div>
-    </div>
-    <div class="flex gap-[8px] mt-[4px]">
-      <button class="flex-1 bg-[#FD4F00] text-white text-sm py-[10px] rounded-[8px]">Details</button>
-      <button class="w-[40px] h-[40px] bg-[#FD4F00] text-white rounded-[8px] flex items-center justify-center text-lg">+</button>
-    </div>
-  </div>
-
-  <!-- Card 3 -->
-  <div v-show="activeTab === 'All' || activeTab === 'Sukuk'" class="bg-white rounded-[12px] p-[16px] flex flex-col gap-[12px]">
-    <div class="flex justify-between items-start">
-      <div class="w-8 h-8 rounded-[8px] bg-[#22C55E33]"><img src="../assets/green-spin.svg" class="w-[30px] h-[30px]" alt="reit"></div>
-      <div class="flex items-center gap-[8px]">
-        <span class="bg-[#228B2233] text-[#228B22] text-[10px] px-[8px] py-[2px] rounded-[4px]">SHARIAH</span>
-        <span class="text-[#4B5054] cursor-pointer">⋮</span>
-      </div>
-    </div>
-    <div>
-      <p class="font-semibold text-[15px] text-[#0F151F]">Global REIT Fund</p>
-      <p class="text-xs text-[#4B5054]">Real Estate • High Yield</p>
-    </div>
-    <div class="flex flex-col gap-[8px] border-t border-[#F5F5F5] pt-[12px]">
-      <div class="flex justify-between">
-        <span class="text-xs text-[#4B5054]">Min Investment</span>
-        <span class="text-xs text-[#000000]">$5,000</span>
-      </div>
-      <div class="flex justify-between">
-        <span class="text-xs text-[#4B5054]">Exp. Return</span>
-        <span class="text-xs font-medium text-[#0F151F]">8.5% p.a.</span>
-      </div>
-      <div class="flex justify-between items-center">
-        <span class="text-xs text-[#4B5054]">Risk Level</span>
-        <div class="flex gap-[3px]">
-          <div class="w-[10px] h-[10px] rounded-full bg-[#313EB2]"></div>
-          <div class="w-[10px] h-[10px] rounded-full bg-[#313EB2]"></div>
-          <div class="w-[10px] h-[10px] rounded-full bg-[#D9D9D9]"></div>
-          <div class="w-[10px] h-[10px] rounded-full bg-[#D9D9D9]"></div>
-          <div class="w-[10px] h-[10px] rounded-full bg-[#D9D9D9]"></div>
-        </div>
-      </div>
-    </div>
-    <div class="flex gap-[8px] mt-[4px]">
-      <button class="flex-1 bg-[#FD4F00] text-white text-sm py-[10px] rounded-[8px]">Details</button>
-      <button class="w-[40px] h-[40px] bg-[#FD4F00] text-white rounded-[8px] flex items-center justify-center text-lg">+</button>
-    </div>
-  </div>
-
-  <!-- Card 4 -->
-  <div v-show="activeTab === 'All' || activeTab === 'VC Funds'" class="bg-white rounded-[12px] p-[16px] flex flex-col gap-[12px]">
-    <div class="flex justify-between items-start">
-      <div class="w-8 h-8 rounded-[8px] bg-[#22C55E33]"><img src="../assets/green-spin.svg" class="w-[30px] h-[30px]" alt="reit"></div>
-      <div class="flex items-center gap-[8px]">
-        <span class="bg-[#228B2233] text-[#228B22] text-[10px] px-[8px] py-[2px] rounded-[4px]">SHARIAH</span>
-        <span class="text-[#A9A9A9] cursor-pointer">⋮</span>
-      </div>
-    </div>
-    <div>
-      <p class="font-semibold text-[15px] text-[#0F151F]">Global REIT Fund</p>
-      <p class="text-xs text-[#A9A9A9]">Private Equity •  Series B</p>
-    </div>
-    <div class="flex flex-col gap-[8px] border-t border-[#F5F5F5] pt-[12px]">
-      <div class="flex justify-between">
-        <span class="text-xs text-[#4B5054]">Min Investment</span>
-        <span class="text-xs text-[#000000]">$5,000</span>
-      </div>
-      <div class="flex justify-between">
-        <span class="text-xs text-[#4B5054]">Exp. Return</span>
-        <span class="text-xs text-[#000000]">TBD</span>
-      </div>
-      <div class="flex justify-between items-center">
-        <span class="text-xs text-[#4B5054]">Risk Level</span>
-        <span class="text-xs text-[#4B5054]">Pending Rating</span>
-      </div>
-    </div>
-    <div class="flex gap-[8px] mt-[4px]">
-      <button class="w-full bg-[#FD4F00] text-white text-sm py-[10px] rounded-[8px]">Continue Setup</button>
-    </div>
-  </div>
-
 </div>
         <!-- End Product Catalog Cards -->
 
@@ -329,92 +239,97 @@
         <div class="flex gap-[16px] mt-[24px]">
 
           <!-- Comparison Engine -->
-          <div class="bg-white rounded-[12px] p-[20px] w-[320px] flex flex-col gap-[16px]">
-            <div>
-              <p class="font-semibold text-[18px] text-[#0F151F]">Comparison Engine</p>
-              <p class="text-xs text-[#4B5054] mt-[4px]">Select up to 4 products to compare key metrics and risk profiles side-by-side</p>
+      <div class="bg-white rounded-[12px] p-[20px] w-[320px] flex flex-col gap-[16px]">
+        <div>
+          <p class="font-semibold text-[18px] text-[#0F151F]">Comparison Engine</p>
+          <p class="text-xs text-[#4B5054] mt-[4px]">Select up to 4 products to compare key metrics side-by-side</p>
+        </div>
+
+        <div class="flex flex-col gap-[10px]">
+          <div
+            v-for="product in comparisonProducts"
+            :key="product.id"
+            class="flex items-center justify-between border border-[#228B22] rounded-[8px] px-[12px] py-[10px]"
+          >
+            <div class="flex items-center gap-[8px]">
+              <div :class="`w-8 h-8 rounded-[8px] ${product.iconBg} flex items-center justify-center`">
+                <img :src="product.icon" class="w-[20px] h-[20px]"/>
+              </div>
+              <span class="text-sm text-[#0F151F]">{{ product.name }}</span>
             </div>
-            <div class="flex flex-col gap-[10px]">
-              <div class="flex items-center justify-between border border-[#228B22] rounded-[8px] px-[12px] py-[10px]">
-                <div class="flex items-center gap-[8px]">
-                  <div class="w-8 h-8 rounded-[8px] bg-[#228B2233] flex items-center justify-center"><img src="../assets/globe.svg" class="w-[20px] h-[20px]" alt="reit"></div>
-                  <span class="text-sm text-[#0F151F]">Global RBT Fund</span>
-                </div>
-                <span class="text-[#A9A9A9] cursor-pointer text-lg">×</span>
-              </div>
-              <div class="flex items-center justify-between border border-[#E5E5E5] rounded-[8px] px-[12px] py-[10px]">
-                <div class="flex items-center gap-[8px]">
-                  <div class="w-8 h-8 rounded-[8px] bg-[#313EB233] flex items-center justify-center"><img src="../assets/microchip.svg" class="w-[20px] h-[20px]" alt="tech"></div>
-                  <span class="text-sm text-[#0F151F]">Tech Ventures II</span>
-                </div>
-                <span class="text-[#A9A9A9] cursor-pointer text-lg">×</span>
-              </div>
-              <div class="flex items-center justify-center border border-[#E5E5E5] rounded-[8px] px-[12px] py-[10px] cursor-pointer hover:bg-[#F5F5F5]">
-                <span class="text-sm text-[#A9A9A9]">+ Add Product</span>
-              </div>
-            </div>
-            <button class="w-full bg-[#FD4F00] text-white text-sm py-[12px] rounded-[8px] font-medium">Generate Matrix</button>
+            <span
+              @click="removeFromComparison(product.id)"
+              class="text-[#A9A9A9] cursor-pointer text-lg hover:text-red-500"
+            >×</span>
           </div>
+
+          
+          
+        </div>
+
+        <button
+          @click="generateMatrix"
+          class="w-full bg-[#FD4F00] text-white text-sm py-[12px] rounded-[8px] font-medium"
+        >Generate Matrix</button>
+      </div>
           <!-- End Comparison Engine -->
 
           <!-- Comparison Matrix -->
-          <div class="bg-white rounded-[12px] p-[20px] flex-1 flex flex-col gap-[16px]">
-            <div class="flex justify-between items-center">
-              <p class="font-semibold text-[18px] text-[#0F151F]">Comparison Matrix</p>
-              <div class="flex items-center gap-[12px]">
-                <img src="../assets/dark-download.svg" alt="download">
-                 <img src="../assets/share-icon.svg" alt="share-icon">
-              </div>
-            </div>
-            <table class="w-full text-sm">
-              <thead>
-                <tr class="border-b border-[#F5F5F5]">
-                  <th class="text-left text-xs text-[#A9A9A9] font-medium py-[8px] w-[40%]">Feature</th>
-                  <th class="text-left text-xs font-semibold text-[#0F151F] py-[8px]">Global REIT Fund</th>
-                  <th class="text-left text-xs font-semibold text-[#0F151F] py-[8px]">Tech Venture II</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-[#F5F5F5]">
-                <tr>
-                  <td class="py-[10px] text-xs text-[#A9A9A9]">Asset Class</td>
-                  <td class="py-[10px] text-xs font-semibold text-[#0F151F]">Real Estate</td>
-                  <td class="py-[10px] text-xs font-semibold text-[#0F151F]">Private Equity</td>
-                </tr>
-                <tr>
-                  <td class="py-[10px] text-xs text-[#A9A9A9]">Min. Investment</td>
-                  <td class="py-[10px] text-xs font-semibold text-[#0F151F]">$5,000</td>
-                  <td class="py-[10px] text-xs font-semibold text-[#0F151F]">$25,000</td>
-                </tr>
-                <tr>
-                  <td class="py-[10px] text-xs text-[#A9A9A9]">Exp. Return (IRR)</td>
-                  <td class="py-[10px] text-xs font-semibold text-[#FD4F00]">8.5%</td>
-                  <td class="py-[10px] text-xs font-semibold text-[#FD4F00]">2.5%</td>
-                </tr>
-                <tr>
-                  <td class="py-[10px] text-xs text-[#A9A9A9]">Risk Profile</td>
-                  <td class="py-[10px]">
-                    <span class="bg-[#FFF0EB] text-[#FD4F00] text-xs px-[10px] py-[4px] rounded-full">Moderate</span>
-                  </td>
-                  <td class="py-[10px]">
-                    <span class="bg-[#FEE2E2] text-[#EF4444] text-xs px-[10px] py-[4px] rounded-full">High</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="py-[10px] text-xs text-[#A9A9A9]">Liquidity</td>
-                  <td class="py-[10px] text-xs font-semibold text-[#0F151F]">Quarterly</td>
-                  <td class="py-[10px] text-xs font-semibold text-[#0F151F]">Quarterly</td>
-                </tr>
-                <tr>
-                  <td class="py-[10px] text-xs text-[#A9A9A9]">Shari'ah Compliant</td>
-                  <td class="py-[10px] text-xs font-semibold text-[#22C55E]">✓ Yes</td>
-                  <td class="py-[10px] text-xs font-semibold text-[#22C55E]">✓ Yes</td>
-                </tr>
-              </tbody>
-            </table>
+          <!-- Comparison Matrix -->
+      <div class="bg-white rounded-[12px] p-[20px] flex-1 flex flex-col gap-[16px]">
+        <div class="flex justify-between items-center">
+          <p class="font-semibold text-[18px] text-[#0F151F]">Comparison Matrix</p>
+          <div class="flex items-center gap-[12px]">
+            <img src="../assets/dark-download.svg" alt="download">
+            <img src="../assets/share-icon.svg" alt="share-icon">
           </div>
-          <!-- End Comparison Matrix -->
-
         </div>
+
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-[#F5F5F5]">
+              <th class="text-left text-xs text-[#A9A9A9] font-medium py-[8px] w-[40%]">Feature</th>
+              <th
+                v-for="product in matrixProducts"
+                :key="product.id"
+                class="text-left text-xs font-semibold text-[#0F151F] py-[8px]"
+              >{{ product.name }}</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#F5F5F5]">
+            <tr>
+              <td class="py-[10px] text-xs text-[#A9A9A9]">Asset Class</td>
+              <td v-for="p in matrixProducts" :key="p.id" class="py-[10px] text-xs font-semibold text-[#0F151F]">{{ p.assetClass }}</td>
+            </tr>
+            <tr>
+              <td class="py-[10px] text-xs text-[#A9A9A9]">Min. Investment</td>
+              <td v-for="p in matrixProducts" :key="p.id" class="py-[10px] text-xs font-semibold text-[#0F151F]">{{ p.minInvestment }}</td>
+            </tr>
+            <tr>
+              <td class="py-[10px] text-xs text-[#A9A9A9]">Exp. Return (IRR)</td>
+              <td v-for="p in matrixProducts" :key="p.id" class="py-[10px] text-xs font-semibold text-[#FD4F00]">{{ p.expReturn }}</td>
+            </tr>
+            <tr>
+              <td class="py-[10px] text-xs text-[#A9A9A9]">Risk Profile</td>
+              <td v-for="p in matrixProducts" :key="p.id" class="py-[10px]">
+                <span :class="`${p.riskProfileColor} text-xs px-[10px] py-[4px] rounded-full`">{{ p.riskProfile }}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-[10px] text-xs text-[#A9A9A9]">Liquidity</td>
+              <td v-for="p in matrixProducts" :key="p.id" class="py-[10px] text-xs font-semibold text-[#0F151F]">{{ p.liquidity }}</td>
+            </tr>
+            <tr>
+              <td class="py-[10px] text-xs text-[#A9A9A9]">Shari'ah Compliant</td>
+              <td v-for="p in matrixProducts" :key="p.id" class="py-[10px] text-xs font-semibold" :class="p.shariah ? 'text-[#22C55E]' : 'text-[#EF4444]'">
+                {{ p.shariah ? '✓ Yes' : '✗ No' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
         <!-- End Comparison Section -->
 
         <!-- Product Performance -->
@@ -501,7 +416,7 @@
         <div class="bg-white rounded-[12px] p-[20px] mt-[24px] mb-[32px]">
           <div class="flex justify-between items-center mb-[20px]">
             <p class="font-semibold text-[18px] text-[#0F151F]">Compliance Status & Filing History</p>
-            <a class="text-xs text-[#FD4F00] cursor-pointer hover:underline">View All Documents</a>
+            
           </div>
           <table class="w-full text-sm">
             <thead>
@@ -588,13 +503,221 @@
 
     </div>
     <!-- End Right Area -->
+  <!-- Details Modal -->
+<Transition name="modal">
+  <div
+    v-if="showDetailsModal && selectedProduct"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showDetailsModal = false"
+  >
+    <div class="bg-white rounded-2xl p-8 w-[480px] flex flex-col gap-4 shadow-xl">
 
+      <!-- Header -->
+      <div class="flex justify-between items-start">
+        <div class="flex items-center gap-3">
+          <div :class="`w-10 h-10 rounded-[8px] ${selectedProduct.iconBg} flex items-center justify-center`">
+            <img :src="selectedProduct.icon" class="w-[28px] h-[28px]"/>
+          </div>
+          <div>
+            <p class="font-bold text-[18px] text-[#0F151F]">{{ selectedProduct.name }}</p>
+            <p class="text-xs text-[#4B5054]">{{ selectedProduct.subCategory }}</p>
+          </div>
+        </div>
+        <span :class="`${selectedProduct.tagColor} text-[10px] px-[8px] py-[2px] rounded-[4px]`">{{ selectedProduct.tag }}</span>
+      </div>
+
+      <!-- Details -->
+      <div class="flex flex-col gap-3 border-t border-[#F5F5F5] pt-4">
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Asset Class</span>
+          <span class="text-sm font-semibold text-[#0F151F]">{{ selectedProduct.assetClass }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Min. Investment</span>
+          <span class="text-sm font-semibold text-[#0F151F]">{{ selectedProduct.minInvestment }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Expected Return</span>
+          <span :class="`text-sm font-semibold ${selectedProduct.returnColor}`">{{ selectedProduct.expReturn }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Risk Profile</span>
+          <span :class="`${selectedProduct.riskProfileColor} text-xs px-[10px] py-[4px] rounded-full`">{{ selectedProduct.riskProfile }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Liquidity</span>
+          <span class="text-sm font-semibold text-[#0F151F]">{{ selectedProduct.liquidity }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Shari'ah Compliant</span>
+          <span :class="selectedProduct.shariah ? 'text-[#22C55E]' : 'text-[#EF4444]'" class="text-sm font-semibold">
+            {{ selectedProduct.shariah ? '✓ Yes' : '✗ No' }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-3 mt-2">
+        <button
+          @click="addToComparison(selectedProduct); showDetailsModal = false"
+          class="flex-1 border border-[#FD4F00] text-[#FD4F00] py-3 rounded-xl text-sm font-medium hover:bg-[#FFF0EB] transition-colors"
+        >+ Add to Comparison Engine</button>
+        <button
+          @click="showDetailsModal = false"
+          class="flex-1 bg-[#FD4F00] text-white py-3 rounded-xl text-sm font-medium"
+        >Close</button>
+      </div>
+
+    </div>
+  </div>
+</Transition>
   </div>
 </template>
 <script setup>
-import LineChart from '../components/LineChart.vue'
-import { ref } from 'vue'
+    import LineChart from '../components/LineChart.vue'
+    import { ref, computed } from 'vue'
+    import orangeIcon from '../assets/orange-spin.svg'
+    import purpleIcon from '../assets/purple-spin.svg'
+    import greenIcon from '../assets/green-spin.svg'
+    import globeIcon from '../assets/globe.svg'
+    import microchipIcon from '../assets/microchip.svg'
 
-const activeTab = ref('All')
-const tabs = ['All', 'Real Estate', 'Equities', 'Sukuk', 'VC Funds']
+    const activeTab = ref('All')
+    const tabs = ['All', 'Real Estate', 'Equities', 'Sukuk', 'VC Funds']
+
+    // ── PRODUCT DATA ──────────────────────────────────────────
+    const products = ref([
+      {
+        id: 1,
+        name: 'Global REIT Fund',
+        category: 'Real Estate',
+        subCategory: 'Real Estate • High Yield',
+        tag: 'SHARIAH',
+        tagColor: 'bg-[#FD4F0033] text-[#FD4F00]',
+        iconBg: 'bg-[#FD4F0033]',
+        icon: orangeIcon,
+        minInvestment: '$5,000',
+        expReturn: '8.5% p.a.',
+        returnColor: 'text-[#FF8D28]',
+        riskDots: ['#FF8D28','#FF8D28','#D9D9D9','#D9D9D9','#D9D9D9'],
+        assetClass: 'Real Estate',
+        riskProfile: 'Moderate',
+        riskProfileColor: 'bg-[#FFF0EB] text-[#FD4F00]',
+        liquidity: 'Quarterly',
+        shariah: true,
+        tab: 'Real Estate',
+        complete: true,
+      },
+      {
+        id: 2,
+        name: 'Tech Ventures II',
+        category: 'Equities',
+        subCategory: 'Private Equity • Series B',
+        tag: 'GROWTH',
+        tagColor: 'bg-[#CB30E033] text-[#CB30E0]',
+        iconBg: 'bg-[#A855F733]',
+        icon: purpleIcon,
+        minInvestment: '$5,000',
+        expReturn: '18-22%',
+        returnColor: 'text-[#A855F7]',
+        riskDots: ['#E50303','#E50303','#E50303','#E50303','#D9D9D9'],
+        assetClass: 'Private Equity',
+        riskProfile: 'High',
+        riskProfileColor: 'bg-[#FEE2E2] text-[#EF4444]',
+        liquidity: 'Quarterly',
+        shariah: true,
+        tab: 'Equities',
+        complete: true,
+      },
+      {
+        id: 3,
+        name: 'Green Sukuk',
+        category: 'Sukuk',
+        subCategory: 'Infrastructure • Core',
+        tag: 'SHARIAH',
+        tagColor: 'bg-[#228B2233] text-[#228B22]',
+        iconBg: 'bg-[#22C55E33]',
+        icon: greenIcon,
+        minInvestment: '$5,000',
+        expReturn: '6.5% p.a.',
+        returnColor: 'text-[#0F151F]',
+        riskDots: ['#313EB2','#313EB2','#D9D9D9','#D9D9D9','#D9D9D9'],
+        assetClass: 'Infrastructure',
+        riskProfile: 'Low',
+        riskProfileColor: 'bg-[#DCFCE7] text-[#22C55E]',
+        liquidity: 'Monthly',
+        shariah: true,
+        tab: 'Sukuk',
+        complete: true,
+      },
+      {
+        id: 4,
+        name: 'AI Innovation Fund',
+        category: 'VC Funds',
+        subCategory: 'Private Equity • Series A',
+        tag: 'GROWTH',
+        tagColor: 'bg-[#CB30E033] text-[#CB30E0]',
+        iconBg: 'bg-[#22C55E33]',
+        icon: microchipIcon,
+        minInvestment: '$25,000',
+        expReturn: 'TBD',
+        returnColor: 'text-[#0F151F]',
+        riskDots: [],
+        assetClass: 'Private Equity',
+        riskProfile: 'Pending',
+        riskProfileColor: 'bg-[#F5F5F5] text-[#4B5054]',
+        liquidity: 'TBD',
+        shariah: false,
+        tab: 'VC Funds',
+        complete: false,
+      },
+    ])
+
+    // ── DETAILS MODAL ─────────────────────────────────────────
+    const showDetailsModal = ref(false)
+    const selectedProduct = ref(null)
+
+    function openDetails(product) {
+      selectedProduct.value = product
+      showDetailsModal.value = true
+    }
+
+    // ── ADD TO COMPARISON ─────────────────────────────────────
+    const comparisonList = ref([
+      { id: 1 }, // preloaded
+      { id: 2 }, // preloaded
+    ])
+
+    const comparisonProducts = computed(() =>
+      comparisonList.value.map(c => products.value.find(p => p.id === c.id)).filter(Boolean)
+    )
+
+    function addToComparison(product) {
+      if (comparisonList.value.find(c => c.id === product.id)) return // already added
+      if (comparisonList.value.length >= 4) {
+        alert('You can only compare up to 4 products.')
+        return
+      }
+      comparisonList.value.push({ id: product.id })
+    }
+
+    function removeFromComparison(productId) {
+      comparisonList.value = comparisonList.value.filter(c => c.id !== productId)
+    }
+
+    // ── GENERATE MATRIX ───────────────────────────────────────
+    const matrixGenerated = ref(true) // true by default since products are preloaded
+    const matrixProducts = ref([
+      products.value[0],
+      products.value[1],
+    ])
+
+    function generateMatrix() {
+      if (comparisonProducts.value.length < 2) {
+        alert('Please add at least 2 products to compare.')
+        return
+      }
+      matrixProducts.value = [...comparisonProducts.value]
+      matrixGenerated.value = true
+    }
 </script>

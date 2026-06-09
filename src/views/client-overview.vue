@@ -54,8 +54,10 @@
         <div class="flex-1 overflow-y-auto px-[32px] py-[20px]">
         <div class="flex items-center justify-between mb-[12px]">    
         <p class="text-sm text-[#4B5054]">Retail Clients › <span class="font-semibold text-[#000000] text-[14px]">Chioma Nwankwo</span></p>
-        <button class="flex items-center gap-[6px] bg-[#228B22] font-semibold text-white px-[16px] py-[8px] rounded-[8px] text-[13px]">
-          Actions ∨
+        <button
+        @click="$router.back()"
+        class="flex items-center gap-[6px] bg-[#228B22] font-semibold text-white px-[16px] py-[8px] rounded-[8px] text-[13px]">
+          Back
         </button>
         </div>
       

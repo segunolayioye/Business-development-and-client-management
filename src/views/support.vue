@@ -33,26 +33,20 @@
       </div>
     </aside>
     <div class="flex-1 flex flex-col h-screen overflow-hidden ml-[253px]">
-   <nav class="h-[95px] w-full bg-white shadow-sm flex items-center justify-between px-[40px] flex-shrink-0">
-        <div class="bg-[#F5F5F5] rounded-lg px-4 py-2 flex gap-2 w-[380px]">
-          <img src="../assets/search-icon.svg" class="w-[16px] h-[16px]"/>
-          <input type="text" placeholder="Search content, webinars, clients.." class="bg-transparent focus:outline-none w-full text-xs text-[#A5A5A8]"/>
-        </div>
-        <div class="flex items-center gap-[16px] ml-32">
-          <img src="../assets/notification.svg" class="w-[20px] h-[20px]"/>
-           
-          
-          <div class="flex items-center gap-[8px]">
-            <img src="../assets/picture.svg" class="w-[32px] h-[32px] rounded-full"/>
-            <span class="text-sm font-medium text-[#0F151F]">Jane Peters</span>
-            <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]"/>
-          </div>
-        </div>
-        <button class="flex items-center gap-[6px] bg-[#228B22] text-white px-[14px] py-[8px] rounded-[8px] text-sm font-medium">
-          <img src="../assets/plus.svg" alt="plus-icon">
-          New Ticket
-        </button>
-    </nav>
+    <nav class="h-[95px] w-full bg-white shadow-md flex items-center px-[40px] flex-shrink-0">
+            <div class="bg-[#F5F5F5] rounded-lg px-5 py-3 flex gap-2 w-[480px]">
+              <img src="../assets/search-icon.svg" class="w-[18px] h-[18px]" alt="search icon"/>
+              <input type="text" placeholder="Search content, webinars, clients.." class="bg-transparent focus:outline-none w-full text-sm text-[#A5A5A8]"/>
+            </div>
+            <div class="ml-auto flex items-center gap-4">
+              <div class="flex items-center gap-[10px]">
+                <img src="../assets/notification.svg" class="w-[22px] h-[24px]" alt="notification icon">
+                <img src="../assets/picture.svg" class="w-[42px] h-[42px] rounded-full" alt="user avatar">
+                <span class="text-sm font-medium text-gray-800">Jane Peters</span>
+                <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]" alt="dropdown">
+              </div>
+            </div>
+          </nav>
     <div class="flex-1 overflow-y-auto px-[36px] py-[20px]">
 
     <!-- Header -->
@@ -61,13 +55,21 @@
         <p class="font-bold text-[22px] text-[#0F151F]">Support Overview</p>
         <p class="text-xs text-[#A9A9A9]">Real-time insights into support and compliance health</p>
       </div>
-      <div class="flex items-center gap-[8px]">
+      
+      <div class="flex items-center justify-end gap-[8px]">
+        <div class="flex items-center justify-end">
+         <button class="flex items-center gap-[6px] bg-[#228B22] text-white px-[14px] py-[8px] rounded-[8px] text-sm font-medium">
+            <img src="../assets/plus.svg" alt="plus-icon">
+            New Ticket
+          </button>
+        </div>
         <select class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-white">
           <option>Last 7 days</option>
           <option>Last 30 days</option>
           <option>Last 90 days</option>
         </select>
         <button class="text-[#A9A9A9] border border-[#E5E7EB] p-[6px] rounded-[8px]">↻</button>
+         
       </div>
     </div>
 

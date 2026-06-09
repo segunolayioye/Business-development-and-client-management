@@ -45,8 +45,12 @@
               <input type="text" placeholder="Search content, webinars, clients.." class="bg-transparent focus:outline-none w-full text-sm text-[#A5A5A8]"/>
             </div>
             <div class="ml-auto flex items-center gap-4">
-              <img src="../assets/notification.svg" class="w-[24px] h-[24px]" alt="notification"/>
-              <img src="../assets/settings.svg" class="w-[24px] h-[24px] rounded-[8px]" alt="settings"/>
+              <div class="flex items-center gap-[10px]">
+                <img src="../assets/notification.svg" class="w-[22px] h-[24px]" alt="notification icon">
+                <img src="../assets/picture.svg" class="w-[42px] h-[42px] rounded-full" alt="user avatar">
+                <span class="text-sm font-medium text-gray-800">Jane Peters</span>
+                <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]" alt="dropdown">
+              </div>
             </div>
           </nav>
 
@@ -58,9 +62,15 @@
                 <p class="text-xs text-[#A9A9A9]">Manage content library, schedule sessions, and track engagement</p>
               </div>
               <div class="flex items-center gap-[10px]">
-                <button class="flex items-center gap-[6px] bg-white text-[#4B5054] px-[14px] py-[8px] rounded-[8px] text-sm">
+               <button
+                  @click="handleExport"
+                  :disabled="exporting"
+                  class="flex items-center gap-[6px] bg-white text-[#4B5054] px-[14px] py-[8px] rounded-[8px] text-sm disabled:opacity-60"
+                >
                   <img src="../assets/gray-download.svg" class="w-[18px] h-[18px]"/>
-                  <span class="text-[16px] text-[#4B5054]">Export Data</span>
+                  <span class="text-[16px] text-[#4B5054]">
+                    {{ exporting ? 'Exporting...' : 'Export Data' }}
+                  </span>
                 </button>
 
                 <button
@@ -499,6 +509,33 @@
 
       </div>
     </div>
+    <Transition name="modal">
+  <div
+    v-if="showExportModal"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showExportModal = false"
+  >
+    <div class="bg-white rounded-2xl p-10 w-[420px] flex flex-col items-center gap-4 shadow-xl">
+
+      <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+        <span class="text-green-500 text-4xl font-bold">✓</span>
+      </div>
+
+      <h2 class="text-xl font-bold text-gray-900 mt-2">Data Exported!</h2>
+      <p class="text-sm text-gray-500 text-center">
+        Your education data has been successfully exported and is ready to download.
+      </p>
+
+      <button
+        @click="showExportModal = false"
+        class="w-full bg-[#22C55E] text-white py-3 rounded-xl font-semibold text-sm mt-2 hover:bg-[#16a34a] transition-colors"
+      >
+        Back to Education Hub
+      </button>
+
+    </div>
+  </div>
+</Transition>
     </div>
 </template>
 
@@ -667,5 +704,16 @@ function nextMonth() {
   } else {
     currentMonth.value++
   }
+}
+
+const showExportModal = ref(false)
+const exporting = ref(false)
+
+function handleExport() {
+  exporting.value = true
+  setTimeout(() => {
+    exporting.value = false
+    showExportModal.value = true
+  }, 1500)
 }
 </script>

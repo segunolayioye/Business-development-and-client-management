@@ -54,11 +54,7 @@
       </nav>
       <!-- Page Content -->
       <div class="flex-1 overflow-y-auto px-[40px] py-[24px]">
-       <div class="mb-[10px]">
-         <button  @click="$router.back()" class="flex items-center gap-[6px] bg-[#228B22] text-white px-[14px] py-[8px] rounded-[8px] text-sm font-medium">
-           Back
-         </button>
-       </div> 
+       
         <!-- Page Header -->
         <div class="flex justify-between items-center mb-[24px]">
            
@@ -69,7 +65,9 @@
           </div>
           <div class="flex gap-[10px]">
             <button class="border border-[#E5E7EB] text-[#4B5054] px-[16px] py-[8px] rounded-[8px] text-sm">Save Draft</button>
-            <button class="border border-[#E5E7EB] text-[#4B5054] px-[16px] py-[8px] rounded-[8px] text-sm">Cancel</button>
+            <button
+              @click="$router.back()"
+             class="border border-[#E5E7EB] text-[#4B5054] px-[16px] py-[8px] rounded-[8px] text-sm">Cancel</button>
           </div>
         </div>
 

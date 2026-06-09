@@ -78,8 +78,16 @@
                   New Application
                 </button>
              </router-link>
-            <button class="flex items-center justify-center gap-[8px] px-[16px] h-[40px] text-sm font-semibold text-[#4B5054] bg-white rounded-lg border border-[#E5E7EB]">Save Draft</button>
-            <button class="px-[16px] h-[40px] text-[#4B5054] bg-white rounded-lg border border-[#E5E7EB] text-sm font-semibold">Cancel</button>
+            <button 
+            @click="handleSaveDraft"
+            :disabled="savingDraft"
+            class="flex items-center justify-center gap-[8px] w-[120px] h-[40px] p-[12px] text-sm font-semibold text-[#4B5054] bg-white rounded-lg border border-gray-200 disabled:opacity-60"
+          >
+            {{ savingDraft ? 'Saving...' : 'Save Draft' }}
+          </button>
+            <button 
+            @click="$router.back()"
+            class="px-[16px] h-[40px] text-[#4B5054] bg-white rounded-lg border border-[#E5E7EB] text-sm font-semibold">Cancel</button>
           </div>
         </div>
 
@@ -195,7 +203,34 @@
 
       </main>
     </div>
+    <Transition name="modal">
+  <div 
+    v-if="showDraftModal"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showDraftModal = false"
+  >
+    <div class="bg-white rounded-2xl p-10 w-[420px] flex flex-col items-center gap-4 shadow-xl">
+      
+      <!-- Blue save circle -->
+      <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center">
+        <span class="text-blue-500 text-4xl">🗂</span>
+      </div>
 
+      <h2 class="text-xl font-bold text-gray-900 mt-2">Draft Saved!</h2>
+      <p class="text-sm text-gray-500 text-center">
+        Your report has been saved as a draft. You can continue editing it anytime.
+      </p>
+
+      <button 
+        @click="showDraftModal = false"
+        class="w-full bg-[#4B5054] text-white py-3 rounded-xl font-semibold text-sm mt-2 hover:bg-[#3a3e42] transition-colors"
+      >
+        Back to Dashboard
+      </button>
+
+    </div>
+  </div>
+</Transition>
   </div>
 </template>
 
@@ -226,4 +261,14 @@ const filteredClients = computed(() => {
   if (activeTab.value === 'New This Week') return clients.value.filter(c => c.lastActivity === 'Just now')
   return clients.value
 })
+const showDraftModal = ref(false)
+const savingDraft = ref(false)
+
+function handleSaveDraft() {
+  savingDraft.value = true
+  setTimeout(() => {
+    savingDraft.value = false
+    showDraftModal.value = true
+  }, 1500)
+}
 </script>

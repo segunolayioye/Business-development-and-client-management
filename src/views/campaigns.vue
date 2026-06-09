@@ -61,27 +61,24 @@
             class="bg-transparent focus:outline-none w-full text-sm text-[#A5A5A8]"
           />
         </div>
-        <div class="flex items-center gap-4">
-          <img
-            src="../assets/notification.svg"
-            class="w-[24px] h-[24px]"
-            alt="notification-bell"
-          />
-          <img
-            src="../assets/calender.svg"
-            class="w-[98px] h-[98px] rounded-[8px] border-1 border-[#0F151F]"
-            alt="calender"
-          />
+        <div class="flex items-center gap-[10px]">
+          <img src="../assets/notification.svg" class="w-[22px] h-[24px]" alt="notification icon">
+          <img src="../assets/picture.svg" class="w-[42px] h-[42px] rounded-full" alt="user avatar">
+          <span class="text-sm font-medium text-gray-800">Jane Peters</span>
+          <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]" alt="dropdown">
         </div>
       </nav>
       <div class="flex-1 overflow-y-auto px-[32px] py-[20px]">
         <!-- Top Actions -->
         <div class="flex justify-end items-center gap-[10px] mb-[20px]">
-          <button
-            class="flex items-center justify-center gap-[6px] bg-white text-[#4B5054] px-[14px] py-[8px] rounded-[8px] text-sm"
-          > <img src="../assets/gray-download.svg" class="w-5 h-5" alt="download">
-            Export Report
-          </button>
+        <button
+          @click="handleExport"
+          :disabled="exporting"
+          class="flex items-center justify-center gap-[6px] bg-white text-[#4B5054] px-[14px] py-[8px] rounded-[8px] text-sm disabled:opacity-60"
+        >
+          <img src="../assets/gray-download.svg" class="w-5 h-5" alt="download">
+          {{ exporting ? 'Exporting...' : 'Export Report' }}
+        </button>
           <router-link to="/campaignmanagement">
           <button
             class="flex items-center gap-[6px] bg-[#22C55E] text-white px-[14px] py-[8px] rounded-[8px] text-sm font-medium"
@@ -563,9 +560,48 @@
         </div>
       </div>
     </div>
+    <Transition name="modal">
+  <div
+    v-if="showExportModal"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showExportModal = false"
+  >
+    <div class="bg-white rounded-2xl p-10 w-[420px] flex flex-col items-center gap-4 shadow-xl">
+
+      <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+        <span class="text-green-500 text-4xl font-bold">✓</span>
+      </div>
+
+      <h2 class="text-xl font-bold text-gray-900 mt-2">Report Exported!</h2>
+      <p class="text-sm text-gray-500 text-center">
+        Your campaign report has been successfully exported and is ready to download.
+      </p>
+
+      <button
+        @click="showExportModal = false"
+        class="w-full bg-[#22C55E] text-white py-3 rounded-xl font-semibold text-sm mt-2 hover:bg-[#16a34a] transition-colors"
+      >
+        Back to Campaigns
+      </button>
+
+    </div>
+  </div>
+</Transition>
   </div>
 </template>
 
 <script setup>
-  import curvechart from '../components/curvechart.vue';   
-</script>ipt
+  import { ref } from 'vue'
+import curvechart from '../components/curvechart.vue'
+
+const showExportModal = ref(false)
+const exporting = ref(false)
+
+function handleExport() {
+  exporting.value = true
+  setTimeout(() => {
+    exporting.value = false
+    showExportModal.value = true
+  }, 1500)
+}
+</script>

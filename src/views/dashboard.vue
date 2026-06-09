@@ -35,6 +35,17 @@ const filteredClients = computed(() => {
   }
   return clients.value // View All
 })
+
+const showModal = ref(false)
+const exporting = ref(false)
+
+function handleExport() {
+  exporting.value = true
+  setTimeout(() => {
+    exporting.value = false
+    showModal.value = true
+  }, 1500)
+}
 </script>
 
 <template>
@@ -90,10 +101,7 @@ const filteredClients = computed(() => {
             <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]" alt="dropdown"/>
           </div>
           <!-- ADDED @click HERE -->
-          <button @click="scrollToQuickActions" class="flex items-center gap-[6px] bg-[#FFF0EB] text-[#FD4F00] px-[14px] py-[8px] rounded-[8px] text-sm font-medium">
-            <span class="text-xl font-light">+</span>
-            Quick Action
-          </button>
+          
         </div>
       </nav>
 
@@ -107,14 +115,24 @@ const filteredClients = computed(() => {
             <p class="text-[16px] text-[#2D3643]">Welcome back, here's what's happening with your retail portfolio</p>
           </div>
           <div class="flex gap-4">
-            <button class="flex items-center justify-center gap-[8px] w-[120px] h-[40px] p-[12px] text-sm font-semibold text-[#4B5054] bg-white rounded-lg">
-              This Week
-              <img src="../assets/gray-arrow.svg" class="w-[16px] pt-[4px]" alt="gray-arrow"/>
-            </button>
-            <button class="bg-[#FD4F00] p-[10px] w-[146px] h-[40px] gap-[8px] text-white rounded-lg flex items-center justify-center font-semibold text-sm">
+           <select class="w-[140px] h-[40px] px-3 text-sm font-semibold text-[#4B5054] bg-white border border-[#E5E5E5] rounded-lg outline-none cursor-pointer">
+              <option>This Week</option>
+              <option>This Month</option>
+              <option>Last Month</option>
+              <option>Last Year</option>
+           </select>
+           <button 
+              @click="handleExport"
+              :disabled="exporting"
+              class="bg-[#FD4F00] p-[10px] w-[146px] h-[40px] gap-[8px] text-white rounded-lg flex items-center justify-center font-semibold text-sm disabled:opacity-60"
+            >
               <img src="../assets/download-icon.svg" alt="download-icon"/>
-              Export Report
-            </button>
+              {{ exporting ? 'Exporting...' : 'Export Report' }}
+          </button>
+          <button @click="scrollToQuickActions" class="flex items-center gap-[6px] bg-[#FFF0EB] text-[#FD4F00] px-[14px] py-[8px] rounded-[8px] text-sm font-medium">
+            <span class="text-xl font-light">+</span>
+            Quick Action
+          </button>
           </div>
         </div>
 
@@ -342,9 +360,11 @@ const filteredClients = computed(() => {
                   </p>
                 </div>
               </div>
+              <router-link to="new-app">
               <button class="w-full h-[45px] bg-[#FD4F00] text-white rounded-xl py-3 text-sm font-medium mt-6">
                 Continue to Profiling
               </button>
+              </router-link>
             </div>
 
             <!-- Client Lists -->
@@ -441,7 +461,7 @@ const filteredClients = computed(() => {
                 <p class="font-semibold text-white text-sm">Investor Education Hub</p>
                 <p class="text-xs text-gray-400">Upcoming webinars & tutorials</p>
               </div>
-              <button class="text-xs text-white border border-gray-600 px-3 py-1.5 rounded-lg">View calendar</button>
+             
             </div>
             <div class="flex flex-col gap-3">
               <div class="flex items-center gap-4 bg-gray-800 rounded-xl p-4">
@@ -468,6 +488,28 @@ const filteredClients = computed(() => {
         </div>
       </main>
     </div>
-
+    <Transition name="modal">
+  <div 
+    v-if="showModal"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showModal = false"
+  >
+    <div class="bg-white rounded-2xl p-10 w-[420px] flex flex-col items-center gap-4 shadow-xl">
+      <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+        <span class="text-green-500 text-4xl font-bold">✓</span>
+      </div>
+      <h2 class="text-xl font-bold text-gray-900 mt-2">Report Exported!</h2>
+      <p class="text-sm text-gray-500 text-center">
+        Your dashboard report has been successfully exported and is ready to download.
+      </p>
+      <button 
+        @click="showModal = false"
+        class="w-full bg-[#FD4F00] text-white py-3 rounded-xl font-semibold text-sm mt-2"
+      >
+        Back to Dashboard
+      </button>
+    </div>
+  </div>
+</Transition>
   </div>
 </template>
