@@ -343,98 +343,95 @@
               </div>
             </div>
 
-            <div class="bg-white rounded-[12px] p-[20px] mb-[32px]">
-              <div class="flex justify-between items-center mb-[16px]">
-                <p class="font-semibold text-[18px] text-[#0F151F]">Client Assignments</p>
-                <a class="text-xs text-[#FD4F00] cursor-pointer hover:underline">View All</a>
-              </div>
-              <table class="w-full text-sm">
-                <thead>
-                  <tr class="border-b border-[#F5F5F5]">
-                    <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">CLIENT</th>
-                    <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">RISK PROFILE</th>
-                    <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">RECOMMENDED CONTENT</th>
-                    <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">STATUS</th>
-                    <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">ACTION</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-[#F5F5F5]">
-                  <tr>
-                    <td class="py-[12px]">
-                      <div class="flex items-center gap-[8px]">
-                        <div class="w-[32px] h-[32px] rounded-full bg-[#313EB233] flex items-center justify-center text-xs font-bold text-[#313EB2]">JD</div>
-                        <div>
-                          <p class="text-sm font-medium text-black">John Doe</p>
-                          <p class="text-[10px] text-black">Retail Investor</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="py-[12px]"><span class="bg-[#FEF9C3] text-[#A16207] text-[10px] px-[8px] py-[2px] rounded-[8px]">Moderate</span></td>
-                    <td class="py-[12px]">
-                      <p class="text-xs font-medium text-black">Halal Investing Principles</p>
-                      <p class="text-[10px] text-black">Video - Beginner</p>
-                    </td>
-                    <td class="py-[12px]"><span class="bg-[#FEF9C3] text-[#CA8A04] text-[10px] px-[8px] py-[2px] rounded-full">Pending</span></td>
-                    <td class="py-[12px]"><a class="text-xs text-[#FD4F00] cursor-pointer">Assign</a></td>
-                  </tr>
-                  <tr>
-                    <td class="py-[12px]">
-                      <div class="flex items-center gap-[8px]">
-                        <div class="w-[32px] h-[32px] rounded-full bg-[#FEE2E2] flex items-center justify-center text-xs font-bold text-[#EF4444]">JD</div>
-                        <div>
-                          <p class="text-sm font-medium text-black">John Doe</p>
-                          <p class="text-[10px] text-black">Retail Investor</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="py-[12px]"><span class="bg-[#FEE2E2] text-[#EF4444] text-[10px] px-[8px] py-[2px] rounded-full">Aggressive</span></td>
-                    <td class="py-[12px]">
-                      <p class="text-xs font-medium text-black">Halal Investing Principles</p>
-                      <p class="text-[10px] text-black">Video - Beginner</p>
-                    </td>
-                    <td class="py-[12px]"><span class="bg-[#FEF9C3] text-[#CA8A04] text-[10px] px-[8px] py-[2px] rounded-full">Pending</span></td>
-                    <td class="py-[12px]"><a class="text-xs text-[#FD4F00] cursor-pointer">Assign</a></td>
-                  </tr>
-                  <tr>
-                    <td class="py-[12px]">
-                      <div class="flex items-center gap-[8px]">
-                        <div class="w-[32px] h-[32px] rounded-full bg-[#DCFCE7] flex items-center justify-center text-xs font-bold text-[#22C55E]">JD</div>
-                        <div>
-                          <p class="text-sm font-medium text-black">John Doe</p>
-                          <p class="text-[10px] text-black">Retail Investor</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="py-[12px]"><span class="bg-[#DCFCE7] text-[#22C55E] text-[10px] px-[8px] py-[2px] rounded-full">Conservative</span></td>
-                    <td class="py-[12px]">
-                      <p class="text-xs font-medium text-black">Halal Investing Principles</p>
-                      <p class="text-[10px] text-black">Video - Beginner</p>
-                    </td>
-                    <td class="py-[12px]"><span class="bg-[#FEF9C3] text-[#CA8A04] text-[10px] px-[8px] py-[2px] rounded-full">Pending</span></td>
-                    <td class="py-[12px]"><a class="text-xs text-[#FD4F00] cursor-pointer">Assign</a></td>
-                  </tr>
-                  <tr>
-                    <td class="py-[12px]">
-                      <div class="flex items-center gap-[8px]">
-                        <div class="w-[32px] h-[32px] rounded-full bg-[#FEF9C3] flex items-center justify-center text-xs font-bold text-[#CA8A04]">JD</div>
-                        <div>
-                          <p class="text-sm font-medium text-black">John Doe</p>
-                          <p class="text-[10px] text-black">Retail Investor</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="py-[12px]"><span class="bg-[#FEF9C3] text-[#CA8A04] text-[10px] px-[8px] py-[2px] rounded-full">Moderate</span></td>
-                    <td class="py-[12px]">
-                      <p class="text-xs font-medium text-black">Halal Investing Principles</p>
-                      <p class="text-[10px] text-black">Video - Beginner</p>
-                    </td>
-                    <td class="py-[12px]"><span class="bg-[#FEF9C3] text-[#CA8A04] text-[10px] px-[8px] py-[2px] rounded-full">Pending</span></td>
-                    <td class="py-[12px]"><a class="text-xs text-[#FD4F00] cursor-pointer">Assign</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div class="bg-white rounded-[12px] p-[20px] mb-[32px]">
+  <div class="flex justify-between items-center mb-[16px]">
+    <p class="font-semibold text-[18px] text-[#0F151F]">Client Assignments</p>
+      
+      <a
+      v-if="!showAllClients"
+      @click="showAllClients = true; currentPage = 1"
+      class="text-xs text-[#FD4F00] cursor-pointer hover:underline"
+    >View All</a>
+    <a
+      v-else
+      @click="showAllClients = false; currentPage = 1"
+      class="text-xs text-[#4B5054] cursor-pointer hover:underline"
+    >Show Less</a>
+  </div>
 
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="border-b border-[#F5F5F5]">
+        <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">CLIENT</th>
+        <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">RISK PROFILE</th>
+        <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">RECOMMENDED CONTENT</th>
+        <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">STATUS</th>
+        <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">ACTION</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-[#F5F5F5]">
+      <tr v-for="client in displayedClients" :key="client.id">
+        <td class="py-[12px]">
+          <div class="flex items-center gap-[8px]">
+            <div :class="`w-[32px] h-[32px] rounded-full flex items-center justify-center text-xs font-bold ${client.avatarBg}`">
+              {{ client.initials }}
+            </div>
+            <div>
+              <p class="text-sm font-medium text-black">{{ client.name }}</p>
+              <p class="text-[10px] text-black">{{ client.type }}</p>
+            </div>
+          </div>
+        </td>
+        <td class="py-[12px]">
+          <span :class="`${client.riskColor} text-[10px] px-[8px] py-[2px] rounded-[8px]`">{{ client.risk }}</span>
+        </td>
+        <td class="py-[12px]">
+          <p class="text-xs font-medium text-black">{{ client.content }}</p>
+          <p class="text-[10px] text-black">{{ client.format }}</p>
+        </td>
+        <td class="py-[12px]">
+          <span
+            :class="client.status === 'Assigned' ? 'bg-[#DCFCE7] text-[#22C55E]' : 'bg-[#FEF9C3] text-[#CA8A04]'"
+            class="text-[10px] px-[8px] py-[2px] rounded-full"
+          >{{ client.status }}</span>
+        </td>
+        <td class="py-[12px]">
+          <a
+            v-if="client.status !== 'Assigned'"
+            @click="assignClient(client)"
+            class="text-xs text-[#FD4F00] cursor-pointer hover:underline"
+          >Assign</a>
+          <span v-else class="text-xs text-[#22C55E]">✓ Done</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  
+          <!-- Pagination Footer -->
+          <div class="flex justify-between items-center mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
+            <p class="text-xs text-[#4B5054]">
+              showing <span class="font-semibold">{{ showAllClients ? 1 : pageStart }}</span> to
+              <span class="font-semibold">{{ pageEnd }}</span> of
+              <span class="font-semibold">{{ allClients.length }}</span> results
+            </p>
+            
+            <!-- Only show buttons if we aren't displaying the full list -->
+            <div v-if="!showAllClients" class="flex gap-[8px]">
+              <button
+                @click="prevPage"
+                :disabled="currentPage === 1"
+                class="px-[14px] py-[8px] text-xs font-medium bg-[#F5F5F5] text-[#4B5054] rounded-[8px] disabled:opacity-40 hover:bg-[#E5E5E5] transition-colors"
+              >Previous</button>
+              <button
+                @click="nextPage"
+                :disabled="currentPage === totalPages"
+                class="px-[14px] py-[8px] text-xs font-medium bg-[#F5F5F5] text-[#4B5054] rounded-[8px] disabled:opacity-40 hover:bg-[#E5E5E5] transition-colors"
+              >Next</button>
+            </div>
+          </div>
+
+          </div>
           </div>
         </div>
       </div>
@@ -535,6 +532,8 @@
 
     </div>
   </div>
+
+  
 </Transition>
     </div>
 </template>
@@ -716,4 +715,59 @@ function handleExport() {
     showExportModal.value = true
   }, 1500)
 }
+
+const allClients = ref([ // Changed from allclients
+  { id: 1, initials: 'JD', name: 'John Doe', type: 'Retail Investor', risk: 'Moderate', riskColor: 'bg-[#FEF9C3] text-[#A16207]' ,avatarBg: 'bg-[#313EB233] text-[#313EB2]', content: 'Halal Investing Principles', format: 'Video - Beginner',status: 'Pending'},
+  { id: 2, initials: 'JD', name: 'John Doe', type: 'Retail Investor', risk: 'Aggresive', riskColor: 'bg-[#FEE2E2] text-[#EF4444]' ,avatarBg: 'bg-[#FEE2E2] text-[#EF4444]', content: 'Halal Investing Principles', format: 'Video - Beginner', status: 'Pending'},
+  { id: 3, initials: 'JD', name: 'John Doe', type: 'Retail Investor', risk: 'Conservative', riskColor: 'bg-[#DCFCE7] text-[#22C55E]' ,avatarBg: 'bg-[#DCFCE7] text-[#22C55E]', content: 'Halal Investing Principles', format: 'Video - Beginner', status: 'Pending'},
+  { id: 4, initials: 'JD', name: 'John Doe', type: 'Retail Investor', risk: 'Moderate', riskColor: 'bg-[#FEF9C3] text-[#CA8A04]', avatarBg: 'bg-[#FEF9C3] text-[#CA8A04]', content: 'Halal Investing Principles', format: 'Video - Beginner', status: 'Pending' },
+  { id: 5, initials: 'AM', name: 'Amina Musa', type: 'HNW Investor', risk: 'Moderate', riskColor: 'bg-[#FEF9C3] text-[#A16207]', avatarBg: 'bg-[#313EB233] text-[#313EB2]', content: 'Risk Management 101', format: 'Webinar - Intermediate', status: 'Assigned' },
+  { id: 6, initials: 'TK', name: 'Tunde Kola', type: 'Retail Investor', risk: 'Aggressive', riskColor: 'bg-[#FEE2E2] text-[#EF4444]', avatarBg: 'bg-[#FEE2E2] text-[#EF4444]', content: 'Sukuk Explained', format: 'Video - Advanced', status: 'Pending' },
+  { id: 7, initials: 'FA', name: 'Fatima Aliyu', type: 'Retail Investor', risk: 'Conservative', riskColor: 'bg-[#DCFCE7] text-[#22C55E]', avatarBg: 'bg-[#DCFCE7] text-[#22C55E]', content: 'Halal Bonds Guide', format: 'Report - Beginner', status: 'Pending' },
+  { id: 8, initials: 'BL', name: 'Bello Lawal', type: 'SME Owner', risk: 'Moderate', riskColor: 'bg-[#FEF9C3] text-[#CA8A04]', avatarBg: 'bg-[#FEF9C3] text-[#CA8A04]', content: 'SME Investment Guide', format: 'Video - Beginner', status: 'Assigned' },
+  { id: 9, initials: 'KA', name: 'Kemi Adeyemi', type: 'Retail Investor', risk: 'Aggressive', riskColor: 'bg-[#FEE2E2] text-[#EF4444]', avatarBg: 'bg-[#FEE2E2] text-[#EF4444]', content: 'Equity Fund Basics', format: 'Webinar - Advanced', status: 'Pending' },
+  { id: 10, initials: 'OE', name: 'Ola Eze', type: 'HNW Investor', risk: 'Conservative', riskColor: 'bg-[#DCFCE7] text-[#22C55E]', avatarBg: 'bg-[#DCFCE7] text-[#22C55E]', content: 'Portfolio Diversification', format: 'Report - Intermediate', status: 'Assigned' },
+  { id: 11, initials: 'SA', name: 'Sola Akin', type: 'Retail Investor', risk: 'Moderate', riskColor: 'bg-[#FEF9C3] text-[#A16207]', avatarBg: 'bg-[#313EB233] text-[#313EB2]', content: 'Halal Investing Principles', format: 'Video - Beginner', status: 'Pending' },
+  { id: 12, initials: 'RI', name: 'Remi Ibrahim', type: 'SME Owner', risk: 'Aggressive', riskColor: 'bg-[#FEE2E2] text-[#EF4444]', avatarBg: 'bg-[#FEE2E2] text-[#EF4444]', content: 'Growth Equity Explained', format: 'Webinar - Advanced', status: 'Pending' },
+])
+
+const showAllClients = ref(false)
+const currentPage = ref(1)
+const itemsPerPage = 4 // shows 4 rows by default
+
+const totalPages = computed(() =>
+  Math.ceil(allClients.value.length / itemsPerPage)
+)
+
+// this is the key one — switches between paginated and all
+const displayedClients = computed(() => {
+  if (showAllClients.value) {
+    return allClients.value // show everything
+  }
+  const start = (currentPage.value - 1) * itemsPerPage
+  return allClients.value.slice(start, start + itemsPerPage)
+})
+
+const pageStart = computed(() => (currentPage.value - 1) * itemsPerPage + 1)
+const pageEnd = computed(() =>
+  showAllClients.value
+    ? allClients.value.length
+    : Math.min(currentPage.value * itemsPerPage, allClients.value.length)
+)
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) currentPage.value++
+}
+
+function prevPage() {
+  if (currentPage.value > 1) currentPage.value--
+}
+function assignClient(client) {
+  // Find the client in the array and update their status
+  const index = allClients.value.findIndex(c => c.id === client.id)
+  if (index !== -1) {
+    allClients.value[index].status = 'Assigned'
+  }
+}
+
 </script>

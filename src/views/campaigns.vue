@@ -528,7 +528,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="py-[14px] text-sm text-black">
+                <td class="py-[14px] text-sm text-black border-b border-[#F5F5F5]">
                   Halal Fixed Pre-Launch
                 </td>
                 <td class="py-[14px]">
@@ -553,8 +553,8 @@
               </tr>
             </tbody>
           </table>
-          <div class="flex justify-between items-center mt-[16px]">
-            <p class="text-xs text-black">Showing 1-5 of 156 campaigns</p>
+          <div class="flex justify-between items-center mt-[16px] ">
+      
             
           </div>
         </div>
@@ -604,4 +604,7 @@ function handleExport() {
     showExportModal.value = true
   }, 1500)
 }
+
+
+
 </script>

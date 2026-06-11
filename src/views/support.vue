@@ -172,10 +172,10 @@
       </div>
 
       <!-- Channel Efficiency Gauge -->
-      <div class="bg-white rounded-[12px] p-[20px] w-[260px] flex flex-col items-center">
+      <div class="bg-white rounded-[12px] p-[20px] w-[380px] flex flex-col items-center">
         <p class="font-semibold text-[16px] text-[#0F151F] mb-[16px] self-start">Channel Efficiency</p>
         <div class="w-full h-[140px] flex items-center justify-center bg-[#FFFFFF] rounded-[8px] mb-[16px]">
-          <div class="w-full h-[140px] mb-[76px]">
+          <div class="w-100 h-[100px] mb-[200px]">
             <gauge />
           </div>
         </div>
@@ -193,46 +193,54 @@
 
     </div>
 
-    <!-- Support Ticket Queue -->
-    <div class="bg-white rounded-[12px] p-[20px] mb-[24px]">
-      <div class="flex justify-between items-center mb-[16px]">
-        <p class="font-semibold text-[18px] text-[#0F151F]">Support Ticket Queue</p>
+    <div class="flex justify-between items-center mb-[16px]">
+        <p class="font-semibold text-[22px] text-[#000000]">Support Ticket Queue</p>
         <div class="flex items-center gap-[8px]">
-          <select class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-white">
+          <select class="text-xs text-[#4B5054] px-[10px] py-[6px] rounded-[8px] bg-white">
             <option>All Priorities</option>
             <option>High</option>
             <option>Medium</option>
             <option>Low</option>
           </select>
-          <button class="text-xs border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-[#0F151F] text-white">List</button>
-          <button class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px]">Board</button>
+          <button class="font-semibold flex items-center gap-[8px] text-[12px] border border-[#E5E7EB] px-[10px] py-[6px] rounded-[4px] bg-white text-[#228B22]">
+            <img src="../assets/list.svg" alt="list-icon" class="w-[14px] h-[14px]">
+            List</button>
+          <button class="font-semibold flex items-center gap-[6px] text-[12px]  px-[10px] py-[6px] rounded-[4px]  text-[#4B5054]">
+            <img src="../assets/board.svg" alt="board-icon" class="w-[16px] h-[16px]">
+            Board</button>
         </div>
       </div>
+
+    <!-- Support Ticket Queue -->
+    <div class="bg-white rounded-[12px] p-[20px] mb-[24px]">
+      
       <table class="w-full text-sm">
         <thead>
           <tr class="border-b border-[#F5F5F5]">
-            <th class="text-left text-xs text-[#A9A9A9] font-medium py-[10px]">TICKET ID / SUBJECT</th>
-            <th class="text-left text-xs text-[#A9A9A9] font-medium py-[10px]">CLIENT</th>
-            <th class="text-left text-xs text-[#A9A9A9] font-medium py-[10px]">PRIORITY</th>
-            <th class="text-left text-xs text-[#A9A9A9] font-medium py-[10px]">STATUS</th>
-            <th class="text-left text-xs text-[#A9A9A9] font-medium py-[10px]">SLA TIMER</th>
-            <th class="text-left text-xs text-[#A9A9A9] font-medium py-[10px]">ASSIGNEE</th>
-            <th class="text-left text-xs text-[#A9A9A9] font-medium py-[10px]">ACTIONS</th>
+            <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">TICKET ID / SUBJECT</th>
+            <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">CLIENT</th>
+            <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">PRIORITY</th>
+            <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">STATUS</th>
+            <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">SLA TIMER</th>
+            <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">ASSIGNEE</th>
+            <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">ACTIONS</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-[#F5F5F5]">
           <tr>
             <td class="py-[14px]">
-              <p class="text-xs font-semibold text-[#3B4FE0]">#TK-2025-KYC Verification Failed</p>
-              <p class="text-[10px] text-[#A9A9A9]">Document upload error on step 3</p>
+              <p class="text-xs font-semibold text-[#000000]">#TK-2025-KYC Verification Failed</p>
+              <p class="text-[10px] text-[#4B5054]">Document upload error on step 3</p>
             </td>
             <td class="py-[14px]">
               <div class="flex items-center gap-[6px]">
-                <div class="w-[24px] h-[24px] rounded-full bg-[#E8F0FE] flex items-center justify-center text-[10px] font-bold text-[#3B4FE0]">JD</div>
+                <div class="w-[24px] h-[24px] rounded-full bg-[#D9D9D9] flex items-center justify-center text-[10px] font-bold text-[#313EB2]">JD</div>
                 <span class="text-xs text-[#0F151F]">John Doe</span>
               </div>
             </td>
-            <td class="py-[14px]"><span class="bg-[#FEE2E2] text-[#EF4444] text-[10px] px-[8px] py-[2px] rounded-full flex items-center gap-[4px] w-fit"><span class="w-[6px] h-[6px] rounded-full bg-[#EF4444]"></span>High</span></td>
+            <td class="py-[14px]"><span class="font-semibold bg-[#FEE2E2] text-[#E50303] text-[10px] px-[8px] py-[2px] rounded-full flex items-center gap-[4px] w-fit">
+              <img src="../assets/red-flag.svg" alt="flag" class="w-[12px] h-[12px]">
+              High</span></td>
             <td class="py-[14px]"><span class="bg-[#E8F0FE] text-[#3B4FE0] text-[10px] px-[8px] py-[2px] rounded-full">In Progress</span></td>
             <td class="py-[14px]">
               <div class="w-[80px] h-[4px] bg-[#D9D9D9] rounded-full">
@@ -245,16 +253,16 @@
           </tr>
           <tr>
             <td class="py-[14px]">
-              <p class="text-xs font-semibold text-[#3B4FE0]">#TK-2025-KYC Verification Failed</p>
-              <p class="text-[10px] text-[#A9A9A9]">Document upload error on step 3</p>
+              <p class="text-xs font-semibold text-[#000000]">#TK-2025-KYC Verification Failed</p>
+              <p class="text-[10px] text-[#4B5054]">Document upload error on step 3</p>
             </td>
             <td class="py-[14px]">
               <div class="flex items-center gap-[6px]">
-                <div class="w-[24px] h-[24px] rounded-full bg-[#E8F0FE] flex items-center justify-center text-[10px] font-bold text-[#3B4FE0]">JD</div>
+                <div class="w-[24px] h-[24px] rounded-full bg-[#D9D9D9] flex items-center justify-center text-[10px] font-bold text-[#313EB2]">JD</div>
                 <span class="text-xs text-[#0F151F]">John Doe</span>
               </div>
             </td>
-            <td class="py-[14px]"><span class="bg-[#FEF9C3] text-[#CA8A04] text-[10px] px-[8px] py-[2px] rounded-full flex items-center gap-[4px] w-fit"><span class="w-[6px] h-[6px] rounded-full bg-[#CA8A04]"></span>Medium</span></td>
+            <td class="py-[14px]"><span class="font-semibold bg-[#FEF9C3] text-[#CA8A04] text-[10px] px-[8px] py-[2px] rounded-full flex items-center gap-[4px] w-fit"><img src="../assets/yellow-flag.svg" alt="flag" class="w-[12px] h-[12px]"> Medium</span></td>
             <td class="py-[14px]"><span class="bg-[#E8F0FE] text-[#3B4FE0] text-[10px] px-[8px] py-[2px] rounded-full">In Progress</span></td>
             <td class="py-[14px]">
               <div class="w-[80px] h-[4px] bg-[#D9D9D9] rounded-full">
@@ -267,16 +275,16 @@
           </tr>
           <tr>
             <td class="py-[14px]">
-              <p class="text-xs font-semibold text-[#3B4FE0]">#TK-2025-KYC Verification Failed</p>
-              <p class="text-[10px] text-[#A9A9A9]">Document upload error on step 6</p>
+              <p class="text-xs font-semibold text-[#000000]">#TK-2025-KYC Verification Failed</p>
+              <p class="text-[10px] text-[#4B5054]">Document upload error on step 6</p>
             </td>
             <td class="py-[14px]">
               <div class="flex items-center gap-[6px]">
-                <div class="w-[24px] h-[24px] rounded-full bg-[#E8F0FE] flex items-center justify-center text-[10px] font-bold text-[#3B4FE0]">JD</div>
+                <div class="w-[24px] h-[24px] rounded-full bg-[#D9D9D9] flex items-center justify-center text-[10px] font-bold text-[#313EB2]">JD</div>
                 <span class="text-xs text-[#0F151F]">John Doe</span>
               </div>
             </td>
-            <td class="py-[14px]"><span class="bg-[#F5F5F5] text-[#4B5054] text-[10px] px-[8px] py-[2px] rounded-full flex items-center gap-[4px] w-fit"><span class="w-[6px] h-[6px] rounded-full bg-[#4B5054]"></span>Low</span></td>
+            <td class="py-[14px]"><span class="font-semibold bg-[#F5F5F5] text-[#4B5054] text-[10px] px-[8px] py-[2px] rounded-full flex items-center gap-[4px] w-fit"><img src="../assets/black-flag.svg" alt="flag" class="w-[12px] h-[12px]"> Low</span></td>
             <td class="py-[14px]"><span class="bg-[#E8F0FE] text-[#3B4FE0] text-[10px] px-[8px] py-[2px] rounded-full">In Progress</span></td>
             <td class="py-[14px]">
               <span class="bg-[#FEE2E2] text-[#EF4444] text-[9px] px-[6px] py-[1px] rounded">Not SLA</span>

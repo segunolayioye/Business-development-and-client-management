@@ -99,7 +99,7 @@
             <button
               v-for="tab in tabs"
               :key="tab"
-              @click="activeTab = tab"
+              @click="changeTab(tab)"
               :class="activeTab === tab
                 ? 'bg-[#FD4F00] text-white'
                 : 'bg-white text-[#4B5054] border border-[#E5E7EB]'"
@@ -128,7 +128,7 @@
 
           <!-- Table Rows -->
           <div
-            v-for="(client, index) in filteredClients"
+            v-for="(client, index) in paginatedClients"
             :key="index"
             class="grid grid-cols-6 items-center border-b-2 border-[#E5E5E5] px-6 py-3 bg-white"
           >
@@ -191,11 +191,21 @@
           </div>
 
           <!-- Pagination -->
-          <div class="flex justify-between items-center mt-[16px] py-[10px]">
-            <p class="text-xs text-[#A9A9A9]">Showing {{ filteredClients.length }} of 245 clients</p>
+         <div class="flex justify-between items-center mt-[16px] py-[10px]">
+            <p class="text-xs text-[#A9A9A9]">
+              Showing {{ pageStart }} to {{ pageEnd }} of {{ filteredClients.length }} clients
+            </p>
             <div class="flex gap-[8px]">
-              <button class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[12px] py-[6px] rounded-[6px]">Previous</button>
-              <button class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[12px] py-[6px] rounded-[6px]">Next</button>
+              <button
+                @click="prevPage"
+                :disabled="currentPage === 1"
+                class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[12px] py-[6px] rounded-[6px] disabled:opacity-40 hover:bg-[#F5F5F5]"
+              >Previous</button>
+              <button
+                @click="nextPage"
+                :disabled="currentPage === totalPages"
+                class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[12px] py-[6px] rounded-[6px] disabled:opacity-40 hover:bg-[#F5F5F5]"
+              >Next</button>
             </div>
           </div>
 
@@ -241,6 +251,10 @@ const activeTab = ref('All Clients')
 
 const tabs = ['All Clients', 'Pending KYC', 'High Value', 'New This Week']
 
+const currentPage = ref(1)
+const itemsPerPage = 10
+
+
 const clients = ref([
   { name: 'Sarah Akpola', id: '12345', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
   { name: 'Sarah Akpola', id: '12345', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago' },
@@ -252,6 +266,17 @@ const clients = ref([
   { name: 'Sarah Akpola', id: '12345', status: 'Active',      aum: '$200,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: 'Just now'    },
   { name: 'Sarah Akpola', id: '12345', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
   { name: 'Sarah Akpola', id: '12345', status: 'Draft',       aum: '...',      riskProfile: 'Not profiled',    riskColor: '',             riskWidth: '0%',  lastActivity: 'Just now'    },
+  { name: 'Tunde Kola',   id: '12346', status: 'Active',      aum: '$450,000', riskProfile: 'Aggressive',      riskColor: 'bg-[#E50303]', riskWidth: '90%', lastActivity: '1 Hour Ago'  },
+  { name: 'Amina Musa',   id: '12347', status: 'Pending KYC', aum: '$89,000',  riskProfile: 'Conservative',    riskColor: 'bg-[#228B22]', riskWidth: '25%', lastActivity: '3 Hours Ago' },
+  { name: 'Kemi Adeyemi', id: '12348', status: 'Active',      aum: '$310,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: 'Just now'    },
+  { name: 'Bello Lawal',  id: '12349', status: 'Draft',       aum: '...',      riskProfile: 'Not profiled',    riskColor: '',             riskWidth: '0%',  lastActivity: 'Just now'    },
+  { name: 'Fatima Aliyu', id: '12350', status: 'Active',      aum: '$175,000', riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '5 Hours Ago' },
+  { name: 'Ola Eze',      id: '12351', status: 'Pending KYC', aum: '$92,000',  riskProfile: 'Conservative',    riskColor: 'bg-[#228B22]', riskWidth: '25%', lastActivity: '2 Hours Ago' },
+  { name: 'Sola Akin',    id: '12352', status: 'Active',      aum: '$260,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '1 Hour Ago'  },
+  { name: 'Remi Ibrahim', id: '12353', status: 'Active',      aum: '$198,000', riskProfile: 'Aggressive',      riskColor: 'bg-[#E50303]', riskWidth: '90%', lastActivity: 'Just now'    },
+  { name: 'Ngozi Obi',    id: '12354', status: 'Pending KYC', aum: '$67,000',  riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '4 Hours Ago' },
+  { name: 'Chidi Nwosu',  id: '12355', status: 'Active',      aum: '$520,000', riskProfile: 'Aggressive',      riskColor: 'bg-[#E50303]', riskWidth: '90%', lastActivity: '2 Hours Ago' },
+
 ])
 
 const filteredClients = computed(() => {
@@ -261,6 +286,31 @@ const filteredClients = computed(() => {
   if (activeTab.value === 'New This Week') return clients.value.filter(c => c.lastActivity === 'Just now')
   return clients.value
 })
+
+const totalPages = computed(() => Math.ceil(filteredClients.value.length / itemsPerPage))
+
+const paginatedClients = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  return filteredClients.value.slice(start, start + itemsPerPage)
+})
+
+const pageStart = computed(() => (currentPage.value - 1) * itemsPerPage + 1)
+const pageEnd = computed(() => Math.min(currentPage.value * itemsPerPage, filteredClients.value.length))
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) currentPage.value++
+}
+
+function prevPage() {
+  if (currentPage.value > 1) currentPage.value--
+}
+
+// reset to page 1 when tab changes
+function changeTab(tab) {
+  activeTab.value = tab
+  currentPage.value = 1
+}
+
 const showDraftModal = ref(false)
 const savingDraft = ref(false)
 
