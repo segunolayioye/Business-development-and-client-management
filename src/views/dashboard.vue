@@ -1,20 +1,18 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 
-// Create a reference for the destination section
+const router = useRouter()
+
+// Smooth scroll
 const quickActionsRef = ref(null)
-
-// Function to trigger the smooth scroll
 const scrollToQuickActions = () => {
   if (quickActionsRef.value) {
-    quickActionsRef.value.scrollIntoView({ 
-      behavior: 'smooth', 
-      block: 'start' 
-    })
+    quickActionsRef.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 }
-         
-// State for active tab  
+
+// Active tab
 const activeTab = ref('View All')
 
 // Client Data
@@ -28,14 +26,40 @@ const clients = ref([
 
 // Filter Logic
 const filteredClients = computed(() => {
-  if (activeTab.value === 'Pending KYC') {
-    return clients.value.filter(client => client.status === 'Pending KYC')
-  } else if (activeTab.value === 'High Value') {
-    return clients.value.filter(client => client.aum >= 50000) // Defines high value as AUM >= 50,000
-  }
-  return clients.value // View All
+  if (activeTab.value === 'Pending KYC') return clients.value.filter(c => c.status === 'Pending KYC')
+  if (activeTab.value === 'High Value') return clients.value.filter(c => c.aum >= 50000)
+  return clients.value
 })
 
+// ── QUICK ONBOARD FORM ────────────────────────────────────
+// These are the 3 buckets that store what the user types
+const clientName = ref('')
+const clientEmail = ref('')
+const clientId = ref('')
+const formError = ref('')
+
+function continueToProfile() {
+  // Check if all fields are filled
+  if (!clientName.value || !clientEmail.value || !clientId.value) {
+    formError.value = 'Please fill in all fields before continuing.'
+    return
+  }
+
+  // Clear any error
+  formError.value = ''
+
+  // Navigate to new-app and carry the data in the URL
+  router.push({
+    path: '/new-app',
+    query: {
+      name: clientName.value,
+      email: clientEmail.value,
+      id: clientId.value
+    }
+  })
+}
+
+// ── EXPORT ────────────────────────────────────────────────
 const showModal = ref(false)
 const exporting = ref(false)
 
@@ -53,7 +77,7 @@ function handleExport() {
 
     <!-- Sidebar -->
      <aside class="bg-[#0F151F] text-white w-[253px] h-screen fixed top-0 left-0 p-6 z-20 flex-shrink-0">
-      <div class="flex flex-col gap-[45px] mt-[95px]">
+      <div class="flex flex-col gap-[45px] mt-[65px]">
         <router-link to="/" class="flex gap-[10px] text-white hover:text-[#FD4F00]  bg-[#1E2736] px-[10px] py-[8px] rounded-[8px]">
           <img src="../assets/dashboard.svg" class="w-[18px] h-[18px] mt-[4px]"/>
           Dashboard

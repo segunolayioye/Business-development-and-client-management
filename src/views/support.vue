@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-screen overflow-hidden bg-[#F4F0F0]">
     <aside class="bg-[#0F151F] text-white w-[253px] h-screen fixed top-0 left-0 p-6 z-20 flex-shrink-0">
-      <div class="flex flex-col gap-[45px] mt-[95px]">
+      <div class="flex flex-col gap-[45px] mt-[65px]">
         <router-link to="/" class="flex gap-[10px] text-white hover:text-[#FD4F00]">
           <img src="../assets/dashboard.svg" class="w-[18px] h-[18px] mt-[4px]"/>
           Dashboard
@@ -226,100 +226,93 @@
             <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">ACTIONS</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-[#F5F5F5]">
-          <tr>
-            <td class="py-[14px]">
-              <p class="text-xs font-semibold text-[#000000]">#TK-2025-KYC Verification Failed</p>
-              <p class="text-[10px] text-[#4B5054]">Document upload error on step 3</p>
-            </td>
-            <td class="py-[14px]">
-              <div class="flex items-center gap-[6px]">
-                <div class="w-[24px] h-[24px] rounded-full bg-[#D9D9D9] flex items-center justify-center text-[10px] font-bold text-[#313EB2]">JD</div>
-                <span class="text-xs text-[#0F151F]">John Doe</span>
-              </div>
-            </td>
-            <td class="py-[14px]"><span class="font-semibold bg-[#FEE2E2] text-[#E50303] text-[10px] px-[8px] py-[2px] rounded-full flex items-center gap-[4px] w-fit">
-              <img src="../assets/red-flag.svg" alt="flag" class="w-[12px] h-[12px]">
-              High</span></td>
-            <td class="py-[14px]"><span class="bg-[#E8F0FE] text-[#3B4FE0] text-[10px] px-[8px] py-[2px] rounded-full">In Progress</span></td>
-            <td class="py-[14px]">
-              <div class="w-[80px] h-[4px] bg-[#D9D9D9] rounded-full">
-                <div class="h-[4px] bg-[#EF4444] rounded-full w-[70%]"></div>
-              </div>
-              <p class="text-[9px] text-[#EF4444] mt-[2px]">2h left</p>
-            </td>
-            <td class="py-[14px]"><div class="w-[28px] h-[28px] rounded-full bg-[#FD4F00] flex items-center justify-center text-[10px] text-white font-bold">SA</div></td>
-            <td class="py-[14px]"><span class="text-[#A9A9A9] cursor-pointer text-lg">›</span></td>
-          </tr>
-          <tr>
-            <td class="py-[14px]">
-              <p class="text-xs font-semibold text-[#000000]">#TK-2025-KYC Verification Failed</p>
-              <p class="text-[10px] text-[#4B5054]">Document upload error on step 3</p>
-            </td>
-            <td class="py-[14px]">
-              <div class="flex items-center gap-[6px]">
-                <div class="w-[24px] h-[24px] rounded-full bg-[#D9D9D9] flex items-center justify-center text-[10px] font-bold text-[#313EB2]">JD</div>
-                <span class="text-xs text-[#0F151F]">John Doe</span>
-              </div>
-            </td>
-            <td class="py-[14px]"><span class="font-semibold bg-[#FEF9C3] text-[#CA8A04] text-[10px] px-[8px] py-[2px] rounded-full flex items-center gap-[4px] w-fit"><img src="../assets/yellow-flag.svg" alt="flag" class="w-[12px] h-[12px]"> Medium</span></td>
-            <td class="py-[14px]"><span class="bg-[#E8F0FE] text-[#3B4FE0] text-[10px] px-[8px] py-[2px] rounded-full">In Progress</span></td>
-            <td class="py-[14px]">
-              <div class="w-[80px] h-[4px] bg-[#D9D9D9] rounded-full">
-                <div class="h-[4px] bg-[#22C55E] rounded-full w-[40%]"></div>
-              </div>
-              <p class="text-[9px] text-[#22C55E] mt-[2px]">6h left</p>
-            </td>
-            <td class="py-[14px]"><div class="w-[28px] h-[28px] rounded-full bg-[#3B4FE0] flex items-center justify-center text-[10px] text-white font-bold">SA</div></td>
-            <td class="py-[14px]"><span class="text-[#A9A9A9] cursor-pointer text-lg">›</span></td>
-          </tr>
-          <tr>
-            <td class="py-[14px]">
-              <p class="text-xs font-semibold text-[#000000]">#TK-2025-KYC Verification Failed</p>
-              <p class="text-[10px] text-[#4B5054]">Document upload error on step 6</p>
-            </td>
-            <td class="py-[14px]">
-              <div class="flex items-center gap-[6px]">
-                <div class="w-[24px] h-[24px] rounded-full bg-[#D9D9D9] flex items-center justify-center text-[10px] font-bold text-[#313EB2]">JD</div>
-                <span class="text-xs text-[#0F151F]">John Doe</span>
-              </div>
-            </td>
-            <td class="py-[14px]"><span class="font-semibold bg-[#F5F5F5] text-[#4B5054] text-[10px] px-[8px] py-[2px] rounded-full flex items-center gap-[4px] w-fit"><img src="../assets/black-flag.svg" alt="flag" class="w-[12px] h-[12px]"> Low</span></td>
-            <td class="py-[14px]"><span class="bg-[#E8F0FE] text-[#3B4FE0] text-[10px] px-[8px] py-[2px] rounded-full">In Progress</span></td>
-            <td class="py-[14px]">
-              <span class="bg-[#FEE2E2] text-[#EF4444] text-[9px] px-[6px] py-[1px] rounded">Not SLA</span>
-            </td>
-            <td class="py-[14px]"><div class="w-[28px] h-[28px] rounded-full bg-[#22C55E] flex items-center justify-center text-[10px] text-white font-bold">SA</div></td>
-            <td class="py-[14px]"><span class="text-[#A9A9A9] cursor-pointer text-lg">›</span></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="flex justify-between items-center mt-[16px]">
-        <p class="text-xs text-[#A9A9A9]">Showing 3 of 245 tickets</p>
-        <button class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[12px] py-[6px] rounded-[6px]">Next</button>
-      </div>
-    </div>
-
-    <!-- KYC Alert Feed + Upcomings -->
-    <div class="flex gap-[16px] mb-[32px]">
-
-      <!-- KYC Alert Feed -->
-      <div class="bg-white rounded-[12px] p-[20px] flex-1">
-        <div class="flex justify-between items-center mb-[16px]">
-          <div class="flex items-center gap-[8px]">
-            <span class="text-[#EF4444]">⚠️</span>
-            <p class="font-semibold text-[16px] text-[#0F151F]">KYC/AML Alert Feed</p>
+       <tbody class="divide-y divide-[#F5F5F5]">
+      <tr v-for="(ticket, index) in paginatedTickets" :key="index">
+        <td class="py-[14px]">
+          <p class="text-xs font-semibold text-[#000000]">{{ ticket.id }} {{ ticket.subject }}</p>
+          <p class="text-[10px] text-[#4B5054]">{{ ticket.detail }}</p>
+        </td>
+        <td class="py-[14px]">
+          <div class="flex items-center gap-[6px]">
+            <div class="w-[24px] h-[24px] rounded-full bg-[#D9D9D9] flex items-center justify-center text-[10px] font-bold text-[#313EB2]">JD</div>
+            <span class="text-xs text-[#0F151F]">{{ ticket.client }}</span>
           </div>
-          <a class="text-xs text-[#FD4F00] cursor-pointer">View All Logs</a>
+        </td>
+        <td class="py-[14px]">
+          <span :class="`font-semibold ${ticket.priorityColor} text-[10px] px-[8px] py-[2px] rounded-full flex items-center gap-[4px] w-fit`">
+            <img :src="`../assets/${ticket.flagIcon}`" class="w-[12px] h-[12px]" alt="flag"/>
+            {{ ticket.priority }}
+          </span>
+        </td>
+        <td class="py-[14px]">
+          <span class="bg-[#E8F0FE] text-[#3B4FE0] text-[10px] px-[8px] py-[2px] rounded-full">{{ ticket.status }}</span>
+        </td>
+        <td class="py-[14px]">
+          <template v-if="!ticket.notSla">
+            <div class="w-[80px] h-[4px] bg-[#D9D9D9] rounded-full">
+              <div class="h-[4px] rounded-full" :class="ticket.slaColor" :style="{ width: ticket.slaWidth }"></div>
+            </div>
+            <p class="text-[9px] mt-[2px]" :class="ticket.slaTimeColor">{{ ticket.slaTime }}</p>
+          </template>
+          <template v-else>
+            <span class="bg-[#FEE2E2] text-[#EF4444] text-[9px] px-[6px] py-[1px] rounded">Not SLA</span>
+          </template>
+        </td>
+        <td class="py-[14px]">
+          <div :class="`w-[28px] h-[28px] rounded-full ${ticket.assigneeBg} flex items-center justify-center text-[10px] text-white font-bold`">SA</div>
+        </td>
+        <td class="py-[14px]">
+          <span class="text-[#A9A9A9] cursor-pointer text-lg">›</span>
+        </td>
+      </tr>
+    </tbody>
+          </table>
+          <div class="flex justify-between items-center mt-[16px]">
+            <p class="text-xs text-[#A9A9A9]">Showing 3 of 245 tickets</p>
+            <button class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[12px] py-[6px] rounded-[6px]">Next</button>
+          </div>
         </div>
-        <div class="flex flex-col gap-[12px]">
 
-          <div class="border border-[#FEE2E2] rounded-[10px] p-[12px]">
-            <div class="flex justify-between items-start mb-[6px]">
-              <div class="flex items-center gap-[6px]">
-                <div class="w-[28px] h-[28px] rounded-full bg-[#FEE2E2] flex items-center justify-center text-[10px]">🚨</div>
-                <p class="text-xs font-semibold text-[#0F151F]">PEP Match Detected</p>
+        <!-- KYC Alert Feed + Upcomings -->
+        <div class="flex gap-[16px] mb-[32px]">
+
+          <!-- KYC Alert Feed -->
+          <div class="bg-white rounded-[12px] p-[20px] flex-1">
+            <div class="flex justify-between items-center mb-[16px]">
+              <div class="flex items-center gap-[8px]">
+                <span class="text-[#EF4444]">⚠️</span>
+                <p class="font-semibold text-[16px] text-[#0F151F]">KYC/AML Alert Feed</p>
               </div>
+              <a class="text-xs text-[#FD4F00] cursor-pointer">View All Logs</a>
+            </div>
+            <div class="flex flex-col gap-[12px]">
+
+              <div class="border border-[#FEE2E2] rounded-[10px] p-[12px]">
+                <div class="flex justify-between items-start mb-[6px]">
+                  <div class="flex items-center gap-[6px]">
+                    <div class="w-[28px] h-[28px] rounded-full bg-[#FEE2E2] flex items-center justify-center text-[10px]">🚨</div>
+                    <p class="text-xs font-semibold text-[#0F151F]">PEP Match Detected</p>
+                  </div>
+
+
+
+                  <div class="flex justify-between items-center mt-[16px]">
+              <p class="text-xs text-[#A9A9A9]">
+                Showing {{ pageStart }} to {{ pageEnd }} of {{ tickets.length }} tickets
+              </p>
+              <div class="flex gap-[8px]">
+                <button
+                  @click="prevPage"
+                  :disabled="currentPage === 1"
+                  class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[12px] py-[6px] rounded-[6px] disabled:opacity-40 hover:bg-[#F5F5F5]"
+                >Previous</button>
+                <button
+                  @click="nextPage"
+                  :disabled="currentPage === totalPages"
+                  class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[12px] py-[6px] rounded-[6px] disabled:opacity-40 hover:bg-[#F5F5F5]"
+                >Next</button>
+              </div>
+            </div>
               <span class="text-[10px] text-[#A9A9A9]">2m ago</span>
             </div>
             <p class="text-[10px] text-[#A9A9A9] mb-[8px]">Client Ahmad A. matched with Politically exposed person database list (Global-Check)</p>
@@ -422,7 +415,43 @@
 </template>
 
 <script setup>
-  import gauge from '../components/gauge.vue'
-  import supportchart from '../components/supportchart.vue'
-</script>
+import { ref, computed } from 'vue'
+import gauge from '../components/gauge.vue'
+import supportchart from '../components/supportchart.vue'
 
+const currentPage = ref(1)
+const itemsPerPage = 3
+
+const tickets = ref([
+  { id: '#TK-2025-001', subject: 'KYC Verification Failed',    detail: 'Document upload error on step 3', client: 'John Doe', priority: 'High',   priorityColor: 'bg-[#FEE2E2] text-[#E50303]', flagIcon: 'red-flag.svg',    status: 'In Progress', slaColor: 'bg-[#EF4444]', slaWidth: '70%', slaTime: '2h left',  slaTimeColor: 'text-[#EF4444]', assigneeBg: 'bg-[#FD4F00]',  notSla: false },
+  { id: '#TK-2025-002', subject: 'KYC Verification Failed',    detail: 'Document upload error on step 3', client: 'John Doe', priority: 'Medium', priorityColor: 'bg-[#FEF9C3] text-[#CA8A04]', flagIcon: 'yellow-flag.svg', status: 'In Progress', slaColor: 'bg-[#22C55E]', slaWidth: '40%', slaTime: '6h left',  slaTimeColor: 'text-[#22C55E]', assigneeBg: 'bg-[#3B4FE0]',  notSla: false },
+  { id: '#TK-2025-003', subject: 'KYC Verification Failed',    detail: 'Document upload error on step 6', client: 'John Doe', priority: 'Low',    priorityColor: 'bg-[#F5F5F5] text-[#4B5054]',  flagIcon: 'black-flag.svg',  status: 'In Progress', slaColor: '',             slaWidth: '0%',  slaTime: '',         slaTimeColor: '',               assigneeBg: 'bg-[#22C55E]',  notSla: true  },
+  { id: '#TK-2025-004', subject: 'Account Login Issue',        detail: 'Client unable to login via app',  client: 'Amina Musa', priority: 'High', priorityColor: 'bg-[#FEE2E2] text-[#E50303]', flagIcon: 'red-flag.svg',    status: 'Open',        slaColor: 'bg-[#EF4444]', slaWidth: '85%', slaTime: '1h left',  slaTimeColor: 'text-[#EF4444]', assigneeBg: 'bg-[#FD4F00]',  notSla: false },
+  { id: '#TK-2025-005', subject: 'Fund Transfer Delayed',      detail: 'Transfer stuck for over 48hrs',   client: 'Tunde Kola', priority: 'High', priorityColor: 'bg-[#FEE2E2] text-[#E50303]', flagIcon: 'red-flag.svg',    status: 'In Progress', slaColor: 'bg-[#EF4444]', slaWidth: '60%', slaTime: '3h left',  slaTimeColor: 'text-[#EF4444]', assigneeBg: 'bg-[#3B4FE0]',  notSla: false },
+  { id: '#TK-2025-006', subject: 'Wrong Statement Generated',  detail: 'Q3 statement shows wrong AUM',    client: 'Fatima Aliyu', priority: 'Medium', priorityColor: 'bg-[#FEF9C3] text-[#CA8A04]', flagIcon: 'yellow-flag.svg', status: 'Open',       slaColor: 'bg-[#22C55E]', slaWidth: '30%', slaTime: '8h left',  slaTimeColor: 'text-[#22C55E]', assigneeBg: 'bg-[#22C55E]',  notSla: false },
+  { id: '#TK-2025-007', subject: 'Password Reset Not Working', detail: 'OTP not delivered to email',      client: 'Bello Lawal', priority: 'Low',  priorityColor: 'bg-[#F5F5F5] text-[#4B5054]',  flagIcon: 'black-flag.svg',  status: 'Resolved',    slaColor: 'bg-[#22C55E]', slaWidth: '100%',slaTime: 'Done',     slaTimeColor: 'text-[#22C55E]', assigneeBg: 'bg-[#FD4F00]',  notSla: false },
+  { id: '#TK-2025-008', subject: 'Dividend Not Credited',      detail: 'July dividend missing from acc',  client: 'Kemi Adeyemi', priority: 'High', priorityColor: 'bg-[#FEE2E2] text-[#E50303]', flagIcon: 'red-flag.svg',   status: 'In Progress', slaColor: 'bg-[#EF4444]', slaWidth: '75%', slaTime: '2h left',  slaTimeColor: 'text-[#EF4444]', assigneeBg: 'bg-[#3B4FE0]',  notSla: false },
+  { id: '#TK-2025-009', subject: 'App Crashing on Launch',     detail: 'iOS version 16 affected',         client: 'Ola Eze',    priority: 'Medium', priorityColor: 'bg-[#FEF9C3] text-[#CA8A04]', flagIcon: 'yellow-flag.svg', status: 'Open',       slaColor: 'bg-[#22C55E]', slaWidth: '50%', slaTime: '5h left',  slaTimeColor: 'text-[#22C55E]', assigneeBg: 'bg-[#22C55E]',  notSla: false },
+  { id: '#TK-2025-010', subject: 'Sukuk Fund Not Showing',     detail: 'Product missing from portfolio',  client: 'Sola Akin',  priority: 'Low',    priorityColor: 'bg-[#F5F5F5] text-[#4B5054]',  flagIcon: 'black-flag.svg',  status: 'Open',        slaColor: '',             slaWidth: '0%',  slaTime: '',         slaTimeColor: '',               assigneeBg: 'bg-[#FD4F00]',  notSla: true  },
+  { id: '#TK-2025-011', subject: 'Duplicate Transaction',      detail: 'Client charged twice on Oct 2',   client: 'Remi Ibrahim', priority: 'High', priorityColor: 'bg-[#FEE2E2] text-[#E50303]', flagIcon: 'red-flag.svg',   status: 'In Progress', slaColor: 'bg-[#EF4444]', slaWidth: '90%', slaTime: '30m left', slaTimeColor: 'text-[#EF4444]', assigneeBg: 'bg-[#3B4FE0]',  notSla: false },
+  { id: '#TK-2025-012', subject: 'Profile Update Failing',     detail: 'Cannot save new phone number',    client: 'Ngozi Obi',  priority: 'Medium', priorityColor: 'bg-[#FEF9C3] text-[#CA8A04]', flagIcon: 'yellow-flag.svg', status: 'Resolved',   slaColor: 'bg-[#22C55E]', slaWidth: '100%',slaTime: 'Done',     slaTimeColor: 'text-[#22C55E]', assigneeBg: 'bg-[#22C55E]',  notSla: false },
+])
+
+const totalPages = computed(() => Math.ceil(tickets.value.length / itemsPerPage))
+
+const paginatedTickets = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  return tickets.value.slice(start, start + itemsPerPage)
+})
+
+const pageStart = computed(() => (currentPage.value - 1) * itemsPerPage + 1)
+const pageEnd = computed(() => Math.min(currentPage.value * itemsPerPage, tickets.value.length))
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) currentPage.value++
+}
+
+function prevPage() {
+  if (currentPage.value > 1) currentPage.value--
+}
+</script>

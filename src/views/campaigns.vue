@@ -3,7 +3,7 @@
 <template>
   <div class="flex h-screen overflow-hidden bg-[#F4F0F0]">
    <aside class="bg-[#0F151F] text-white w-[253px] h-screen fixed top-0 left-0 p-6 z-20 flex-shrink-0">
-      <div class="flex flex-col gap-[45px] mt-[95px]">
+      <div class="flex flex-col gap-[45px] mt-[65px]">
         <router-link to="/" class="flex gap-[10px] text-white hover:text-[#FD4F00]">
           <img src="../assets/dashboard.svg" class="w-[18px] h-[18px] mt-[4px]"/>
           Dashboard
