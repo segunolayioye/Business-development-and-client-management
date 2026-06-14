@@ -283,7 +283,7 @@
                 <span class="text-[#EF4444]">⚠️</span>
                 <p class="font-semibold text-[16px] text-[#0F151F]">KYC/AML Alert Feed</p>
               </div>
-              <a class="text-xs text-[#FD4F00] cursor-pointer">View All Logs</a>
+              <a class="text-xs text-[#FD4F00] cursor-pointer"></a>
             </div>
             <div class="flex flex-col gap-[12px]">
 

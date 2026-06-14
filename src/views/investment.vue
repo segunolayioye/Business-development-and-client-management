@@ -106,25 +106,30 @@
           <!-- End Active Products -->
 
           <!-- Pending Approval -->
-          <div class="flex-1 bg-white rounded-lg p-4">
-            <div class="flex justify-between items-center mb-2">
-              <div class="flex flex-col gap-[4px]">
-                <span class="text-xs text-[#4B5054]">PENDING APPROVAL</span>
-                <p class="text-xl font-semibold">5</p>
-              </div>
-              <img src="../assets/right-arrow.svg" alt="right-arrow-icon">
-            </div>
-            <div class="mt-3 flex justify-between">
-              <div class="text-[#4B5054] text-xs">
-                <p>Green Sukuk Fund</p>
-                <p>Growth ETF</p>
-              </div>
-              <div class="flex flex-col gap-[4px]">
-                <p class="text-[#FD4F00] text-xs">Review</p>
-                <p class="text-[#313EB2] text-xs">Draft</p>
-              </div>
-            </div>
-          </div>
+          <!-- Pending Approval -->
+<div class="flex-1 bg-white rounded-lg p-4">
+  <div class="flex justify-between items-center mb-2">
+    <div class="flex flex-col gap-[4px]">
+      <span class="text-xs text-[#4B5054]">PENDING APPROVAL</span>
+      <p class="text-xl font-semibold">{{ pendingCount }}</p>
+    </div>
+    <button class="w-8 h-8 border border-[#E5E7EB] rounded-lg flex items-center justify-center text-[#4B5054] hover:bg-[#F5F5F5]">›</button>
+  </div>
+  <div class="mt-3 flex justify-between">
+    <div class="text-[#4B5054] text-xs flex flex-col gap-2">
+      <p v-for="item in pendingItems" :key="item.id">{{ item.name }}</p>
+    </div>
+    <div class="flex flex-col gap-2">
+  
+    <a v-for="item in pendingItems"
+    :key="item.id"
+    @click="item.status === 'Draft' ? openDraftModal(item) : openReviewModal(item)"
+    class="text-xs cursor-pointer hover:underline"
+    :class="item.status === 'Draft' ? 'text-[#313EB2]' : 'text-[#FD4F00]'"
+  >{{ item.status === 'Draft' ? 'Draft' : 'Review' }}</a>
+</div>
+  </div>
+</div>
           <!-- End Pending Approval -->
 
           <!-- Create New Product -->
@@ -429,69 +434,43 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-[#F5F5F5]">
-              <tr>
+              <tr v-for="doc in documents" :key="doc.id">
                 <td class="py-[14px]">
                   <div class="flex items-center gap-[10px]">
                     <div class="w-[32px] h-[32px] bg-[#FEE2E2] rounded-[6px] flex items-center justify-center">
                       <span class="text-[#EF4444] text-xs font-bold">PDF</span>
                     </div>
-                    <span class="text-sm text-[#0F151F]">Annual Prospectus 2025</span>
+                    <span class="text-sm text-[#0F151F]">{{ doc.name }}</span>
                   </div>
                 </td>
-                <td class="py-[14px] text-sm text-[#4B5054]">Oct 12, 2024</td>
+                <td class="py-[14px] text-sm text-[#4B5054]">{{ doc.date }}</td>
                 <td class="py-[14px]">
-                  <span class="bg-[#DCFCE7] text-[#22C55E] text-xs px-[12px] py-[4px] rounded-full">Approved</span>
+                  <span
+                    :class="doc.status === 'Approved'
+                      ? 'bg-[#DCFCE7] text-[#22C55E]'
+                      : 'bg-[#FFF0EB] text-[#FD4F00]'"
+                    class="text-xs px-[12px] py-[4px] rounded-full"
+                  >{{ doc.status }}</span>
                 </td>
-                <td class="py-[14px] text-sm text-[#4B5054]">Lagos Auditing Office</td>
-                <td class="py-[14px]"><img src="../assets/dark-download.svg" alt="download"></td>
-              </tr>
-              <tr>
+                <td class="py-[14px] text-sm text-[#4B5054]">{{ doc.auditor }}</td>
                 <td class="py-[14px]">
-                  <div class="flex items-center gap-[10px]">
-                    <div class="w-[32px] h-[32px] bg-[#FEE2E2] rounded-[6px] flex items-center justify-center">
-                      <span class="text-[#EF4444] text-xs font-bold">PDF</span>
-                    </div>
-                    <span class="text-sm text-[#0F151F]">Annual Prospectus 2025</span>
-                  </div>
+                  <!-- Download button for Approved -->
+                  <button
+                    v-if="doc.status === 'Approved'"
+                    @click="downloadDocument(doc)"
+                    class="hover:opacity-70 transition-opacity"
+                  >
+                    <img src="../assets/dark-download.svg" alt="download"/>
+                  </button>
+                  <!-- Edit button for Pending Review -->
+                  <button
+                    v-else
+                    @click="openEditModal(doc)"
+                    class="hover:opacity-70 transition-opacity"
+                  >
+                    <img src="../assets/edit-icon.svg" alt="edit"/>
+                  </button>
                 </td>
-                <td class="py-[14px] text-sm text-[#4B5054]">Oct 12, 2024</td>
-                <td class="py-[14px]">
-                  <span class="bg-[#DCFCE7] text-[#22C55E] text-xs px-[12px] py-[4px] rounded-full">Approved</span>
-                </td>
-                <td class="py-[14px] text-sm text-[#4B5054]">Lagos Auditing Office</td>
-                <td class="py-[14px]"><img src="../assets/dark-download.svg" alt="download"></td>
-              </tr>
-              <tr>
-                <td class="py-[14px]">
-                  <div class="flex items-center gap-[10px]">
-                    <div class="w-[32px] h-[32px] bg-[#FEE2E2] rounded-[6px] flex items-center justify-center">
-                      <span class="text-[#EF4444] text-xs font-bold">PDF</span>
-                    </div>
-                    <span class="text-sm text-[#0F151F]">Annual Prospectus 2025</span>
-                  </div>
-                </td>
-                <td class="py-[14px] text-sm text-[#4B5054]">Oct 12, 2024</td>
-                <td class="py-[14px]">
-                  <span class="bg-[#DCFCE7] text-[#22C55E] text-xs px-[12px] py-[4px] rounded-full">Approved</span>
-                </td>
-                <td class="py-[14px] text-sm text-[#4B5054]">Lagos Auditing Office</td>
-                <td class="py-[14px]"><img src="../assets/dark-download.svg" alt="download"></td>
-              </tr>
-              <tr>
-                <td class="py-[14px]">
-                  <div class="flex items-center gap-[10px]">
-                    <div class="w-[32px] h-[32px] bg-[#FEE2E2] rounded-[6px] flex items-center justify-center">
-                      <span class="text-[#EF4444] text-xs font-bold">PDF</span>
-                    </div>
-                    <span class="text-sm text-[#0F151F]">Annual Prospectus 2025</span>
-                  </div>
-                </td>
-                <td class="py-[14px] text-sm text-[#4B5054]">Oct 12, 2024</td>
-                <td class="py-[14px]">
-                  <span class="bg-[#FFF0EB] text-[#FD4F00] text-xs px-[12px] py-[4px] rounded-full">Pending Review</span>
-                </td>
-                <td class="py-[14px] text-sm text-[#4B5054]">Lagos Auditing Office</td>
-                <td class="py-[14px]"><img src="../assets/edit-icon.svg" alt="edit"></td>
               </tr>
             </tbody>
           </table>
@@ -566,6 +545,214 @@
           @click="showDetailsModal = false"
           class="flex-1 bg-[#FD4F00] text-white py-3 rounded-xl text-sm font-medium"
         >Close</button>
+      </div>
+
+    </div>
+  </div>
+</Transition>
+<!-- Download Toast -->
+<Transition name="modal">
+  <div
+    v-if="showDownloadToast"
+    class="fixed top-6 right-6 z-[9999] flex items-center gap-3 bg-white border border-gray-200 border-l-4 border-l-green-500 rounded-xl px-4 py-3 shadow-lg min-w-[300px]"
+  >
+    <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold text-sm flex-shrink-0">
+      ✓
+    </div>
+    <div class="flex-1">
+      <p class="text-sm font-semibold text-gray-900">Download Started!</p>
+      <p class="text-xs text-gray-500 mt-0.5">{{ downloadedDoc }} is being downloaded</p>
+    </div>
+    <button @click="showDownloadToast = false" class="text-gray-400 hover:text-gray-700 text-sm">✕</button>
+  </div>
+</Transition>
+
+<!-- Edit Document Modal -->
+<Transition name="modal">
+  <div
+    v-if="showEditModal && editingDoc"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showEditModal = false"
+  >
+    <div class="bg-white rounded-2xl p-8 w-[460px] flex flex-col gap-4 shadow-xl">
+
+      <!-- Header -->
+      <div class="flex justify-between items-center">
+        <h2 class="text-lg font-bold text-[#0F151F]">Edit Document</h2>
+        <button @click="showEditModal = false" class="text-[#A9A9A9] hover:text-[#0F151F]">✕</button>
+      </div>
+
+      <!-- Status badge -->
+      <div class="flex items-center gap-2">
+        <span class="bg-[#FFF0EB] text-[#FD4F00] text-xs px-[12px] py-[4px] rounded-full">
+          {{ editingDoc.status }}
+        </span>
+        <span class="text-xs text-[#A9A9A9]">Submit edits to update this document</span>
+      </div>
+
+      <!-- Form -->
+      <div class="flex flex-col gap-4 border-t border-[#F5F5F5] pt-4">
+        <div>
+          <label class="text-xs font-medium text-[#0F151F] mb-1 block">Document Name</label>
+          <input
+            v-model="editName"
+            type="text"
+            class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#FD4F00]"
+          />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-[#0F151F] mb-1 block">Date Filed</label>
+          <input
+            v-model="editDate"
+            type="text"
+            placeholder="e.g. Oct 12, 2024"
+            class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#FD4F00]"
+          />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-[#0F151F] mb-1 block">Auditor</label>
+          <input
+            v-model="editAuditor"
+            type="text"
+            class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#FD4F00]"
+          />
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex gap-3 mt-2">
+        <button
+          @click="showEditModal = false"
+          class="flex-1 border border-[#E5E7EB] text-[#4B5054] py-3 rounded-xl text-sm font-medium"
+        >Cancel</button>
+        <button
+          @click="saveEdit"
+          class="flex-1 bg-[#FD4F00] text-white py-3 rounded-xl text-sm font-medium"
+        >Save Changes</button>
+      </div>
+
+    </div>
+  </div>
+</Transition>
+<!-- Review Modal -->
+<Transition name="modal">
+  <div
+    v-if="showReviewModal && reviewingItem"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showReviewModal = false"
+  >
+    <div class="bg-white rounded-2xl p-8 w-[480px] flex flex-col gap-4 shadow-xl">
+
+      <!-- Header -->
+      <div class="flex justify-between items-center">
+        <h2 class="text-lg font-bold text-[#0F151F]">Review Product</h2>
+        <button @click="showReviewModal = false" class="text-[#A9A9A9] hover:text-[#0F151F]">✕</button>
+      </div>
+
+      <!-- Status -->
+      <span class="bg-[#FFF0EB] text-[#FD4F00] text-xs px-[12px] py-[4px] rounded-full w-fit">
+        {{ reviewingItem.status }}
+      </span>
+
+      <!-- Details -->
+      <div class="flex flex-col gap-3 border-t border-[#F5F5F5] pt-4">
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Product Name</span>
+          <span class="text-sm font-semibold text-[#0F151F]">{{ reviewingItem.name }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Type</span>
+          <span class="text-sm font-semibold text-[#0F151F]">{{ reviewingItem.type }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Submitted By</span>
+          <span class="text-sm font-semibold text-[#0F151F]">{{ reviewingItem.submittedBy }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Date Submitted</span>
+          <span class="text-sm font-semibold text-[#0F151F]">{{ reviewingItem.date }}</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <span class="text-sm text-[#4B5054]">Description</span>
+          <p class="text-sm text-[#0F151F] bg-[#F5F5F5] rounded-lg p-3">{{ reviewingItem.description }}</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-3 mt-2">
+        <button
+          @click="rejectItem"
+          class="flex-1 border border-[#EF4444] text-[#EF4444] py-3 rounded-xl text-sm font-medium hover:bg-[#FEE2E2] transition-colors"
+        >✗ Reject</button>
+        <button
+          @click="approveItem"
+          class="flex-1 bg-[#22C55E] text-white py-3 rounded-xl text-sm font-medium hover:bg-[#16a34a] transition-colors"
+        >✓ Approve</button>
+      </div>
+
+    </div>
+  </div>
+</Transition>
+
+<!-- Draft Edit Modal -->
+<Transition name="modal">
+  <div
+    v-if="showDraftModal2 && draftingItem"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showDraftModal2 = false"
+  >
+    <div class="bg-white rounded-2xl p-8 w-[460px] flex flex-col gap-4 shadow-xl">
+
+      <!-- Header -->
+      <div class="flex justify-between items-center">
+        <h2 class="text-lg font-bold text-[#0F151F]">Edit Draft</h2>
+        <button @click="showDraftModal2 = false" class="text-[#A9A9A9] hover:text-[#0F151F]">✕</button>
+      </div>
+
+      <span class="bg-[#EFF6FF] text-[#313EB2] text-xs px-[12px] py-[4px] rounded-full w-fit">Draft</span>
+
+      <!-- Form -->
+      <div class="flex flex-col gap-4 border-t border-[#F5F5F5] pt-4">
+        <div>
+          <label class="text-xs font-medium text-[#0F151F] mb-1 block">Product Name</label>
+          <input
+            v-model="draftName"
+            type="text"
+            class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#FD4F00]"
+          />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-[#0F151F] mb-1 block">Product Type</label>
+          <select
+            v-model="draftType"
+            class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none bg-white focus:border-[#FD4F00]"
+          >
+            <option>Real Estate</option>
+            <option>Equities</option>
+            <option>Sukuk</option>
+            <option>VC Funds</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-medium text-[#0F151F] mb-1 block">Description</label>
+          <textarea
+            v-model="draftDescription"
+            rows="3"
+            class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#FD4F00] resize-none"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex gap-3 mt-2">
+        <button
+          @click="showDraftModal2 = false"
+          class="flex-1 border border-[#E5E7EB] text-[#4B5054] py-3 rounded-xl text-sm font-medium"
+        >Cancel</button>
+        <button
+          @click="saveDraft"
+          class="flex-1 bg-[#313EB2] text-white py-3 rounded-xl text-sm font-medium"
+        >Save Draft</button>
       </div>
 
     </div>
@@ -720,4 +907,109 @@
       matrixProducts.value = [...comparisonProducts.value]
       matrixGenerated.value = true
     }
+
+    // ── COMPLIANCE DOCUMENTS ──────────────────────────────────
+const documents = ref([
+  { id: 1, name: 'Annual Prospectus 2025', date: 'Oct 12, 2024', status: 'Approved', auditor: 'Lagos Auditing Office' },
+  { id: 2, name: 'Q3 Financial Report',    date: 'Oct 12, 2024', status: 'Approved', auditor: 'Lagos Auditing Office' },
+  { id: 3, name: 'Risk Disclosure Form',   date: 'Oct 12, 2024', status: 'Approved', auditor: 'Lagos Auditing Office' },
+  { id: 4, name: 'Compliance Certificate', date: 'Oct 12, 2024', status: 'Pending Review', auditor: 'Lagos Auditing Office' },
+])
+
+// ── DOWNLOAD FUNCTION ─────────────────────────────────────
+const showDownloadToast = ref(false)
+const downloadedDoc = ref('')
+
+function downloadDocument(doc) {
+  downloadedDoc.value = doc.name
+  showDownloadToast.value = true
+  setTimeout(() => {
+    showDownloadToast.value = false
+  }, 3000)
+}
+
+// ── EDIT MODAL ────────────────────────────────────────────
+const showEditModal = ref(false)
+const editingDoc = ref(null)
+const editName = ref('')
+const editDate = ref('')
+const editAuditor = ref('')
+
+function openEditModal(doc) {
+  editingDoc.value = doc
+  editName.value = doc.name
+  editDate.value = doc.date
+  editAuditor.value = doc.auditor
+  showEditModal.value = true
+}
+
+function saveEdit() {
+  if (!editName.value || !editDate.value || !editAuditor.value) {
+    alert('Please fill in all fields')
+    return
+  }
+  // update the document in the array
+  editingDoc.value.name = editName.value
+  editingDoc.value.date = editDate.value
+  editingDoc.value.auditor = editAuditor.value
+  editingDoc.value.status = 'Pending Review' // stays pending until approved
+  showEditModal.value = false
+}
+
+// ── PENDING APPROVAL ──────────────────────────────────────
+const pendingItems = ref([
+  { id: 1, name: 'Green Sukuk Fund', type: 'Sukuk', status: 'Pending Review', submittedBy: 'Jane Peters', date: 'Oct 12, 2024', description: 'New Shari\'ah compliant Sukuk fund targeting infrastructure projects across West Africa.' },
+  { id: 2, name: 'Growth ETF',       type: 'Equities', status: 'Draft',          submittedBy: 'John Adeyemi', date: 'Oct 10, 2024', description: 'Exchange traded fund focused on high growth equities in the Nigerian stock exchange.' },
+])
+
+// Review Modal
+const showReviewModal = ref(false)
+const reviewingItem = ref(null)
+
+function openReviewModal(item) {
+  reviewingItem.value = item
+  showReviewModal.value = true
+}
+
+function approveItem() {
+  reviewingItem.value.status = 'Approved'
+  showReviewModal.value = false
+  // also reduce the pending count
+  pendingCount.value--
+}
+
+function rejectItem() {
+  reviewingItem.value.status = 'Rejected'
+  showReviewModal.value = false
+  pendingCount.value--
+}
+
+// Draft Modal
+const showDraftModal2 = ref(false)
+const draftingItem = ref(null)
+const draftName = ref('')
+const draftType = ref('')
+const draftDescription = ref('')
+
+function openDraftModal(item) {
+  draftingItem.value = item
+  draftName.value = item.name
+  draftType.value = item.type
+  draftDescription.value = item.description
+  showDraftModal2.value = true
+}
+
+function saveDraft() {
+  if (!draftName.value || !draftType.value) {
+    alert('Please fill in all fields')
+    return
+  }
+  draftingItem.value.name = draftName.value
+  draftingItem.value.type = draftType.value
+  draftingItem.value.description = draftDescription.value
+  showDraftModal2.value = false
+}
+
+// Pending count (tracks number)
+const pendingCount = ref(2)
 </script>
