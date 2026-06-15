@@ -362,33 +362,54 @@ function handleExport() {
               <div class="w-full h-1 bg-[#D9D9D9] rounded-full mb-6">
                 <div class="h-1 bg-[#FD4F00] rounded-full w-[30%]"></div>
               </div>
-              <div class="flex flex-col gap-4">
-                <div>
-                  <label class="text-xs font-medium text-[#000000] mb-1 block">Client Name</label>
-                  <input type="text" placeholder="Full Legal Name" class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00]"/>
-                </div>
-                <div>
-                  <label class="text-xs font-medium text-[#000000] mb-1 block">Email Address</label>
-                  <input type="email" placeholder="client@gmail.com" class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00]"/>
-                </div>
-                <div>
-                  <label class="text-xs font-medium text-[#000000] mb-1 block">ID Number (BVN/NIN)</label>
-                  <div class="relative">
-                    <input type="text" placeholder="Enter ID Number" class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00] pr-8"/>
-                    <span class="absolute right-3 top-1/2 -translate-y-1/2">
-                      <img src="../assets/orange-check.svg" class="w-[20px] h-[20px]" alt="orange-check"/>
-                    </span>
-                  </div>
-                  <p class="text-xs text-[#FD4F00] mt-3 font-semibold flex items-center gap-[4px]">
-                    <img src="../assets/shield.svg" alt=""/> Real-time validation active
-                  </p>
-                </div>
-              </div>
-              <router-link to="new-app">
-              <button class="w-full h-[45px] bg-[#FD4F00] text-white rounded-xl py-3 text-sm font-medium mt-6">
-                Continue to Profiling
-              </button>
-              </router-link>
+             <div class="flex flex-col gap-4">
+  <div>
+    <label class="text-xs font-medium text-[#000000] mb-1 block">Client Name</label>
+    <input 
+      v-model="clientName"
+      type="text" 
+      placeholder="Full Legal Name" 
+      class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00]"
+    />
+  </div>
+  <div>
+    <label class="text-xs font-medium text-[#000000] mb-1 block">Email Address</label>
+    <input 
+      v-model="clientEmail"
+      type="email" 
+      placeholder="client@gmail.com" 
+      class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00]"
+    />
+  </div>
+  <div>
+    <label class="text-xs font-medium text-[#000000] mb-1 block">ID Number (BVN/NIN)</label>
+    <div class="relative">
+      <input 
+        v-model="clientId"
+        type="text" 
+        placeholder="Enter ID Number" 
+        class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00] pr-8"
+      />
+      <span class="absolute right-3 top-1/2 -translate-y-1/2">
+        <img src="../assets/orange-check.svg" class="w-[20px] h-[20px]" alt="orange-check"/>
+      </span>
+    </div>
+    <p class="text-xs text-[#FD4F00] mt-3 font-semibold flex items-center gap-[4px]">
+      <img src="../assets/shield.svg" alt=""/> Real-time validation active
+    </p>
+  </div>
+</div>
+
+<!-- Error message - only shows if fields are empty -->
+<p v-if="formError" class="text-xs text-red-500 mt-2">{{ formError }}</p>
+
+<!-- Button now calls continueToProfile instead of router-link -->
+<button 
+  @click="continueToProfile"
+  class="w-full h-[45px] bg-[#FD4F00] text-white rounded-xl py-3 text-sm font-medium mt-6"
+>
+  Continue to Profiling
+</button>
             </div>
 
             <!-- Client Lists -->
