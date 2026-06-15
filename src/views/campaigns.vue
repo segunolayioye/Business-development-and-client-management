@@ -426,129 +426,40 @@
           <table class="w-full text-sm">
             <thead>
               <tr class="border-b border-[#F5F5F5]">
-                <th
-                  class="text-left text-xs text-[#4B5054] font-medium py-[10px]"
-                >
-                  CAMPAIGN NAME
-                </th>
-                <th
-                  class="text-left text-xs text-[#4B5054] font-medium py-[10px]"
-                >
-                  CHANNEL
-                </th>
-                <th
-                  class="text-left text-xs text-[#4B5054] font-medium py-[10px]"
-                >
-                  STATUS
-                </th>
-                <th
-                  class="text-left text-xs text-[#4B5054] font-medium py-[10px]"
-                >
-                  AUDIENCE
-                </th>
-                <th
-                  class="text-left text-xs text-[#4B5054] font-medium py-[10px]"
-                >
-                  BUDGET SPENT
-                </th>
-                <th
-                  class="text-left text-xs text-[#4B5054] font-medium py-[10px]"
-                >
-                  ACTION
-                </th>
+                <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">CAMPAIGN NAME</th>
+                <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">CHANNEL</th>
+                <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">STATUS</th>
+                <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">AUDIENCE</th>
+                <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">BUDGET SPENT</th>
+                <th class="text-left text-xs text-[#4B5054] font-medium py-[10px]">ACTION</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-[#F5F5F5]">
-              <tr>
-                <td class="py-[14px] text-sm text-[#0F151F]">
-                  Year-End Investment Boost
-                </td>
+              <tr v-for="campaign in campaignList" :key="campaign.id">
+                <td class="py-[14px] text-sm text-[#0F151F]">{{ campaign.name }}</td>
                 <td class="py-[14px]">
                   <div class="flex items-center gap-[6px]">
-                    <img src="../assets/email-logo.svg" width="15" height="15" alt="email">
-                    <span class="text-xs text-black">Email</span>
+                    <img :src="campaign.channelIcon" width="15" height="15" :alt="campaign.channel">
+                    <span class="text-xs text-black">{{ campaign.channel }}</span>
                   </div>
                 </td>
                 <td class="py-[14px]">
                   <span
-                    class="bg-[#228B2233] text-[#228B22] text-xs px-[10px] py-[4px] rounded-[8px]"
-                    >Active</span
+                    :class="campaign.statusStyle"
+                    class="text-xs px-[10px] py-[4px] rounded-[8px]"
                   >
+                    {{ campaign.status }}
+                  </span>
                 </td>
-                <td class="py-[14px] text-xs text-black">
-                  Dormant Clients
-                </td>
-                <td class="py-[14px] text-xs text-black">$1,200</td>
+                <td class="py-[14px] text-xs text-black">{{ campaign.audience }}</td>
+                <td class="py-[14px] text-xs text-black">{{ campaign.spent }}</td>
                 <td class="py-[14px]">
-                  <img src="../assets/pen.svg" class="w-[17px] h-[17px]" alt="Edit">
-                </td>
-              </tr>
-              <tr>
-                <td class="py-[14px] text-sm text-black">
-                  SME Growth Webinar
-                </td>
-                <td class="py-[14px]">
-                  <div class="flex items-center gap-[6px]">
-                   <img src="../assets/linkedin.svg" width="15" height="15" alt="LinkedIn"
-                    ><span class="text-xs text-black">LinkedIn</span>
-                  </div>
-                </td>
-                <td class="py-[14px]">
-                  <span
-                    class="bg-[#FEF9C3] text-[#A16207] text-xs px-[8px] py-[2px] rounded-[8px]"
-                    >Scheduled</span
+                  <img 
+                    src="../assets/pen.svg" 
+                    class="w-[17px] h-[17px] cursor-pointer hover:opacity-70 transition-opacity" 
+                    alt="Edit"
+                    @click="openEditModal(campaign)"
                   >
-                </td>
-                <td class="py-[14px] text-xs text-black">High Net Worth</td>
-                <td class="py-[14px] text-xs text-black">$1,200</td>
-                <td class="py-[14px]">
-                  <img src="../assets/pen.svg" class="w-[17px] h-[17px]" alt="Edit">
-                </td>
-              </tr>
-              <tr>
-                <td class="py-[14px] text-sm text-black">
-                  Year-End Investment Boost
-                </td>
-                <td class="py-[14px]">
-                  <div class="flex items-center gap-[6px]">
-                    <img src="../assets/message-logo.svg" width="15" height="15" alt="Email">
-                    <span class="text-xs text-black">SMS</span>
-                  </div>
-                </td>
-                <td class="py-[14px]">
-                  <span
-                    class="bg-[#4B505433] text-[#4B5054] text-xs px-[10px] py-[4px] rounded-[8px]"
-                    >Draft</span
-                  >
-                </td>
-                <td class="py-[14px] text-xs text-black">SME Owners</td>
-                <td class="py-[14px] text-xs text-black">$1,200</td>
-                <td class="py-[14px]">
-                  <img src="../assets/pen.svg" class="w-[17px] h-[17px]" alt="Edit">
-                </td>
-              </tr>
-              <tr>
-                <td class="py-[14px] text-sm text-black border-b border-[#F5F5F5]">
-                  Halal Fixed Pre-Launch
-                </td>
-                <td class="py-[14px]">
-                  <div class="flex items-center gap-[6px]">
-                    <img src="../assets/email-logo.svg" width="15" height="15" alt="email">
-                    <span class="text-xs text-[#4B5054]">Email</span>
-                  </div>
-                </td>
-                <td class="py-[14px]">
-                  <span
-                    class="bg-[#228B2233] text-[#228B22] text-xs px-[10px] py-[4px] rounded-[8px]"
-                    >Approved</span
-                  >
-                </td>
-                <td class="py-[14px] text-xs text-black">
-                  Dormant Clients
-                </td>
-                <td class="py-[14px] text-xs text-black">$1,200</td>
-                <td class="py-[14px]">
-                  <img src="../assets/pen.svg" class="w-[17px] h-[17px]" alt="Edit">
                 </td>
               </tr>
             </tbody>
@@ -587,13 +498,86 @@
     </div>
   </div>
 </Transition>
+<Transition name="modal">
+      <div
+        v-if="isEditModalOpen"
+        class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+        @click.self="isEditModalOpen = false"
+      >
+        <div class="bg-white rounded-2xl p-8 w-[500px] flex flex-col gap-6 shadow-xl">
+          <div class="flex justify-between items-center border-b border-[#F5F5F5] pb-4">
+            <h2 class="text-xl font-bold text-[#0F151F]">Edit Campaign</h2>
+            <button @click="isEditModalOpen = false" class="text-gray-400 hover:text-gray-700 text-2xl leading-none">&times;</button>
+          </div>
+
+          <div class="space-y-4" v-if="activeCampaign">
+            <div>
+              <label class="block text-sm font-medium text-[#4B5054] mb-1">Campaign Name</label>
+              <input 
+                v-model="activeCampaign.name" 
+                type="text" 
+                class="w-full border border-[#D9D9D9] rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-[#22C55E]"
+              />
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-[#4B5054] mb-1">Status</label>
+                <select 
+                  v-model="activeCampaign.status" 
+                  class="w-full border border-[#D9D9D9] rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-[#22C55E]"
+                >
+                  <option value="Active">Active</option>
+                  <option value="Scheduled">Scheduled</option>
+                  <option value="Draft">Draft</option>
+                  <option value="Approved">Approved</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-[#4B5054] mb-1">Audience</label>
+                <input 
+                  v-model="activeCampaign.audience" 
+                  type="text" 
+                  class="w-full border border-[#D9D9D9] rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-[#22C55E]"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-[#4B5054] mb-1">Budget Spent</label>
+              <input 
+                v-model="activeCampaign.spent" 
+                type="text" 
+                class="w-full border border-[#D9D9D9] rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-[#22C55E]"
+              />
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-2">
+            <button 
+              @click="isEditModalOpen = false" 
+              class="flex-1 bg-[#F5F5F5] text-[#4B5054] py-3 rounded-xl font-semibold text-sm hover:bg-[#E5E5E5] transition-colors"
+            >
+              Cancel
+            </button>
+            <button 
+              @click="saveUpdates" 
+              class="flex-1 bg-[#22C55E] text-white py-3 rounded-xl font-semibold text-sm hover:bg-[#16a34a] transition-colors"
+            >
+              Save Updates
+            </button>
+          </div>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+import { ref } from 'vue'
 import curvechart from '../components/curvechart.vue'
 
+// --- Export Modal Logic ---
 const showExportModal = ref(false)
 const exporting = ref(false)
 
@@ -605,6 +589,78 @@ function handleExport() {
   }, 1500)
 }
 
+// --- Edit Modal & Table Data Logic ---
+const isEditModalOpen = ref(false)
+const activeCampaign = ref(null)
 
+// Reactive array of your campaign data to allow for editing
+const campaignList = ref([
+  { 
+    id: 1, 
+    name: 'Year-End Investment Boost', 
+    channel: 'Email', 
+    channelIcon: new URL('../assets/email-logo.svg', import.meta.url).href,
+    status: 'Active', 
+    statusStyle: 'bg-[#228B2233] text-[#228B22]',
+    audience: 'Dormant Clients', 
+    spent: '$1,200' 
+  },
+  { 
+    id: 2, 
+    name: 'SME Growth Webinar', 
+    channel: 'LinkedIn', 
+    channelIcon: new URL('../assets/linkedin.svg', import.meta.url).href,
+    status: 'Scheduled', 
+    statusStyle: 'bg-[#FEF9C3] text-[#A16207]',
+    audience: 'High Net Worth', 
+    spent: '$1,200' 
+  },
+  { 
+    id: 3, 
+    name: 'Year-End Investment Boost', 
+    channel: 'SMS', 
+    channelIcon: new URL('../assets/message-logo.svg', import.meta.url).href,
+    status: 'Draft', 
+    statusStyle: 'bg-[#4B505433] text-[#4B5054]',
+    audience: 'SME Owners', 
+    spent: '$1,200' 
+  },
+  { 
+    id: 4, 
+    name: 'Halal Fixed Pre-Launch', 
+    channel: 'Email', 
+    channelIcon: new URL('../assets/email-logo.svg', import.meta.url).href,
+    status: 'Approved', 
+    statusStyle: 'bg-[#228B2233] text-[#228B22]',
+    audience: 'Dormant Clients', 
+    spent: '$1,200' 
+  }
+])
 
+const openEditModal = (campaign) => {
+  // Clone the object to prevent real-time table updates before saving
+  activeCampaign.value = { ...campaign }
+  isEditModalOpen.value = true
+}
+
+const saveUpdates = () => {
+  // Find the index of the campaign being edited
+  const index = campaignList.value.findIndex(c => c.id === activeCampaign.value.id)
+  
+  if (index !== -1) {
+    // Basic logic to update the style based on new status selection
+    if (activeCampaign.value.status === 'Active' || activeCampaign.value.status === 'Approved') {
+      activeCampaign.value.statusStyle = 'bg-[#228B2233] text-[#228B22]'
+    } else if (activeCampaign.value.status === 'Scheduled') {
+      activeCampaign.value.statusStyle = 'bg-[#FEF9C3] text-[#A16207]'
+    } else {
+      activeCampaign.value.statusStyle = 'bg-[#4B505433] text-[#4B5054]'
+    }
+
+    // Save the cloned data back to the main array
+    campaignList.value[index] = { ...activeCampaign.value }
+  }
+  
+  isEditModalOpen.value = false
+}
 </script>

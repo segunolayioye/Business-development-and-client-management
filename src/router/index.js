@@ -11,6 +11,7 @@ import newapp from '../views/new-app.vue'
 import client from '../views/client-overview.vue'
 import campaignmanagement from '../views/campaignmanagement.vue'
 import createproduct from '../views/create-product.vue'
+import notifications from '../views/notifications.vue'
 
 const routes = [
   {
@@ -71,6 +72,11 @@ const routes = [
     path: '/create-product',
     name: 'createproduct',
     component: createproduct,
+  },
+  {
+    path: '/notifications',
+    name: 'notifications',
+    component: notifications,
   }
 
 ] 
