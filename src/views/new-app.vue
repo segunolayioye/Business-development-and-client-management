@@ -126,7 +126,7 @@
               </div>
               <div class="flex-1">
                 <label class="text-xs font-medium text-[#0F151F] mb-[6px] block">BVN (Bank Verification Number) <span class="text-red-500">*</span></label>
-                <input v-model="clientBVN" type="text" placeholder="Enter 11-digit BVN" class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#22C55E]"/>
+                <input v-model="clientBvn" type="text" placeholder="Enter 11-digit BVN" class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#22C55E]"/>
               </div>
             </div>
 
@@ -370,7 +370,7 @@ const route = useRoute()
 // Read the data from the URL automatically
 const clientName = ref(route.query.name || '')
 const clientEmail = ref(route.query.email || '')
-const clientId = ref(route.query.id || '')
+const clientBvn = ref(route.query.bvn || '')
 
 
 const currentStep = ref(1)

@@ -234,17 +234,17 @@
                   <p class="font-semibold text-[18px] text-[#0F151F]">Content Library</p>
                 </div>
                 <div class="flex items-center gap-[8px]">
-                  <select class="text-xs text-[#4B5054] font-semibold border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-white">
+                  <select v-model="selectedTopic" class="text-xs text-[#4B5054] font-semibold border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-white">
                     <option>All Topics</option>
                     <option>Islamic Finance</option>
                     <option>Products</option>
                   </select>
-                  <select class="text-xs text-[#4B5054] font-semibold border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-white">
+                  <select v-model="selectedFormat" class="text-xs text-[#4B5054] font-semibold border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-white">
                     <option>All Formats</option>
                     <option>Video</option>
                     <option>Webinar</option>
                   </select>
-                  <select class="text-xs text-[#4B5054] font-semibold border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-white">
+                  <select v-model="selectedLevel" class="text-xs text-[#4B5054] font-semibold border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-white">
                     <option>All Levels</option>
                     <option>Beginner</option>
                     <option>Advanced</option>
@@ -252,94 +252,33 @@
                 </div>
               </div>
               <div class="grid grid-cols-4 gap-[16px]">
-                <div class="bg-white rounded-[12px] overflow-hidden">
+                <div v-for="item in filteredContentItems" :key="item.id" class="bg-white rounded-[12px] overflow-hidden">
                   <div class="relative h-[120px] flex items-center justify-center">
-                    <img src="../assets/1st-pic.svg" class="w-full h-full object-cover" alt="1st-pic"/>
-                    <span class="absolute bottom-[8px] left-[8px] bg-[#228B22] text-white text-[9px] px-[6px] py-[2px] rounded">Beginner</span>
+                    <img :src="item.image" class="w-full h-full object-cover" :alt="item.title"/>
+                   <span :class="['absolute bottom-[8px] left-[8px] text-white text-[9px] px-[6px] py-[2px] rounded', item.levelColor]">{{ item.level }}</span>
                     <span class="flex items-center justify-center absolute top-[8px] right-[8px] gap-1 bg-white font-semibold text-[#0F151F] text-[10px] px-[6px] py-[2px] rounded">
-                      <img src="../assets/green-video.svg" class="w-[12px] h-[12px]" alt="video"/> video
+                     <img :src="item.icon" class="w-[12px] h-[12px]" alt="format icon"/> {{ item.format }}
                     </span>
                   </div>
                   <div class="p-[12px]">
                     <div class="flex items-center justify-between">
-                      <p class="text-[9px] text-[#228B22] font-semibold uppercase mb-[4px]">Islamic Finance</p>
+                      <p class="text-[9px] text-[#228B22] font-semibold uppercase mb-[4px]">{{ item.topic }}</p>
                       <div class="flex text-[#EFF31C] text-[10px] my-[4px]">★★★★★</div>
                     </div>
-                    <p class="text-xs font-semibold text-[#0F151F] leading-tight">Halal Investing Principles: A Starter Guide</p>
+                    <p class="text-xs font-semibold text-[#0F151F] leading-tight">{{ item.title }}</p>
                     
-                    <p class="text-[10px] text-[#4B5054] leading-tight mt-[6px]">Learn the fundamental rules of Shari'ah compliant investing and ho...</p>
+                    <p class="text-[10px] text-[#4B5054] leading-tight mt-[6px]">{{ item.description }}</p>
                     <div class="flex justify-between items-center mt-[8px]">
-                      <span class="flex gap-1 text-[10px] text-[#A9A9A9]"><img src="../assets/gray-clock.svg" alt="time"> 15 min</span>
-                      <a class="text-[10px] text-[#228B22] cursor-pointer font-semibold">View Content →</a>
+                      <span class="flex gap-1 text-[10px] text-[#A9A9A9]"><img src="../assets/gray-clock.svg" alt="time"> {{ item.duration }}</span>
+                      <a @click="openContentModal(item)" class="text-[10px] text-[#228B22] cursor-pointer font-semibold">View Content →</a>
                     </div>
                   </div>
                 </div>
-                <div class="bg-white rounded-[12px] overflow-hidden">
-                  <div class="relative h-[120px] flex items-center justify-center">
-                    <img src="../assets/2nd-pic.svg" class="w-full h-full object-cover" alt="2nd-pic"/>
-                    <span class="absolute bottom-[8px] left-[8px] bg-[#FFCC00] text-white text-[9px] px-[6px] py-[2px] rounded">Intermediate</span>
-                    <span class="flex items-center justify-center absolute top-[8px] right-[8px] gap-1 bg-white font-semibold text-[#0F151F] text-[10px] px-[6px] py-[2px] rounded">
-                      <img src="../assets/webinar.svg" class="w-[12px] h-[12px]" alt="video"/> Webinar
-                    </span>
-                  </div>
-                  <div class="p-[12px]">
-                    <div class="flex items-center justify-between">
-                      <p class="text-[9px] text-[#228B22] font-semibold uppercase mb-[4px]">Islamic Finance</p>
-                      <div class="flex text-[#EFF31C] text-[10px] my-[4px]">★★★★★</div>
-                    </div>
-                    <p class="text-xs font-semibold text-[#0F151F] leading-tight">Halal Investing Principles: A Starter Guide</p>
-                    
-                    <p class="text-[10px] text-[#4B5054] leading-tight mt-[6px]">Learn the fundamental rules of Shari'ah compliant investing and ho...</p>
-                    <div class="flex justify-between items-center mt-[8px]">
-                      <span class="flex gap-1 text-[10px] text-[#A9A9A9]"><img src="../assets/gray-clock.svg" alt="time"> 15 min</span>
-                      <a class="text-[10px] text-[#228B22] cursor-pointer font-semibold">View Content →</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="bg-white rounded-[12px] overflow-hidden">
-                  <div class="relative h-[120px] flex items-center justify-center">
-                    <img src="../assets/3rd-pic.svg" class="w-full h-full object-cover" alt="3rd-pic"/>
-                    <span class="absolute bottom-[8px] left-[8px] bg-[#E50303] text-white text-[9px] px-[6px] py-[2px] rounded">Advanced</span>
-                    <span class="flex items-center justify-center absolute top-[8px] right-[8px] gap-1 bg-white font-semibold text-[#0F151F] text-[10px] px-[6px] py-[2px] rounded">
-                      <img src="../assets/pdf-logo.svg" class="w-[12px] h-[12px]" alt="video"/> Report
-                    </span>
-                  </div>
-                  <div class="p-[12px]">
-                    <div class="flex items-center justify-between">
-                      <p class="text-[9px] text-[#228B22] font-semibold uppercase mb-[4px]">ANALYSIS</p>
-                      <div class="flex text-[#EFF31C] text-[10px] my-[4px]">★★★★★</div>
-                    </div>
-                    <p class="text-xs font-semibold text-[#0F151F] leading-tight">Halal Investing Principles: A Starter Guide</p>
-                    
-                    <p class="text-[10px] text-[#4B5054] leading-tight mt-[6px]">Learn the fundamental rules of Shari'ah compliant investing and ho...</p>
-                    <div class="flex justify-between items-center mt-[8px]">
-                      <span class="flex gap-1 text-[10px] text-[#A9A9A9]"><img src="../assets/gray-clock.svg" alt="time"> 15 min</span>
-                      <a class="text-[10px] text-[#228B22] cursor-pointer font-semibold">View Content →</a>
-                    </div>
-                  </div>
-                </div>
-               <div class="bg-white rounded-[12px] overflow-hidden">
-                  <div class="relative h-[120px] flex items-center justify-center">
-                    <img src="../assets/1st-pic.svg" class="w-full h-full object-cover" alt="1st-pic"/>
-                    <span class="absolute bottom-[8px] left-[8px] bg-[#228B22] text-white text-[9px] px-[6px] py-[2px] rounded">Beginner</span>
-                    <span class="flex items-center justify-center absolute top-[8px] right-[8px] gap-1 bg-white font-semibold text-[#0F151F] text-[10px] px-[6px] py-[2px] rounded">
-                      <img src="../assets/green-video.svg" class="w-[12px] h-[12px]" alt="video"/> video
-                    </span>
-                  </div>
-                  <div class="p-[12px]">
-                    <div class="flex items-center justify-between">
-                      <p class="text-[9px] text-[#228B22] font-semibold uppercase mb-[4px]">Islamic Finance</p>
-                      <div class="flex text-[#EFF31C] text-[10px] my-[4px]">★★★★★</div>
-                    </div>
-                    <p class="text-xs font-semibold text-[#0F151F] leading-tight">Halal Investing Principles: A Starter Guide</p>
-                    
-                    <p class="text-[10px] text-[#4B5054] leading-tight mt-[6px]">Learn the fundamental rules of Shari'ah compliant investing and ho...</p>
-                    <div class="flex justify-between items-center mt-[8px]">
-                      <span class="flex gap-1 text-[10px] text-[#A9A9A9]"><img src="../assets/gray-clock.svg" alt="time"> 15 min</span>
-                      <a class="text-[10px] text-[#228B22] cursor-pointer font-semibold">View Content →</a>
-                    </div>
-                  </div>
-                </div>
+                <div v-if="filteredContentItems.length === 0" class="col-span-4 text-center py-8 text-sm text-gray-500">
+                    No content found for the selected filters.
+                 </div>
+                
+               
               </div>
             </div>
 
@@ -534,6 +473,45 @@
   </div>
 
   
+</Transition>
+<!-- Content Details Modal -->
+<Transition name="modal">
+  <div
+    v-if="showContentModal"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/60"
+    @click.self="closeContentModal"
+  >
+    <div class="bg-white rounded-[16px] p-[32px] w-[500px] shadow-2xl relative">
+      <button @click="closeContentModal" class="absolute top-[16px] right-[16px] text-gray-400 hover:text-gray-800 text-xl font-bold">✕</button>
+      
+      <h2 class="font-bold text-[20px] mb-[16px] pr-6">{{ selectedContent.title }}</h2>
+      
+      <div class="relative h-[200px] w-full mb-[16px] rounded-lg overflow-hidden border border-gray-100">
+          <img :src="selectedContent.image" class="w-full h-full object-cover"/>
+      </div>
+      
+      <div class="flex gap-2 mb-[16px]">
+        <span class="bg-[#F5F5F5] px-2 py-1 rounded text-[11px] font-semibold text-[#4B5054] border border-gray-200">Topic: {{ selectedContent.topic }}</span>
+        <span class="bg-[#F5F5F5] px-2 py-1 rounded text-[11px] font-semibold text-[#4B5054] border border-gray-200">Level: {{ selectedContent.level }}</span>
+        <span class="bg-[#F5F5F5] px-2 py-1 rounded text-[11px] font-semibold text-[#4B5054] border border-gray-200">Format: {{ selectedContent.format }}</span>
+        <span class="bg-[#F5F5F5] px-2 py-1 rounded text-[11px] font-semibold text-[#4B5054] border border-gray-200">Duration: {{ selectedContent.duration }}</span>
+      </div>
+      
+      <p class="text-sm text-[#4B5054] mb-[24px] leading-relaxed">
+        <!-- We use the short description here, but you can add a 'fullDescription' string to your content array object to show a longer text here -->
+        {{ selectedContent.description }}
+      </p>
+      
+      <div class="flex justify-end gap-3">
+        <button @click="closeContentModal" class="border border-[#E5E7EB] text-[#4B5054] px-[20px] py-[10px] rounded-[8px] text-sm font-medium hover:bg-gray-50 transition-colors">
+          Close
+        </button>
+        <button class="bg-[#22C55E] text-white px-[20px] py-[10px] rounded-[8px] text-sm font-medium hover:bg-[#16a34a] transition-colors flex items-center gap-2">
+          Start {{ selectedContent.format }}
+        </button>
+      </div>
+    </div>
+  </div>
 </Transition>
     </div>
 </template>
@@ -770,4 +748,86 @@ function assignClient(client) {
   }
 }
 
+const selectedTopic = ref('All Topics')
+const selectedFormat = ref('All Formats')
+const selectedLevel = ref('All Levels')
+
+const contentItems = ref([
+  {
+    id: 1,
+    topic: 'Islamic Finance',
+    format: 'Video',
+    level: 'Beginner',
+    title: 'Halal Investing Principles: A Starter Guide',
+    description: "Learn the fundamental rules of Shari'ah compliant investing and ho...",
+    duration: '15 min',
+    image: new URL('../assets/1st-pic.svg', import.meta.url).href,
+    levelColor: 'bg-[#228B22]', // Green
+    icon: new URL('../assets/green-video.svg', import.meta.url).href,
+    rating: 5
+  },
+  {
+    id: 2,
+    topic: 'Islamic Finance', 
+    format: 'Webinar',
+    level: 'Intermediate',
+    title: 'Halal Investing Principles: A Starter Guide',
+    description: "Learn the fundamental rules of Shari'ah compliant investing and ho...",
+    duration: '15 min',
+    image: new URL('../assets/2nd-pic.svg', import.meta.url).href,
+    levelColor: 'bg-[#FFCC00]', // Yellow
+    icon: new URL('../assets/webinar.svg', import.meta.url).href,
+    rating: 5
+  },
+  {
+    id: 3,
+    topic: 'ANALYSIS', // Matches your 3rd card image
+    format: 'Report',
+    level: 'Advanced',
+    title: 'Halal Investing Principles: A Starter Guide',
+    description: "Learn the fundamental rules of Shari'ah compliant investing and ho...",
+    duration: '15 min',
+    image: new URL('../assets/3rd-pic.svg', import.meta.url).href,
+    levelColor: 'bg-[#E50303]', // Red
+    icon: new URL('../assets/pdf-logo.svg', import.meta.url).href,
+    rating: 5
+  },
+  {
+    id: 4,
+    topic: 'Islamic Finance',
+    format: 'Video',
+    level: 'Beginner',
+    title: 'Halal Investing Principles: A Starter Guide',
+    description: "Learn the fundamental rules of Shari'ah compliant investing and ho...",
+    duration: '15 min',
+    image: new URL('../assets/1st-pic.svg', import.meta.url).href,
+    levelColor: 'bg-[#228B22]', 
+    icon: new URL('../assets/green-video.svg', import.meta.url).href,
+    rating: 5
+  }
+])
+
+const filteredContentItems = computed(() => {
+  return contentItems.value.filter(item => {
+    const matchTopic = selectedTopic.value === 'All Topics' || item.topic === selectedTopic.value || (selectedTopic.value === 'Products' && item.topic === 'ANALYSIS'); // Adjust matching logic as needed
+    const matchFormat = selectedFormat.value === 'All Formats' || item.format.toLowerCase() === selectedFormat.value.toLowerCase();
+    const matchLevel = selectedLevel.value === 'All Levels' || item.level === selectedLevel.value;
+    
+    return matchTopic && matchFormat && matchLevel;
+  })
+})
+
+// --- CONTENT MODAL LOGIC ---
+const showContentModal = ref(false)
+const selectedContent = ref(null)
+
+function openContentModal(item) {
+  selectedContent.value = item
+  showContentModal.value = true
+}
+
+function closeContentModal() {
+  showContentModal.value = false
+  selectedContent.value = null
+}
 </script>

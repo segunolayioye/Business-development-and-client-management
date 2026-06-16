@@ -76,6 +76,7 @@
           <div
             v-for="notification in notifications"
             :key="notification.id"
+            @click="openNotificationModal(notification)"
             class="bg-white rounded-lg shadow-sm p-[20px] flex items-start gap-[12px]"
             :class="!notification.read ? 'border-l-4 border-[#228B22]' : 'border-l-4 border-transparent'"
           >
@@ -186,7 +187,96 @@
         <button @click="showReplySent = false" class="text-gray-400 hover:text-gray-700 ml-2">✕</button>
       </div>
     </Transition>
+    <!-- Notification Detail Modal -->
+<Transition name="modal">
+  <div
+    v-if="showNotificationModal && activeNotification"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showNotificationModal = false"
+  >
+    <div class="bg-white rounded-2xl p-8 w-[520px] flex flex-col gap-4 shadow-xl">
 
+      <!-- Header -->
+     <div class="flex justify-between items-start w-full">
+      <div class="flex items-center gap-3">
+        <div
+          class="w-[42px] h-[42px] rounded-full flex items-center justify-center flex-shrink-0"
+          :class="activeNotification.iconBg"
+        >
+          <img :src="activeNotification.icon" class="w-[20px] h-[20px]" alt="notification icon" />
+        </div>
+        
+        <div>
+          <p class="font-bold text-[16px] text-[#0F151F] leading-tight">{{ activeNotification.title }}</p>
+          <p class="text-xs text-[#A9A9A9] mt-0.5">{{ activeNotification.time }}</p>
+        </div>
+      </div>
+      
+      <button @click="showNotificationModal = false" class="text-[#A9A9A9] hover:text-[#0F151F] text-xl p-1 leading-none">✕</button>
+    </div>
+      <!-- Status Badge -->
+      <div class="flex items-center gap-2">
+        <span
+          class="text-xs px-[10px] py-[4px] rounded-full font-medium"
+          :class="activeNotification.read ? 'bg-[#F5F5F5] text-[#4B5054]' : 'bg-[#228B2233] text-[#228B22]'"
+        >
+          {{ activeNotification.read ? 'Read' : 'Unread' }}
+        </span>
+      </div>
+
+      <!-- Full Message -->
+      <div class="border-t border-[#F5F5F5] pt-4">
+        <p class="text-xs font-semibold text-[#A9A9A9] mb-2 uppercase">Message</p>
+        <p class="text-sm text-[#0F151F] leading-relaxed bg-[#F9F9F9] rounded-lg p-4">
+          {{ activeNotification.message }}
+        </p>
+      </div>
+
+      <!-- Reply Box -->
+      <div v-if="activeNotification.hasReply">
+        <p class="text-xs font-semibold text-[#A9A9A9] mb-2 uppercase">Your Reply</p>
+        <textarea
+          v-model="replyText"
+          rows="3"
+          placeholder="Type your reply here..."
+          class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#228B22] resize-none"
+          @click.stop
+        ></textarea>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-3 mt-2">
+        <!-- Mark as read -->
+        <button
+          v-if="!activeNotification.read"
+          @click.stop="markAsRead(activeNotification)"
+          class="flex-1 border border-[#228B22] text-[#228B22] py-3 rounded-xl text-sm font-medium hover:bg-[#228B2210]"
+        >✓ Mark as Read</button>
+
+        <!-- Delete -->
+        <button
+          @click.stop="deleteNotification(activeNotification.id); showNotificationModal = false"
+          class="flex-1 border border-[#E50303] text-[#E50303] py-3 rounded-xl text-sm font-medium hover:bg-[#FEE2E2]"
+        >Delete</button>
+
+        <!-- Send Reply -->
+        <button
+          v-if="activeNotification.hasReply"
+          @click.stop="sendReply"
+          class="flex-1 bg-[#228B22] text-white py-3 rounded-xl text-sm font-medium hover:bg-[#166316]"
+        >Send Reply</button>
+
+        <!-- Close if no reply -->
+        <button
+          v-else
+          @click="showNotificationModal = false"
+          class="flex-1 bg-[#0F151F] text-white py-3 rounded-xl text-sm font-medium"
+        >Close</button>
+      </div>
+
+    </div>
+  </div>
+</Transition>
   </div>
 </template>
 
@@ -286,6 +376,18 @@ function sendReply() {
   setTimeout(() => {
     showReplySent.value = false
   }, 3000)
+}
+
+// ── NOTIFICATION DETAIL MODAL ─────────────────────────────
+const showNotificationModal = ref(false)
+const activeNotification = ref(null)
+
+function openNotificationModal(notification) {
+  activeNotification.value = notification
+  replyText.value = ''
+  showNotificationModal.value = true
+  // auto mark as read when opened
+  notification.read = true
 }
 </script>
 

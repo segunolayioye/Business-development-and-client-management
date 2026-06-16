@@ -634,8 +634,90 @@ const campaignList = ref([
     statusStyle: 'bg-[#228B2233] text-[#228B22]',
     audience: 'Dormant Clients', 
     spent: '$1,200' 
+  },
+  {
+    id: 5, 
+    name: 'Halal Fixed Pre-Launch', 
+    channel: 'Email', 
+    channelIcon: new URL('../assets/email-logo.svg', import.meta.url).href,
+    status: 'Approved', 
+    statusStyle: 'bg-[#228B2233] text-[#228B22]',
+    audience: 'Dormant Clients', 
+    spent: '$1,200' 
+  },
+  { 
+    id: 6, 
+    name: 'Year-End Investment Boost', 
+    channel: 'SMS', 
+    channelIcon: new URL('../assets/message-logo.svg', import.meta.url).href,
+    status: 'Draft', 
+    statusStyle: 'bg-[#4B505433] text-[#4B5054]',
+    audience: 'SME Owners', 
+    spent: '$1,200' 
+  },
+  { 
+    id: 7, 
+    name: 'Year-End Investment Boost', 
+    channel: 'Email', 
+    channelIcon: new URL('../assets/email-logo.svg', import.meta.url).href,
+    status: 'Active', 
+    statusStyle: 'bg-[#228B2233] text-[#228B22]',
+    audience: 'Dormant Clients', 
+    spent: '$1,200' 
+  },
+  { 
+    id: 8, 
+    name: 'SME Growth Webinar', 
+    channel: 'LinkedIn', 
+    channelIcon: new URL('../assets/linkedin.svg', import.meta.url).href,
+    status: 'Scheduled', 
+    statusStyle: 'bg-[#FEF9C3] text-[#A16207]',
+    audience: 'High Net Worth', 
+    spent: '$1,200' 
+  },
+   { 
+    id: 9, 
+    name: 'Year-End Investment Boost', 
+    channel: 'SMS', 
+    channelIcon: new URL('../assets/message-logo.svg', import.meta.url).href,
+    status: 'Draft', 
+    statusStyle: 'bg-[#4B505433] text-[#4B5054]',
+    audience: 'SME Owners', 
+    spent: '$1,200' 
+  },
+   { 
+    id: 10, 
+    name: 'Year-End Investment Boost', 
+    channel: 'Email', 
+    channelIcon: new URL('../assets/email-logo.svg', import.meta.url).href,
+    status: 'Active', 
+    statusStyle: 'bg-[#228B2233] text-[#228B22]',
+    audience: 'Dormant Clients', 
+    spent: '$1,200' 
+  },
+  { 
+    id: 11, 
+    name: 'SME Growth Webinar', 
+    channel: 'LinkedIn', 
+    channelIcon: new URL('../assets/linkedin.svg', import.meta.url).href,
+    status: 'Scheduled', 
+    statusStyle: 'bg-[#FEF9C3] text-[#A16207]',
+    audience: 'High Net Worth', 
+    spent: '$1,200' 
+  },
+  { 
+    id: 12, 
+    name: 'Year-End Investment Boost', 
+    channel: 'SMS', 
+    channelIcon: new URL('../assets/message-logo.svg', import.meta.url).href,
+    status: 'Draft', 
+    statusStyle: 'bg-[#4B505433] text-[#4B5054]',
+    audience: 'SME Owners', 
+    spent: '$1,200' 
   }
 ])
+
+
 
 const openEditModal = (campaign) => {
   // Clone the object to prevent real-time table updates before saving
@@ -663,4 +745,6 @@ const saveUpdates = () => {
   
   isEditModalOpen.value = false
 }
+
+
 </script>

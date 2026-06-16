@@ -35,12 +35,12 @@ const filteredClients = computed(() => {
 // These are the 3 buckets that store what the user types
 const clientName = ref('')
 const clientEmail = ref('')
-const clientId = ref('')
+const clientBvn = ref('')
 const formError = ref('')
 
 function continueToProfile() {
   // Check if all fields are filled
-  if (!clientName.value || !clientEmail.value || !clientId.value) {
+  if (!clientName.value || !clientEmail.value || !clientBvn.value) {
     formError.value = 'Please fill in all fields before continuing.'
     return
   }
@@ -54,7 +54,7 @@ function continueToProfile() {
     query: {
       name: clientName.value,
       email: clientEmail.value,
-      id: clientId.value
+      bvn: clientBvn.value
     }
   })
 }
@@ -385,7 +385,7 @@ function handleExport() {
     <label class="text-xs font-medium text-[#000000] mb-1 block">ID Number (BVN/NIN)</label>
     <div class="relative">
       <input 
-        v-model="clientId"
+        v-model="clientBvn"
         type="text" 
         placeholder="Enter ID Number" 
         class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00] pr-8"
