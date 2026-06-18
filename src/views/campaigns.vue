@@ -435,7 +435,7 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-[#F5F5F5]">
-              <tr v-for="campaign in campaignList" :key="campaign.id">
+              <tr v-for="campaign in paginatedCampaigns" :key="campaign.id">
                 <td class="py-[14px] text-sm text-[#0F151F]">{{ campaign.name }}</td>
                 <td class="py-[14px]">
                   <div class="flex items-center gap-[6px]">
@@ -464,9 +464,24 @@
               </tr>
             </tbody>
           </table>
-          <div class="flex justify-between items-center mt-[16px] ">
-      
-            
+          <div class="flex justify-between items-center mt-[16px]">
+            <span class="text-xs text-[#4B5054]">
+              Showing <span class="font-semibold text-[#0F151F]">{{ pageStart }}</span> to 
+              <span class="font-semibold text-[#0F151F]">{{ pageEnd }}</span> of 
+              <span class="font-semibold text-[#0F151F]">{{ campaignList.length }}</span> results
+            </span>
+            <div class="flex gap-2">
+              <button 
+                @click="prevPage" 
+                :disabled="currentPage === 1"
+                class="px-3 py-1 bg-white border rounded text-xs disabled:opacity-50"
+              >Previous</button>
+              <button 
+                @click="nextPage" 
+                :disabled="currentPage === totalPages"
+                class="px-3 py-1 bg-white border rounded text-xs disabled:opacity-50"
+              >Next</button>
+            </div>
           </div>
         </div>
       </div>
@@ -574,7 +589,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue' // FIX 1: Imported computed
 import curvechart from '../components/curvechart.vue'
 
 // --- Export Modal Logic ---
@@ -717,8 +732,6 @@ const campaignList = ref([
   }
 ])
 
-
-
 const openEditModal = (campaign) => {
   // Clone the object to prevent real-time table updates before saving
   activeCampaign.value = { ...campaign }
@@ -746,5 +759,35 @@ const saveUpdates = () => {
   isEditModalOpen.value = false
 }
 
+// --- Pagination Logic ---
 
+const currentPage = ref(1)
+const itemsPerPage = 4
+
+const paginatedCampaigns = computed(() => { 
+  const start = (currentPage.value - 1) * itemsPerPage 
+  const end = start + itemsPerPage
+  return campaignList.value.slice(start, end)
+})
+
+const totalPages = computed(() => Math.ceil(campaignList.value.length / itemsPerPage))
+
+// --- ADD THESE TWO NEW COMPUTED PROPERTIES ---
+const pageStart = computed(() => {
+  if (campaignList.value.length === 0) return 0
+  return (currentPage.value - 1) * itemsPerPage + 1
+})
+
+const pageEnd = computed(() => {
+  return Math.min(currentPage.value * itemsPerPage, campaignList.value.length)
+})
+// ----------------------------------------------
+
+const nextPage = () => { 
+  if (currentPage.value < totalPages.value) currentPage.value++
+}
+
+const prevPage = () => {
+  if (currentPage.value > 1) currentPage.value--
+}
 </script>

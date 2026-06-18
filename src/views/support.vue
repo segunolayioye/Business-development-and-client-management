@@ -299,7 +299,7 @@
           </div>
 
           <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-[16px]">
-            <p class="text-xs text-[#A9A9A9]">
+            <p class="text-xs text-black">
               Showing {{ pageStart }} to {{ pageEnd }} of {{ tickets.length }} tickets
             </p>
             <div class="flex gap-[8px]">

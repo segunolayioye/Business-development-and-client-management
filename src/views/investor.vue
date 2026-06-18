@@ -349,7 +349,7 @@
   
           <!-- Pagination Footer -->
           <div class="flex justify-between items-center mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
-            <p class="text-xs text-[#4B5054]">
+            <p class="text-xs text-black">
               showing <span class="font-semibold">{{ showAllClients ? 1 : pageStart }}</span> to
               <span class="font-semibold">{{ pageEnd }}</span> of
               <span class="font-semibold">{{ allClients.length }}</span> results

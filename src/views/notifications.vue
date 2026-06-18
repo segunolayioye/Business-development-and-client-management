@@ -1,7 +1,6 @@
 <template>
   <div class="flex h-screen w-full overflow-hidden bg-[#F4F0F0]">
     
-    <!-- Sidebar -->
     <aside class="bg-[#0F151F] text-white w-[253px] h-screen fixed top-0 left-0 p-6 z-20 flex-shrink-0">
       <div class="flex flex-col gap-[45px] mt-[65px]">
         <router-link to="/" class="flex gap-[10px] text-white hover:text-[#FD4F00]">
@@ -35,10 +34,8 @@
       </div>
     </aside>
 
-    <!-- Main Area -->
     <div class="flex flex-col flex-1 ml-[253px] h-screen overflow-hidden">
 
-      <!-- Navbar -->
       <nav class="h-[95px] w-full bg-white shadow-sm flex items-center justify-between px-[40px] flex-shrink-0">
         <div class="bg-[#F5F5F5] rounded-lg px-4 py-2 flex gap-2 w-[380px]">
           <img src="../assets/search-icon.svg" class="w-[16px] h-[16px]"/>
@@ -54,10 +51,8 @@
         </div>
       </nav>
 
-      <!-- Page Content -->
       <div class="flex-1 overflow-y-auto px-[32px] py-[20px]">
 
-        <!-- Page Header -->
         <div class="flex justify-between items-center mb-[20px]">
           <div>
             <h1 class="text-[#2D3643] font-semibold text-[29px]">Notifications</h1>
@@ -71,16 +66,28 @@
           </button>
         </div>
 
-        <!-- Notifications List -->
+        <div class="flex gap-2 mb-[24px]">
+          <button
+            v-for="tab in filterTabs"
+            :key="tab"
+            @click="activeTab = tab"
+            :class="activeTab === tab
+              ? 'bg-[#228B22] text-white font-medium'
+              : 'bg-white text-[#4B5054] border border-[#E5E7EB] hover:bg-gray-50'"
+            class="text-xs px-4 py-1.5 rounded-xl transition-colors"
+          >
+            {{ tab }}
+          </button>
+        </div>
+
         <div class="flex flex-col gap-[12px]">
           <div
-            v-for="notification in notifications"
+            v-for="notification in filteredNotifications"
             :key="notification.id"
             @click="openNotificationModal(notification)"
-            class="bg-white rounded-lg shadow-sm p-[20px] flex items-start gap-[12px]"
+            class="bg-white rounded-lg shadow-sm p-[20px] flex items-start gap-[12px] cursor-pointer hover:shadow-md transition-shadow"
             :class="!notification.read ? 'border-l-4 border-[#228B22]' : 'border-l-4 border-transparent'"
           >
-            <!-- Unread dot -->
             <div class="flex-shrink-0 mt-1">
               <div
                 class="w-[8px] h-[8px] rounded-full mt-[6px]"
@@ -88,7 +95,6 @@
               ></div>
             </div>
 
-            <!-- Icon -->
             <div
               class="w-[36px] h-[36px] rounded-full flex items-center justify-center flex-shrink-0"
               :class="notification.iconBg"
@@ -96,7 +102,6 @@
              <img :src="notification.icon" class="w-[18px] h-[18px]" alt="notification icon" />
             </div>
 
-            <!-- Content -->
             <div class="flex-1">
               <div class="flex justify-between items-start">
                 <p class="text-sm font-semibold text-[#0F151F]">{{ notification.title }}</p>
@@ -104,41 +109,38 @@
               </div>
               <p class="text-xs text-[#4B5054] mt-[4px] leading-relaxed">{{ notification.message }}</p>
 
-              <!-- Action Buttons -->
               <div class="flex gap-[12px] mt-[10px]">
                 <button
                   v-if="!notification.read"
-                  @click="markAsRead(notification)"
+                  @click.stop="markAsRead(notification)"
                   class="text-xs text-[#228B22] font-semibold hover:underline"
                 >Mark Read</button>
                 <button
-                  @click="deleteNotification(notification.id)"
+                  @click.stop="deleteNotification(notification.id)"
                   class="text-xs text-[#E50303] font-semibold hover:underline"
                 >Delete</button>
                 <button
                   v-if="notification.hasReply"
-                  @click="openReplyModal(notification)"
+                  @click.stop="openReplyModal(notification)"
                   class="text-xs text-[#313EB2] font-semibold hover:underline"
                 > Reply</button>
               </div>
             </div>
           </div>
 
-          <!-- Empty State -->
           <div
-            v-if="notifications.length === 0"
+            v-if="filteredNotifications.length === 0"
             class="bg-white rounded-lg p-[40px] flex flex-col items-center justify-center gap-3"
           >
             <span class="text-4xl">🔔</span>
             <p class="text-sm font-semibold text-[#0F151F]">You're all caught up!</p>
-            <p class="text-xs text-[#A9A9A9]">No notifications to show right now.</p>
+            <p class="text-xs text-[#A9A9A9]">No notifications found for this filter.</p>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- Reply Modal -->
     <Transition name="modal">
       <div
         v-if="showReplyModal && replyingTo"
@@ -173,7 +175,6 @@
       </div>
     </Transition>
 
-    <!-- Reply Sent Toast -->
     <Transition name="modal">
       <div
         v-if="showReplySent"
@@ -187,8 +188,8 @@
         <button @click="showReplySent = false" class="text-gray-400 hover:text-gray-700 ml-2">✕</button>
       </div>
     </Transition>
-    <!-- Notification Detail Modal -->
-<Transition name="modal">
+    
+    <Transition name="modal">
   <div
     v-if="showNotificationModal && activeNotification"
     class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
@@ -196,8 +197,7 @@
   >
     <div class="bg-white rounded-2xl p-8 w-[520px] flex flex-col gap-4 shadow-xl">
 
-      <!-- Header -->
-     <div class="flex justify-between items-start w-full">
+      <div class="flex justify-between items-start w-full">
       <div class="flex items-center gap-3">
         <div
           class="w-[42px] h-[42px] rounded-full flex items-center justify-center flex-shrink-0"
@@ -214,7 +214,6 @@
       
       <button @click="showNotificationModal = false" class="text-[#A9A9A9] hover:text-[#0F151F] text-xl p-1 leading-none">✕</button>
     </div>
-      <!-- Status Badge -->
       <div class="flex items-center gap-2">
         <span
           class="text-xs px-[10px] py-[4px] rounded-full font-medium"
@@ -224,7 +223,6 @@
         </span>
       </div>
 
-      <!-- Full Message -->
       <div class="border-t border-[#F5F5F5] pt-4">
         <p class="text-xs font-semibold text-[#A9A9A9] mb-2 uppercase">Message</p>
         <p class="text-sm text-[#0F151F] leading-relaxed bg-[#F9F9F9] rounded-lg p-4">
@@ -232,7 +230,6 @@
         </p>
       </div>
 
-      <!-- Reply Box -->
       <div v-if="activeNotification.hasReply">
         <p class="text-xs font-semibold text-[#A9A9A9] mb-2 uppercase">Your Reply</p>
         <textarea
@@ -244,29 +241,24 @@
         ></textarea>
       </div>
 
-      <!-- Action Buttons -->
       <div class="flex gap-3 mt-2">
-        <!-- Mark as read -->
         <button
           v-if="!activeNotification.read"
           @click.stop="markAsRead(activeNotification)"
           class="flex-1 border border-[#228B22] text-[#228B22] py-3 rounded-xl text-sm font-medium hover:bg-[#228B2210]"
         >✓ Mark as Read</button>
 
-        <!-- Delete -->
         <button
           @click.stop="deleteNotification(activeNotification.id); showNotificationModal = false"
           class="flex-1 border border-[#E50303] text-[#E50303] py-3 rounded-xl text-sm font-medium hover:bg-[#FEE2E2]"
         >Delete</button>
 
-        <!-- Send Reply -->
         <button
           v-if="activeNotification.hasReply"
           @click.stop="sendReply"
           class="flex-1 bg-[#228B22] text-white py-3 rounded-xl text-sm font-medium hover:bg-[#166316]"
         >Send Reply</button>
 
-        <!-- Close if no reply -->
         <button
           v-else
           @click="showNotificationModal = false"
@@ -281,12 +273,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue' // Added computed
 import announceSvg from '../assets/announce.svg'
 import profileSvg  from '../assets/2ndpic.svg'
 import warningSvg  from '../assets/warning.svg'
 
+// ── FILTER TABS LOGIC ─────────────────────────────────────
+const filterTabs = ['All', 'Unread', 'Last 7 Days', 'Older']
+const activeTab = ref('All')
+
+// The computed property that filters the list dynamically
+const filteredNotifications = computed(() => {
+  if (activeTab.value === 'All') return notifications.value
+  if (activeTab.value === 'Unread') return notifications.value.filter(n => !n.read)
+  if (activeTab.value === 'Last 7 Days') return notifications.value.filter(n => n.daysOld <= 7)
+  if (activeTab.value === 'Older') return notifications.value.filter(n => n.daysOld > 7)
+  return notifications.value
+})
+
 // ── NOTIFICATIONS DATA ────────────────────────────────────
+// Added "daysOld" to each item so the filters know how to sort them
 const notifications = ref([
   {
     id: 1,
@@ -297,6 +303,7 @@ const notifications = ref([
     icon: announceSvg,
     iconBg: 'bg-[#228B2233]',
     hasReply: true,
+    daysOld: 0
   },
   {
     id: 2,
@@ -307,6 +314,7 @@ const notifications = ref([
     icon: announceSvg,
     iconBg: 'bg-[#313EB233]',
     hasReply: true,
+    daysOld: 0
   },
   {
     id: 3,
@@ -317,6 +325,7 @@ const notifications = ref([
     icon: announceSvg,
     iconBg: 'bg-[#228B2233]',
     hasReply: false,
+    daysOld: 1
   },
   {
     id: 4,
@@ -327,6 +336,7 @@ const notifications = ref([
     icon: warningSvg,
     iconBg: 'bg-[#E5030333]',
     hasReply: false,
+    daysOld: 1
   },
   {
     id: 5,
@@ -337,6 +347,18 @@ const notifications = ref([
     icon: profileSvg,
     iconBg: 'bg-[#FD4F0033]',
     hasReply: false,
+    daysOld: 2
+  },
+  {
+    id: 6,
+    title: 'System Update Completed',
+    message: 'The InvestFlow platform was successfully updated to version 2.4 with no downtime.',
+    time: '2 weeks ago', // Here is the older message!
+    read: true,
+    icon: announceSvg,
+    iconBg: 'bg-[#313EB233]',
+    hasReply: false,
+    daysOld: 14 
   },
 ])
 
@@ -391,7 +413,3 @@ function openNotificationModal(notification) {
 }
 </script>
 
-<style>
-.modal-enter-active, .modal-leave-active { transition: all 0.3s ease; }
-.modal-enter-from, .modal-leave-to { opacity: 0; transform: scale(0.95); }
-</style>

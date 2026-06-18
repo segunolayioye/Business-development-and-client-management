@@ -434,7 +434,7 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-[#F5F5F5]">
-              <tr v-for="doc in documents" :key="doc.id">
+              <tr v-for="doc in paginatedDocuments" :key="doc.id">
                 <td class="py-[14px]">
                   <div class="flex items-center gap-[10px]">
                     <div class="w-[32px] h-[32px] bg-[#FEE2E2] rounded-[6px] flex items-center justify-center">
@@ -474,6 +474,47 @@
               </tr>
             </tbody>
           </table>
+          <div class="flex justify-between items-center mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
+          <span class="text-xs text-[#4B5054]">
+            Showing <span class="font-semibold text-[#0F151F]">{{ pageStart }}</span> to
+            <span class="font-semibold text-[#0F151F]">{{ pageEnd }}</span> of
+            <span class="font-semibold text-[#0F151F]">{{ documents.length }}</span> documents
+          </span>
+
+          <div class="flex items-center gap-[6px]">
+            <!-- Previous -->
+            <button
+              @click="previousPage"
+              :disabled="currentPage === 1"
+              class="w-[32px] h-[32px] flex items-center justify-center rounded-[8px] border border-[#E5E7EB] text-[#4B5054] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#F5F5F5] hover:border-[#FD4F00] transition-all"
+            >
+              ‹
+            </button>
+
+            <!-- Page Numbers -->
+            <button
+              v-for="page in totalPages"
+              :key="page"
+              @click="currentPage = page"
+              class="w-[32px] h-[32px] flex items-center justify-center rounded-[8px] text-xs font-medium transition-all"
+              :class="currentPage === page
+                ? 'bg-[#FD4F00] text-white shadow-sm'
+                : 'text-[#4B5054] hover:bg-[#F5F5F5] border border-transparent hover:border-[#E5E7EB]'"
+            >
+              {{ page }}
+            </button>
+
+            <!-- Next -->
+            <button
+              @click="nextPage"
+              :disabled="currentPage === totalPages"
+              class="w-[32px] h-[32px] flex items-center justify-center rounded-[8px] border border-[#E5E7EB] text-[#4B5054] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#F5F5F5] hover:border-[#FD4F00] transition-all"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+          
         </div>
         <!-- End Compliance -->
 
@@ -913,7 +954,12 @@ const documents = ref([
   { id: 1, name: 'Annual Prospectus 2025', date: 'Oct 12, 2024', status: 'Approved', auditor: 'Lagos Auditing Office' },
   { id: 2, name: 'Q3 Financial Report',    date: 'Oct 12, 2024', status: 'Approved', auditor: 'Lagos Auditing Office' },
   { id: 3, name: 'Risk Disclosure Form',   date: 'Oct 12, 2024', status: 'Approved', auditor: 'Lagos Auditing Office' },
-  { id: 4, name: 'Compliance Certificate', date: 'Oct 12, 2024', status: 'Pending Review', auditor: 'Lagos Auditing Office' },
+  { id: 4, name: 'Compliance Certificate', date: 'Oct 12, 2024', status: 'Pending Review', auditor: 'Lagos Auditing Office'},
+  { id: 5, name: 'Annual Prospectus 2025', date: 'Oct 12, 2024', status: 'Approved', auditor: 'Lagos Auditing Office' },
+  { id: 6, name: 'Q3 Financial Report',    date: 'Oct 12, 2024', status: 'Approved', auditor: 'Lagos Auditing Office' },
+  { id: 7, name: 'Compliance Certificate', date: 'Oct 12, 2024', status: 'Pending Review', auditor: 'Lagos Auditing Office'},
+  { id: 8, name: 'Risk Disclosure Form',   date: 'Oct 12, 2024', status: 'Approved', auditor: 'Lagos Auditing Office'},
+  { id: 9, name: 'Compliance Certificate', date: 'Oct 12, 2024', status: 'Pending Review', auditor: 'Lagos Auditing Office'}
 ])
 
 // ── DOWNLOAD FUNCTION ─────────────────────────────────────
@@ -1012,4 +1058,31 @@ function saveDraft() {
 
 // Pending count (tracks number)
 const pendingCount = ref(2)
+
+// --- PAGINATION LOGIC ---
+const currentPage = ref(1)
+const itemsPerPage = 3
+
+const paginatedDocuments = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return documents.value.slice(start, end)
+})
+
+const totalPages = computed(() => Math.ceil(documents.value.length / itemsPerPage))
+
+const pageStart = computed(() => (currentPage.value - 1) * itemsPerPage + 1)
+const pageEnd = computed(() => Math.min(currentPage.value * itemsPerPage, documents.value.length))
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++
+  }
+}
+
+const previousPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--
+  }
+}
 </script>

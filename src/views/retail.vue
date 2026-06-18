@@ -59,7 +59,7 @@
           <span class="text-sm font-medium text-gray-800">Jane Peters</span>
           <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]" alt="dropdown">
         </div>
-       
+        
       </nav>
 
       <!-- Main Content -->
@@ -108,10 +108,7 @@
               {{ tab }}
             </button>
           </div>
-          <div class="flex gap-3 text-gray-400">
-            <button><img src="../assets/funnel.svg" class="w-[24px] h-[24px]" alt="filter"/></button>
-            <button><img src="../assets/gray-download.svg" class="w-[24px] h-[24px]" alt="download"/></button>
-          </div>
+          
         </div>
 
         <!-- Table -->
@@ -130,7 +127,7 @@
           <div
             v-for="(client, index) in paginatedClients"
             :key="index"
-            class="grid grid-cols-6 items-center border-b-2 border-[#E5E5E5] px-6 py-3 bg-white"
+            class="grid grid-cols-6 items-center border-b-2 border-[#E5E5E5] px-6 py-3 bg-white relative"
           >
             <!-- Client Name -->
             <div class="flex items-center gap-3">
@@ -185,8 +182,38 @@
             </div>
 
             <!-- Actions -->
-            <div class="pl-12">
-              <button class="text-[#000000]">⋮</button>
+            <div class="pl-12 relative">
+              <button 
+                @click.stop="toggleDropdown(client.id)" 
+                class="text-[#000000] hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center transition-colors focus:outline-none"
+              >
+                ⋮
+              </button>
+
+              <!-- Dropdown Menu -->
+              <div 
+                v-if="activeDropdown === client.id"
+                class="absolute right-[40px] top-[30px] w-[200px] bg-white border border-[#F5F5F5] rounded-xl shadow-lg z-50 py-2 flex flex-col text-left"
+              >
+                <button @click="handleAction('View Profile', client)" class="px-4 py-2 text-sm text-[#4B5054] hover:bg-[#F5F5F5] hover:text-[#0F151F] text-left transition-colors">
+                  View Profile
+                </button>
+                <button @click="handleAction('Edit', client)" class="px-4 py-2 text-sm text-[#4B5054] hover:bg-[#F5F5F5] hover:text-[#0F151F] text-left transition-colors">
+                  Edit
+                </button>
+                <button @click="handleAction('View Portfolio', client)" class="px-4 py-2 text-sm text-[#4B5054] hover:bg-[#F5F5F5] hover:text-[#0F151F] text-left transition-colors">
+                  View Portfolio
+                </button>
+                <button @click="handleAction('Send Reminder', client)" class="px-4 py-2 text-sm text-[#4B5054] hover:bg-[#F5F5F5] hover:text-[#0F151F] text-left transition-colors">
+                  Send Reminder Email
+                </button>
+
+                <div class="h-px bg-[#F5F5F5] my-1 w-full"></div> <!-- Divider Line -->
+
+                <button @click="handleAction('Delete', client)" class="px-4 py-2 text-sm text-red-600 hover:bg-red-50 text-left transition-colors font-medium">
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
 
@@ -245,7 +272,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 const activeTab = ref('All Clients')
 
@@ -257,16 +284,16 @@ const itemsPerPage = 10
 
 const clients = ref([
   { name: 'Sarah Akpola', id: '12345', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12345', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12345', status: 'Draft',       aum: '...',      riskProfile: 'Not profiled',    riskColor: '',             riskWidth: '0%',  lastActivity: 'Just now'    },
-  { name: 'Sarah Akpola', id: '12345', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12345', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12345', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12345', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12345', status: 'Active',      aum: '$200,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: 'Just now'    },
-  { name: 'Sarah Akpola', id: '12345', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12345', status: 'Draft',       aum: '...',      riskProfile: 'Not profiled',    riskColor: '',             riskWidth: '0%',  lastActivity: 'Just now'    },
-  { name: 'Tunde Kola',   id: '12346', status: 'Active',      aum: '$450,000', riskProfile: 'Aggressive',      riskColor: 'bg-[#E50303]', riskWidth: '90%', lastActivity: '1 Hour Ago'  },
+  { name: 'Sarah Akpola', id: '12346', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago' },
+  { name: 'Sarah Akpola', id: '12347', status: 'Draft',       aum: '...',      riskProfile: 'Not profiled',    riskColor: '',             riskWidth: '0%',  lastActivity: 'Just now'    },
+  { name: 'Sarah Akpola', id: '12348', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago' },
+  { name: 'Sarah Akpola', id: '12349', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
+  { name: 'Sarah Akpola', id: '12340', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago' },
+  { name: 'Sarah Akpola', id: '12341', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
+  { name: 'Sarah Akpola', id: '12342', status: 'Active',      aum: '$200,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: 'Just now'    },
+  { name: 'Sarah Akpola', id: '12343', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
+  { name: 'Sarah Akpola', id: '12344', status: 'Draft',       aum: '...',      riskProfile: 'Not profiled',    riskColor: '',             riskWidth: '0%',  lastActivity: 'Just now'    },
+  { name: 'Tunde Kola',   id: '12300', status: 'Active',      aum: '$450,000', riskProfile: 'Aggressive',      riskColor: 'bg-[#E50303]', riskWidth: '90%', lastActivity: '1 Hour Ago'  },
   { name: 'Amina Musa',   id: '12347', status: 'Pending KYC', aum: '$89,000',  riskProfile: 'Conservative',    riskColor: 'bg-[#228B22]', riskWidth: '25%', lastActivity: '3 Hours Ago' },
   { name: 'Kemi Adeyemi', id: '12348', status: 'Active',      aum: '$310,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: 'Just now'    },
   { name: 'Bello Lawal',  id: '12349', status: 'Draft',       aum: '...',      riskProfile: 'Not profiled',    riskColor: '',             riskWidth: '0%',  lastActivity: 'Just now'    },
@@ -321,4 +348,41 @@ function handleSaveDraft() {
     showDraftModal.value = true
   }, 1500)
 }
+
+// --- Dropdown Menu Logic ---
+const activeDropdown = ref(null)
+
+const toggleDropdown = (clientId) => {
+  if (activeDropdown.value === clientId) {
+    activeDropdown.value = null // Close if already open
+  } else {
+    activeDropdown.value = clientId // Open this row's menu
+  }
+}
+
+const closeDropdown = () => {
+  activeDropdown.value = null
+}
+
+const handleAction = (action, client) => {
+  console.log(`${action} triggered for ${client.name} (ID: ${client.id})`)
+  closeDropdown()
+  // Implement your specific action logic here later
+}
+
+// Close the dropdown if the user clicks anywhere else on the screen
+const closeOnClickOutside = () => {
+  if (activeDropdown.value !== null) {
+    closeDropdown()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('click', closeOnClickOutside)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('click', closeOnClickOutside)
+})
+
 </script>
