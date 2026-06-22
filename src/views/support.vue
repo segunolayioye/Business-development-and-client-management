@@ -216,7 +216,11 @@
           </div>
 
         </div>
-
+        <div 
+         id="support ticket"
+          :class="highlightedSection === 'pending-kyc' ? 'ring-2 ring-[#FD4F00] bg-[#FFF0EB]' : ''"
+          class="transition-all duration-500 rounded-lg"
+        >
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-[16px]">
           <p class="font-semibold text-[18px] lg:text-[22px] text-[#000000]">Support Ticket Queue</p>
           <div class="flex items-center gap-[8px] w-full sm:w-auto">
@@ -235,6 +239,7 @@
               Board
             </button>
           </div>
+        </div>
         </div>
 
         <!-- Support Ticket Queue (Responsive Table Wrapper) -->
@@ -425,7 +430,9 @@
               </div>
 
             </div>
+            <router-link to="/calender">
             <a class="text-xs text-[#FD4F00] cursor-pointer mt-[16px] block text-center hover:underline">View Calendar</a>
+            </router-link>
           </div>
 
         </div>
@@ -496,4 +503,27 @@ const getFlagIcon = (priority) => {
   if (priority === 'Medium') return YellowFlag
   return BlackFlag
 }
+
+import { useRoute } from 'vue-router'
+import {  onMounted, nextTick } from 'vue'
+
+const route = useRoute()
+const highlightedSection = ref(null)
+
+onMounted(async () => {
+  if (route.query.highlight) {
+    highlightedSection.value = route.query.highlight
+    await nextTick()
+    
+    const el = document.getElementById(route.query.highlight)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+
+    // remove highlight after 3 seconds
+    setTimeout(() => {
+      highlightedSection.value = null
+    }, 3000)
+  }
+})
 </script>

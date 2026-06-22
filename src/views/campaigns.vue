@@ -259,7 +259,7 @@
                       class="bg-[#228B2233] text-[#228B22] text-[10px] px-[8px] py-[2px] rounded-full"
                       >Q4 Strategy</span
                     >
-                    <span class="text-black cursor-pointer">⋮</span>
+                   
                   </div>
                   <p class="text-sm font-semibold text-black">
                     Halal Fund Launch
@@ -286,7 +286,7 @@
                       class="bg-[#313EB233] text-[#313EB2] text-[10px] px-[8px] py-[2px] rounded-full"
                       >Education</span
                     >
-                    <span class="text-black cursor-pointer">⋮</span>
+                   
                   </div>
                   <p class="text-sm font-semibold text-[#0F151F]">
                     Halal Fund Launch
@@ -316,7 +316,7 @@
                       class="bg-[#228B2233] text-[#228B22] text-[10px] px-[8px] py-[2px] rounded-full"
                       >Promo</span
                     >
-                    <span class="text-black cursor-pointer">⋮</span>
+
                   </div>
                   <p class="text-sm font-semibold text-black">
                     Year-End Investment Boost
@@ -355,7 +355,7 @@
                       class="bg-[#313EB233] text-[#313EB2] text-[10px] px-[8px] py-[2px] rounded-[8px]"
                       >Education</span
                     >
-                    <span class="text-black cursor-pointer">⋮</span>
+                   
                   </div>
                   <p class="text-sm font-semibold text-[#000000]">
                     Halal Fund Launch
@@ -392,7 +392,7 @@
                       class="bg-[#313EB233] text-[#313EB2] text-[10px] px-[8px] py-[2px] rounded-full"
                       >Retargeting</span
                     >
-                    <span class="text-black cursor-pointer">⋮</span>
+                    
                   </div>
                   <p class="text-sm font-semibold text-[#000000]">
                     Q3 Recovery Ads
@@ -790,4 +790,27 @@ const nextPage = () => {
 const prevPage = () => {
   if (currentPage.value > 1) currentPage.value--
 }
+
+import { useRoute } from 'vue-router'
+import {  onMounted, nextTick } from 'vue'
+
+const route = useRoute()
+const highlightedSection = ref(null)
+
+onMounted(async () => {
+  if (route.query.highlight) {
+    highlightedSection.value = route.query.highlight
+    await nextTick()
+    
+    const el = document.getElementById(route.query.highlight)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+
+    // remove highlight after 3 seconds
+    setTimeout(() => {
+      highlightedSection.value = null
+    }, 3000)
+  }
+})
 </script>

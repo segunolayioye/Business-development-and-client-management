@@ -12,6 +12,7 @@ import client from '../views/client-overview.vue'
 import campaignmanagement from '../views/campaignmanagement.vue'
 import createproduct from '../views/create-product.vue'
 import notifications from '../views/notifications.vue'
+import calender from '../views/calender.vue'
 
 const routes = [
   {
@@ -77,6 +78,11 @@ const routes = [
     path: '/notifications',
     name: 'notifications',
     component: notifications,
+  },
+  { path: '/calender',
+    name: 'calender',
+    component: calender
+    
   }
 
 ] 

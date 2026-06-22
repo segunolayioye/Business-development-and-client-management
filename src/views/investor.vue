@@ -281,8 +281,11 @@
                
               </div>
             </div>
-
-          <div class="bg-white rounded-[12px] p-[20px] mb-[32px]">
+     <div 
+        id="client Assignments"
+        :class="highlightedSection === 'client Assignments' ? 'ring-2 ring-[#FD4F00] bg-[#FFF0EB]' : ''"
+        class="transition-all duration-500 rounded-lg">
+          <div class="bg-white rounded-[12px] p-[20px] mb-[32px] ">
   <div class="flex justify-between items-center mb-[16px]">
     <p class="font-semibold text-[18px] text-[#0F151F]">Client Assignments</p>
       
@@ -370,6 +373,7 @@
             </div>
           </div>
 
+          </div>
           </div>
           </div>
         </div>
@@ -830,4 +834,27 @@ function closeContentModal() {
   showContentModal.value = false
   selectedContent.value = null
 }
+
+import { useRoute } from 'vue-router'
+import {  onMounted, nextTick } from 'vue'
+
+const route = useRoute()
+const highlightedSection = ref(null)
+
+onMounted(async () => {
+  if (route.query.highlight) {
+    highlightedSection.value = route.query.highlight
+    await nextTick()
+    
+    const el = document.getElementById(route.query.highlight)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+
+    // remove highlight after 3 seconds
+    setTimeout(() => {
+      highlightedSection.value = null
+    }, 3000)
+  }
+})
 </script>

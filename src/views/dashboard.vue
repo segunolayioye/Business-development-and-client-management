@@ -174,7 +174,9 @@ function handleExport() {
               <div>
                 <p class="font-semibold text-sm whitespace-nowrap">Overdue KYC Verifications</p>
                 <p class="text-xs text-gray-500 whitespace-nowrap">12 clients pending verifications > 48 hrs</p>
-                <a class="text-xs text-red-500 mt-1 block">Review List →</a>
+                <router-link :to="{ path: '/investor', query: { highlight: 'client Assignments' } }">
+                  <a class="text-xs text-red-500 mt-1 block">Review List →</a>
+                </router-link>
               </div>
             </div>
           </div>
@@ -186,7 +188,9 @@ function handleExport() {
               <div>
                 <p class="font-semibold text-sm whitespace-nowrap">Campaign Underperformance</p>
                 <p class="text-xs text-gray-500 whitespace-nowrap">SME Growth email open rate before 19th</p>
-                <a class="text-xs text-orange-400 mt-1 block">Analyze Campaign →</a>
+                <router-link to="/campaigns">
+                  <a class="text-xs text-orange-400 mt-1 block">Analyze Campaign →</a>
+                </router-link>
               </div>
             </div>
           </div>
@@ -198,7 +202,9 @@ function handleExport() {
               <div>
                 <p class="font-semibold text-sm whitespace-nowrap">High Ticket volume</p>
                 <p class="text-xs text-gray-500 whitespace-nowrap">Spike in inquiries regarding new "skuk" fund</p>
-                <a class="text-xs text-blue-500 mt-1 block">View Queue →</a>
+               <router-link :to="{ path: '/help-center', query: { highlight: 'support ticket' } }">
+                  <span class="text-xs text-blue-500 mt-1 block">View Queue →</span>
+                </router-link>
               </div>
             </div>
           </div>

@@ -350,10 +350,21 @@
                   <p class="text-xs text-[#A9A9A9]">Global REIT Fund vs Benchmark</p>
                 </div>
                 <div class="flex items-center gap-[4px]">
-                  <button class="text-xs text-[#A9A9A9] px-[10px] py-[4px] rounded-[6px] hover:bg-[#F5F5F5]">1M</button>
-                  <button class="text-xs text-[#A9A9A9] px-[10px] py-[4px] rounded-[6px] hover:bg-[#F5F5F5]">3M</button>
-                  <button class="text-xs text-white bg-[#FD4F00] px-[10px] py-[4px] rounded-[6px]">1Y</button>
-                  <button class="text-xs text-[#A9A9A9] px-[10px] py-[4px] rounded-[6px] hover:bg-[#F5F5F5]">ALL</button>
+                  <button
+                    @click="setChartRange('1M')"
+                    :class="chartRange === '1M' ? 'text-white bg-[#FD4F00]' : 'text-[#A9A9A9] hover:bg-[#F5F5F5]'"
+                    class="text-xs px-[10px] py-[4px] rounded-[6px] transition-colors"
+                  >1M</button>
+                  <button
+                    @click="setChartRange('3M')"
+                    :class="chartRange === '3M' ? 'text-white bg-[#FD4F00]' : 'text-[#A9A9A9] hover:bg-[#F5F5F5]'"
+                    class="text-xs px-[10px] py-[4px] rounded-[6px] transition-colors"
+                  >3M</button>
+                  <button
+                    @click="setChartRange('1Y')"
+                    :class="chartRange === '1Y' ? 'text-white bg-[#FD4F00]' : 'text-[#A9A9A9] hover:bg-[#F5F5F5]'"
+                    class="text-xs px-[10px] py-[4px] rounded-[6px] transition-colors"
+                  >1Y</button>
                 </div>
               </div>
               <div class="flex items-center gap-[16px] mb-[12px]">
@@ -368,9 +379,9 @@
               </div>
               <div class="w-full h-[220px] bg-[#FFFFFF] rounded-[8px] flex items-center justify-center ">
                 <div class="h-[220px] w-full">
-                    <LineChart />
-                  </div>
-                
+                <LineChart :chart-data="currentChartData" />
+              </div>
+                              
                 
               </div>
               
@@ -803,13 +814,13 @@
 </template>
 <script setup>
     import LineChart from '../components/LineChart.vue'
-    import { ref, computed } from 'vue'
+    import { ref, computed, reactive } from 'vue'
     import orangeIcon from '../assets/orange-spin.svg'
     import purpleIcon from '../assets/purple-spin.svg'
     import greenIcon from '../assets/green-spin.svg'
     import globeIcon from '../assets/globe.svg'
     import microchipIcon from '../assets/microchip.svg'
-
+   
     const activeTab = ref('All')
     const tabs = ['All', 'Real Estate', 'Equities', 'Sukuk', 'VC Funds']
 
@@ -1084,5 +1095,32 @@ const previousPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--
   }
+}
+
+// ── CHART TIME RANGE ───────────────────────────────────────
+const chartRange = ref('1Y')
+
+const chartDataSets = {
+  '1M': {
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    fundData: [22, 23, 24, 25],
+    benchmarkData: [21, 22, 22, 23],
+  },
+  '3M': {
+    labels: ['Month 1', 'Month 2', 'Month 3'],
+    fundData: [18, 22, 25],
+    benchmarkData: [17, 20, 23],
+  },
+  '1Y': {
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    fundData: [5, 11, 8, 10, 17, 18, 14, 16, 24, 25, 22, 29],
+    benchmarkData: [5, 6, 8, 9, 10, 11, 11, 13, 15, 18, 22, 26],
+  },
+}
+
+const currentChartData = computed(() => chartDataSets[chartRange.value])
+
+function setChartRange(range) {
+  chartRange.value = range
 }
 </script>

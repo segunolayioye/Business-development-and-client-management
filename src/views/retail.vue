@@ -201,9 +201,7 @@
                 <button @click="handleAction('Edit', client)" class="px-4 py-2 text-sm text-[#4B5054] hover:bg-[#F5F5F5] hover:text-[#0F151F] text-left transition-colors">
                   Edit
                 </button>
-                <button @click="handleAction('View Portfolio', client)" class="px-4 py-2 text-sm text-[#4B5054] hover:bg-[#F5F5F5] hover:text-[#0F151F] text-left transition-colors">
-                  View Portfolio
-                </button>
+                
                 <button @click="handleAction('Send Reminder', client)" class="px-4 py-2 text-sm text-[#4B5054] hover:bg-[#F5F5F5] hover:text-[#0F151F] text-left transition-colors">
                   Send Reminder Email
                 </button>
@@ -268,11 +266,184 @@
     </div>
   </div>
 </Transition>
+<!-- Client Profile Modal -->
+<Transition name="modal">
+  <div
+    v-if="showProfileModal && profileClient"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showProfileModal = false"
+  >
+    <div class="bg-white rounded-2xl p-8 w-[460px] flex flex-col gap-4 shadow-xl">
+
+      <!-- Header -->
+      <div class="flex justify-between items-start">
+        <div class="flex items-center gap-3">
+          <img src="https://i.pravatar.cc/60" class="w-[56px] h-[56px] rounded-full object-cover"/>
+          <div>
+            <p class="font-bold text-[18px] text-[#0F151F]">{{ profileClient.name }}</p>
+            <p class="text-xs text-[#A9A9A9]">ID: {{ profileClient.id }}</p>
+          </div>
+        </div>
+        <button @click="showProfileModal = false" class="text-[#A9A9A9] hover:text-[#0F151F] text-xl">✕</button>
+      </div>
+
+      <!-- Details -->
+      <div class="flex flex-col gap-3 border-t border-[#F5F5F5] pt-4">
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Status</span>
+          <span
+            :class="{
+              'bg-[#DCFCE7] text-[#228B22]': profileClient.status === 'Active',
+              'bg-[#FEF9C3] text-[#B88836]': profileClient.status === 'Pending KYC',
+              'bg-[#E5E5E5] text-[#4B5054]': profileClient.status === 'Draft'
+            }"
+            class="text-xs px-[10px] py-[3px] rounded-full font-medium"
+          >{{ profileClient.status }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">AUM</span>
+          <span class="text-sm font-semibold text-[#0F151F]">{{ profileClient.aum }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Risk Profile</span>
+          <span class="text-sm font-semibold text-[#0F151F]">{{ profileClient.riskProfile }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-[#4B5054]">Last Activity</span>
+          <span class="text-sm font-semibold text-[#0F151F]">{{ profileClient.lastActivity }}</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-3 mt-2">
+        <button
+          @click="showProfileModal = false; editClient(profileClient)"
+          class="flex-1 border border-[#FD4F00] text-[#FD4F00] py-3 rounded-xl text-sm font-medium hover:bg-[#FFF0EB] transition-colors"
+        >Edit Client</button>
+        <button
+          @click="showProfileModal = false"
+          class="flex-1 bg-[#FD4F00] text-white py-3 rounded-xl text-sm font-medium"
+        >Close</button>
+      </div>
+
+    </div>
+  </div>
+</Transition>
+
+<!-- Edit Client Modal -->
+<Transition name="modal">
+  <div
+    v-if="showClientEditModal && editingClient"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showClientEditModal = false"
+  >
+    <div class="bg-white rounded-2xl p-8 w-[460px] flex flex-col gap-4 shadow-xl">
+
+      <div class="flex justify-between items-center">
+        <h2 class="text-lg font-bold text-[#0F151F]">Edit Client</h2>
+        <button @click="showClientEditModal = false" class="text-[#A9A9A9] hover:text-[#0F151F]">✕</button>
+      </div>
+
+      <div class="flex flex-col gap-4 border-t border-[#F5F5F5] pt-4">
+        <div>
+          <label class="text-xs font-medium text-[#0F151F] mb-1 block">Client Name</label>
+          <input
+            v-model="editClientName"
+            type="text"
+            class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#FD4F00]"
+          />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-[#0F151F] mb-1 block">Status</label>
+          <select
+            v-model="editClientStatus"
+            class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none bg-white focus:border-[#FD4F00]"
+          >
+            <option>Active</option>
+            <option>Pending KYC</option>
+            <option>Draft</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-medium text-[#0F151F] mb-1 block">AUM</label>
+          <input
+            v-model="editClientAum"
+            type="text"
+            class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#FD4F00]"
+          />
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-2">
+        <button
+          @click="showClientEditModal = false"
+          class="flex-1 border border-[#E5E7EB] text-[#4B5054] py-3 rounded-xl text-sm font-medium"
+        >Cancel</button>
+        <button
+          @click="saveClientEdit"
+          class="flex-1 bg-[#FD4F00] text-white py-3 rounded-xl text-sm font-medium"
+        >Save Changes</button>
+      </div>
+
+    </div>
+  </div>
+</Transition>
+
+<!-- Reminder Sent Toast -->
+<Transition name="modal">
+  <div
+    v-if="showReminderToast"
+    class="fixed top-6 right-6 z-[9999] flex items-center gap-3 bg-white border-l-4 border-l-blue-500 rounded-xl px-4 py-3 shadow-lg min-w-[300px]"
+  >
+    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">✓</div>
+    <div>
+      <p class="text-sm font-semibold text-gray-900">Reminder Sent!</p>
+      <p class="text-xs text-gray-500">Email sent to {{ reminderClientName }}</p>
+    </div>
+    <button @click="showReminderToast = false" class="text-gray-400 hover:text-gray-700 ml-2">✕</button>
+  </div>
+</Transition>
+
+<!-- Delete Confirmation -->
+<Transition name="modal">
+  <div
+    v-if="showDeleteConfirm && deletingClient"
+    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+    @click.self="showDeleteConfirm = false"
+  >
+    <div class="bg-white rounded-2xl p-8 w-[400px] flex flex-col items-center gap-4 shadow-xl">
+
+      <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
+        <span class="text-red-500 text-3xl">⚠</span>
+      </div>
+
+      <h2 class="text-lg font-bold text-gray-900">Delete Client?</h2>
+      <p class="text-sm text-gray-500 text-center">
+        Are you sure you want to delete <strong>{{ deletingClient.name }}</strong>? This action cannot be undone.
+      </p>
+
+      <div class="flex gap-3 w-full mt-2">
+        <button
+          @click="showDeleteConfirm = false"
+          class="flex-1 border border-[#E5E7EB] text-[#4B5054] py-3 rounded-xl text-sm font-medium"
+        >Cancel</button>
+        <button
+          @click="deleteClient"
+          class="flex-1 bg-red-500 text-white py-3 rounded-xl text-sm font-medium hover:bg-red-600"
+        >Delete</button>
+      </div>
+
+    </div>
+  </div>
+</Transition>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router' 
+
+const router = useRouter()
 
 const activeTab = ref('All Clients')
 
@@ -364,10 +535,78 @@ const closeDropdown = () => {
   activeDropdown.value = null
 }
 
-const handleAction = (action, client) => {
-  console.log(`${action} triggered for ${client.name} (ID: ${client.id})`)
+// ── CLIENT PROFILE MODAL ──────────────────────────────────
+const showProfileModal = ref(false)
+const profileClient = ref(null)
+
+function viewProfile(client) {
+  profileClient.value = client
+  showProfileModal.value = true
   closeDropdown()
-  // Implement your specific action logic here later
+}
+
+// ── EDIT MODAL ─────────────────────────────────────────────
+const showClientEditModal = ref(false)
+const editingClient = ref(null)
+const editClientName = ref('')
+const editClientStatus = ref('')
+const editClientAum = ref('')
+
+function editClient(client) {
+  editingClient.value = client
+  editClientName.value = client.name
+  editClientStatus.value = client.status
+  editClientAum.value = client.aum
+  showClientEditModal.value = true
+  closeDropdown()
+}
+
+function saveClientEdit() {
+  if (!editClientName.value) {
+    alert('Please enter a name')
+    return
+  }
+  editingClient.value.name = editClientName.value
+  editingClient.value.status = editClientStatus.value
+  editingClient.value.aum = editClientAum.value
+  showClientEditModal.value = false
+}
+
+// ── REMINDER TOAST ─────────────────────────────────────────
+const showReminderToast = ref(false)
+const reminderClientName = ref('')
+
+function sendReminder(client) {
+  reminderClientName.value = client.name
+  showReminderToast.value = true
+  closeDropdown()
+  setTimeout(() => {
+    showReminderToast.value = false
+  }, 3000)
+}
+
+// ── DELETE CONFIRMATION ────────────────────────────────────
+const showDeleteConfirm = ref(false)
+const deletingClient = ref(null)
+
+function confirmDelete(client) {
+  deletingClient.value = client
+  showDeleteConfirm.value = true
+  closeDropdown()
+}
+
+function deleteClient() {
+  clients.value = clients.value.filter(c => c.id !== deletingClient.value.id)
+  showDeleteConfirm.value = false
+}
+
+// ── UPDATED handleAction (routes to the right function) ────
+const handleAction = (action, client) => {
+  if (action === 'View Profile') viewProfile(client)
+  else if (action === 'Edit') editClient(client)
+  else if (action === 'View Portfolio') viewProfile(client) // reuse profile modal for now
+  else if (action === 'Send Reminder') sendReminder(client)
+  else if (action === 'Delete') confirmDelete(client)
 }
 
 // Close the dropdown if the user clicks anywhere else on the screen
