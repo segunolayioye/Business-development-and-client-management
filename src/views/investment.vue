@@ -174,8 +174,8 @@
         </div>
         <!-- End Product Catalog Header -->
 
-        <!-- Product Catalog Cards -->
-       <!-- Product Catalog Cards -->
+        
+      
 <!-- Product Catalog Cards -->
 <div class="grid grid-cols-4 gap-[16px] mt-[24px]">
   <div
@@ -190,7 +190,7 @@
       </div>
       <div class="flex items-center gap-[8px]">
         <span :class="`${product.tagColor} text-[10px] px-[8px] py-[2px] rounded-[4px]`">{{ product.tag }}</span>
-        <span class="text-[#4B5054] cursor-pointer">⋮</span>
+       
       </div>
     </div>
 

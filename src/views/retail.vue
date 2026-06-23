@@ -453,29 +453,10 @@ const currentPage = ref(1)
 const itemsPerPage = 10
 
 
-const clients = ref([
-  { name: 'Sarah Akpola', id: '12345', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12346', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12347', status: 'Draft',       aum: '...',      riskProfile: 'Not profiled',    riskColor: '',             riskWidth: '0%',  lastActivity: 'Just now'    },
-  { name: 'Sarah Akpola', id: '12348', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12349', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12340', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12341', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12342', status: 'Active',      aum: '$200,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: 'Just now'    },
-  { name: 'Sarah Akpola', id: '12343', status: 'Active',      aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
-  { name: 'Sarah Akpola', id: '12344', status: 'Draft',       aum: '...',      riskProfile: 'Not profiled',    riskColor: '',             riskWidth: '0%',  lastActivity: 'Just now'    },
-  { name: 'Tunde Kola',   id: '12300', status: 'Active',      aum: '$450,000', riskProfile: 'Aggressive',      riskColor: 'bg-[#E50303]', riskWidth: '90%', lastActivity: '1 Hour Ago'  },
-  { name: 'Amina Musa',   id: '12347', status: 'Pending KYC', aum: '$89,000',  riskProfile: 'Conservative',    riskColor: 'bg-[#228B22]', riskWidth: '25%', lastActivity: '3 Hours Ago' },
-  { name: 'Kemi Adeyemi', id: '12348', status: 'Active',      aum: '$310,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: 'Just now'    },
-  { name: 'Bello Lawal',  id: '12349', status: 'Draft',       aum: '...',      riskProfile: 'Not profiled',    riskColor: '',             riskWidth: '0%',  lastActivity: 'Just now'    },
-  { name: 'Fatima Aliyu', id: '12350', status: 'Active',      aum: '$175,000', riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '5 Hours Ago' },
-  { name: 'Ola Eze',      id: '12351', status: 'Pending KYC', aum: '$92,000',  riskProfile: 'Conservative',    riskColor: 'bg-[#228B22]', riskWidth: '25%', lastActivity: '2 Hours Ago' },
-  { name: 'Sola Akin',    id: '12352', status: 'Active',      aum: '$260,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '1 Hour Ago'  },
-  { name: 'Remi Ibrahim', id: '12353', status: 'Active',      aum: '$198,000', riskProfile: 'Aggressive',      riskColor: 'bg-[#E50303]', riskWidth: '90%', lastActivity: 'Just now'    },
-  { name: 'Ngozi Obi',    id: '12354', status: 'Pending KYC', aum: '$67,000',  riskProfile: 'Balanced',        riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '4 Hours Ago' },
-  { name: 'Chidi Nwosu',  id: '12355', status: 'Active',      aum: '$520,000', riskProfile: 'Aggressive',      riskColor: 'bg-[#E50303]', riskWidth: '90%', lastActivity: '2 Hours Ago' },
+import { useClientStore } from '../stores/clients'
 
-])
+const clientStore = useClientStore()
+const clients = computed(() => clientStore.clients) 
 
 const filteredClients = computed(() => {
   if (activeTab.value === 'All Clients')   return clients.value
@@ -536,13 +517,11 @@ const closeDropdown = () => {
 }
 
 // ── CLIENT PROFILE MODAL ──────────────────────────────────
-const showProfileModal = ref(false)
-const profileClient = ref(null)
+
 
 function viewProfile(client) {
-  profileClient.value = client
-  showProfileModal.value = true
   closeDropdown()
+  router.push(`/client/${client.id}`)
 }
 
 // ── EDIT MODAL ─────────────────────────────────────────────
@@ -566,9 +545,11 @@ function saveClientEdit() {
     alert('Please enter a name')
     return
   }
-  editingClient.value.name = editClientName.value
-  editingClient.value.status = editClientStatus.value
-  editingClient.value.aum = editClientAum.value
+  clientStore.updateClient(editingClient.value.id, {
+    name: editClientName.value,
+    status: editClientStatus.value,
+    aum: editClientAum.value
+  })
   showClientEditModal.value = false
 }
 
@@ -596,7 +577,7 @@ function confirmDelete(client) {
 }
 
 function deleteClient() {
-  clients.value = clients.value.filter(c => c.id !== deletingClient.value.id)
+  clientStore.deleteClient(deletingClient.value.id)
   showDeleteConfirm.value = false
 }
 

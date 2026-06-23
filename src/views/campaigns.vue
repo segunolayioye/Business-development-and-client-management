@@ -171,20 +171,23 @@
                     <span class="text-xs text-[#A9A9A9]">Opened</span>
                   </div>
                 </div>
-                <div class="flex items-center gap-[8px]">
-                  <span class="text-xs text-[#4B5054]"> Last 30 Days </span>
-                  <img
-                    src="../assets/gray-downarrow.svg"
-                    class="w-[16px] h-[16px]"
-                    alt="dropdown-arrow">
+               <div class="flex items-center gap-[8px]">
+                  <select 
+                    v-model="campaignTimeframe" 
+                    class="text-xs text-[#4B5054] bg-white border border-gray-200 rounded-[6px] px-[8px] py-[4px] outline-none cursor-pointer focus:border-[#3B4FE0]"
+                  >
+                    <option value="last7">Last 7 Days</option>
+                    <option value="last30">Last 30 Days</option>
+                    <option value="last90">Last 90 Days</option>
+                  </select>
                 </div>
-                
+                                
               </div>
             </div>
             <div
               class="w-full h-[200px] bg-[#FFFFFF] rounded-[8px] flex items-center justify-center"
             >
-             <div class="w-full h-[200px] mt-32"><curvechart /></div>
+             <div class="w-full h-[200px] mt-32"><curvechart :timeframe="campaignTimeframe" /></div>
             </div>
            
           </div>
@@ -592,10 +595,11 @@
 import { ref, computed } from 'vue' // FIX 1: Imported computed
 import curvechart from '../components/curvechart.vue'
 
+
 // --- Export Modal Logic ---
 const showExportModal = ref(false)
 const exporting = ref(false)
-
+const campaignTimeframe = ref('last7')
 function handleExport() {
   exporting.value = true
   setTimeout(() => {

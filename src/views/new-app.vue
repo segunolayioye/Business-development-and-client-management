@@ -80,20 +80,20 @@
               <div class="flex flex-col items-center">
                 <div
                   class="w-[28px] h-[28px] rounded-full flex items-center justify-center text-xs font-bold"
-                  :class="currentStep > index + 1 ? 'bg-[#22C55E] text-white' :
-                          currentStep === index + 1 ? 'bg-[#22C55E] text-white' :
+                  :class="currentStep > index + 1 ? 'bg-[#228B22] text-white' :
+                          currentStep === index + 1 ? 'bg-[#228B22] text-white' :
                           'bg-[#E5E7EB] text-[#A9A9A9]'"
                 >
                   {{ currentStep > index + 1 ? '✓' : index + 1 }}
                 </div>
                 <span class="text-[10px] mt-[4px]"
-                  :class="currentStep === index + 1 ? 'text-[#22C55E] font-semibold' : 'text-[#A9A9A9]'">
+                  :class="currentStep === index + 1 ? 'text-[#228B22] font-semibold' : 'text-[#A9A9A9]'">
                   {{ step.label }}
                 </span>
               </div>
               <!-- Line between steps -->
               <div v-if="index < steps.length - 1" class="flex-1 h-[3px] mx-[4px] mb-[16px]"
-                :class="currentStep > index + 1 ? 'bg-[#22C55E]' : 'bg-[#E5E7EB]'">
+                :class="currentStep > index + 1 ? 'bg-[#228B22]' : 'bg-[#E5E7EB]'">
               </div>
             </template>
 
@@ -177,11 +177,11 @@
               <div class="grid grid-cols-2 gap-[10px]">
                 <div v-for="goal in ['Wealth Growth', 'Wealth Growth', 'Wealth Growth', 'Wealth Growth']" :key="goal"
                   class="flex items-center gap-[10px] border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] cursor-pointer"
-                  :class="selectedGoal === goal ? 'border-[#22C55E] bg-[#F0FDF4]' : ''"
+                  :class="selectedGoal === goal ? 'border-[#228B22] bg-[#F0FDF4]' : ''"
                   @click="selectedGoal = goal">
                   <div class="w-[16px] h-[16px] rounded-full border-2 flex items-center justify-center flex-shrink-0"
-                    :class="selectedGoal === goal ? 'border-[#22C55E]' : 'border-[#D9D9D9]'">
-                    <div v-if="selectedGoal === goal" class="w-[8px] h-[8px] rounded-full bg-[#22C55E]"></div>
+                    :class="selectedGoal === goal ? 'border-[#228B22]' : 'border-[#D9D9D9]'">
+                    <div v-if="selectedGoal === goal" class="w-[8px] h-[8px] rounded-full bg-[#228B22]"></div>
                   </div>
                   <span class="text-sm text-[#0F151F]">{{ goal }}</span>
                 </div>
@@ -347,8 +347,8 @@
                 💾 Save & Resume Later
               </button>
               <button
-                @click="nextStep"
-                class="flex items-center gap-[6px] bg-[#22C55E] text-white px-[20px] py-[10px] rounded-[8px] text-sm font-medium"
+                @click="currentStep === 4 ? completeOnboarding() : nextStep()"
+                class="flex items-center gap-[6px] bg-[#228B22] text-white px-[20px] py-[10px] rounded-[8px] text-sm font-medium"
               >
                 {{ currentStep === 4 ? 'Complete Onboarding ✓' : 'Next Step →' }}
               </button>
@@ -363,6 +363,7 @@
 
 <script setup>
 import { ref } from 'vue'
+
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -405,5 +406,30 @@ function nextStep() {
 
 function prevStep() {
   if (currentStep.value > 1) currentStep.value--
+}
+
+import { useClientStore } from '../stores/clients'
+import { useRouter } from 'vue-router'
+
+const clientStore = useClientStore()
+const router = useRouter()
+
+
+
+function completeOnboarding() {
+  if (!clientName.value || !clientEmail.value) {
+    alert('Please fill in the required fields before completing onboarding.')
+    return
+  }
+
+  clientStore.addClient({
+    name: clientName.value,
+    email: clientEmail.value,
+    bvn: clientBvn.value,
+    goal: selectedGoal.value,
+    riskProfile: selectedRisk.value,
+  })
+
+  router.push('/retail')
 }
 </script>

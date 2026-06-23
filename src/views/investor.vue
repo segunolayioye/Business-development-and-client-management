@@ -122,8 +122,20 @@
                 <div class="flex justify-between items-center mb-[16px]">
                   <p class="font-semibold text-[16px] text-[#0F151F]">Campaign Performance</p>
                   <div class="flex items-center gap-[8px]">
-                    <button class="text-xs text-white bg-[#0F151F] px-[10px] py-[4px] rounded-[6px]">Monthly</button>
-                    <button class="text-xs text-[#A9A9A9] px-[10px] py-[4px] rounded-[6px] hover:bg-[#F5F5F5]">Quarterly</button>
+                    <button 
+                      @click="timeframe = 'monthly'"
+                      :class="timeframe === 'monthly' ? 'text-white bg-[#0F151F]' : 'text-[#A9A9A9] hover:bg-[#F5F5F5]'"
+                      class="text-xs px-[10px] py-[4px] rounded-[6px] transition-colors"
+                    >
+                      Monthly
+                    </button>
+                    <button 
+                      @click="timeframe = 'quarterly'"
+                      :class="timeframe === 'quarterly' ? 'text-white bg-[#0F151F]' : 'text-[#A9A9A9] hover:bg-[#F5F5F5]'"
+                      class="text-xs px-[10px] py-[4px] rounded-[6px] transition-colors"
+                    >
+                      Quarterly
+                    </button>
                   </div>
                 </div>
                 <div class="flex items-center gap-[16px] mb-[12px]">
@@ -137,7 +149,7 @@
                   </div>
                 </div>
                 <div class="w-full h-[180px]">
-                  <investorchart />
+                  <investorchart :timeframe="timeframe" />
                 </div>
               </div>
               <div class="bg-white rounded-[12px] p-[20px] w-[260px]">
@@ -523,11 +535,14 @@
 <script setup>
 import Doughnutchart from '../components/doughnutchart.vue'
 import investorchart from '../components/investorchart.vue'
+
 import { ref, computed } from 'vue'
 
 // --- MODAL STATES ---
 const showSessionModal = ref(false)
 const editingEvent = ref(null)
+const timeframe = ref('monthly')
+
 
 function openSessionModal() {
   editingEvent.value = null

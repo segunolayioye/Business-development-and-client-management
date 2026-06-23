@@ -88,11 +88,12 @@
             </button>
             <div class="flex gap-[8px] w-full md:w-auto mt-2 md:mt-0">
               <select class="flex-1 md:flex-none text-xs text-[#4B5054] border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-white">
+                <option>Last 2 days</option>
                 <option>Last 7 days</option>
                 <option>Last 30 days</option>
                 <option>Last 90 days</option>
               </select>
-              <button class="text-[#A9A9A9] border border-[#E5E7EB] p-[6px] rounded-[8px]">↻</button>
+              
             </div>
           </div>
         </div>
@@ -174,8 +175,20 @@
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-[16px]">
               <p class="font-semibold text-[16px] text-[#0F151F]">Campaign Performance</p>
               <div class="flex items-center gap-[8px]">
-                <button class="text-xs text-black bg-white px-[10px] py-[4px] rounded-[6px] border border-gray-100">Monthly</button>
-                <button class="text-xs text-black bg-[#F3F4F6] px-[10px] py-[4px] rounded-[6px] hover:bg-[#F5F5F5]">Quarterly</button>
+               <button 
+                  @click="timeframe = 'monthly'"
+                  :class="timeframe === 'monthly' ? 'text-black bg-[#F3F4F6] border border-gray-100 shadow-md' : 'text-black bg-white hover:bg-[#E5E7EB]'"
+                  class="text-xs px-[10px] py-[4px] rounded-[6px] transition-colors"
+                >
+                  Monthly
+                </button>
+                <button 
+                  @click="timeframe = 'quarterly'"
+                  :class="timeframe === 'quarterly' ? 'text-black bg-[#F3F4F6] border border-gray-100 shadow-md' : 'text-black bg-white hover:bg-[#E5E7EB]'"
+                  class="text-xs px-[10px] py-[4px] rounded-[6px] transition-colors"
+                >
+                  Quarterly
+                </button>
               </div>
             </div>
             <div class="flex items-center justify-center gap-[16px] mb-[12px]">
@@ -190,7 +203,7 @@
             </div>
             <div class="w-full h-[180px] rounded-[8px] flex items-center justify-center overflow-hidden">
               <div class="w-full h-[180px] mb-[4px]">
-                <supportchart />
+                <supportchart :timeframe="timeframe" />
               </div>
             </div>
           </div>
@@ -477,7 +490,7 @@ const paginatedTickets = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   return tickets.value.slice(start, start + itemsPerPage)
 })
-
+const timeframe = ref('monthly')
 const pageStart = computed(() => (currentPage.value - 1) * itemsPerPage + 1)
 const pageEnd = computed(() => Math.min(currentPage.value * itemsPerPage, tickets.value.length))
 
