@@ -308,9 +308,14 @@
                   <td class="py-[14px] pr-4">
                     <div :class="`w-[28px] h-[28px] rounded-full ${ticket.assigneeBg} flex items-center justify-center text-[10px] text-white font-bold`">SA</div>
                   </td>
-                  <td class="py-[14px]">
-                    <span class="text-[#A9A9A9] cursor-pointer text-lg">›</span>
-                  </td>
+                 <td class="py-[14px]">
+                    <button 
+                      @click="openTicketModal(ticket)" 
+                      class="text-[#A9A9A9] hover:text-[#0F151F] cursor-pointer text-xl font-medium transition-colors w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"
+                    >
+                      ›
+                    </button>
+                 </td>
                 </tr>
               </tbody>
             </table>
@@ -453,10 +458,88 @@
       </div>
     </div>
   </div>
+  <!-- Ticket Details Modal -->
+    <div 
+      v-if="isModalOpen" 
+      class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm transition-opacity"
+      @click.self="closeModal"
+    >
+      <div class="bg-white rounded-[16px] shadow-2xl w-full max-w-lg overflow-hidden transform transition-all flex flex-col">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100 bg-[#F4F0F0]">
+          <h3 class="text-lg font-bold text-[#0F151F]">Ticket {{ selectedTicket?.id }}</h3>
+          <button @click="closeModal" class="text-gray-400 hover:text-gray-800 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="px-6 py-6 space-y-4 flex-1">
+          <div class="grid grid-cols-3 gap-4 border-b border-gray-50 pb-3">
+             <div class="col-span-1 text-sm font-medium text-[#A9A9A9]">Client:</div>
+             <div class="col-span-2 text-sm font-semibold text-[#0F151F]">{{ selectedTicket?.client }}</div>
+          </div>
+          <div class="grid grid-cols-3 gap-4 border-b border-gray-50 pb-3">
+             <div class="col-span-1 text-sm font-medium text-[#A9A9A9]">Issue:</div>
+             <div class="col-span-2 text-sm font-semibold text-[#0F151F]">{{ selectedTicket?.subject }}</div>
+          </div>
+          <div class="grid grid-cols-3 gap-4 border-b border-gray-50 pb-3">
+             <div class="col-span-1 text-sm font-medium text-[#A9A9A9]">Details:</div>
+             <div class="col-span-2 text-sm text-[#4B5054]">{{ selectedTicket?.detail }}</div>
+          </div>
+          <div class="grid grid-cols-3 gap-4 border-b border-gray-50 pb-3 items-center">
+             <div class="col-span-1 text-sm font-medium text-[#A9A9A9]">Priority:</div>
+             <div class="col-span-2">
+               <span :class="`font-semibold ${selectedTicket?.priorityColor} text-[11px] px-[10px] py-[4px] rounded-full inline-flex w-fit`">
+                 {{ selectedTicket?.priority }}
+               </span>
+             </div>
+          </div>
+          <div class="grid grid-cols-3 gap-4 border-b border-gray-50 pb-3 items-center">
+             <div class="col-span-1 text-sm font-medium text-[#A9A9A9]">Status:</div>
+             <div class="col-span-2">
+               <span class="bg-[#E8F0FE] text-[#3B4FE0] font-semibold text-[11px] px-[10px] py-[4px] rounded-full">
+                 {{ selectedTicket?.status }}
+               </span>
+             </div>
+          </div>
+          <div class="grid grid-cols-3 gap-4 border-b border-gray-50 pb-3 items-center">
+             <div class="col-span-1 text-sm font-medium text-[#A9A9A9]">Assigned To:</div>
+             <div class="col-span-2 text-sm font-medium text-[#0F151F] flex items-center gap-2">
+               <div :class="`w-[24px] h-[24px] rounded-full ${selectedTicket?.assigneeBg} flex items-center justify-center text-[10px] text-white font-bold`">SA</div>
+               Sarah Adams
+             </div>
+          </div>
+          <div class="grid grid-cols-3 gap-4 items-center">
+             <div class="col-span-1 text-sm font-medium text-[#A9A9A9]">Time Left:</div>
+             <div class="col-span-2 text-sm font-bold" :class="selectedTicket?.notSla ? 'text-[#EF4444]' : selectedTicket?.slaTimeColor">
+               {{ selectedTicket?.notSla ? 'Not SLA' : selectedTicket?.slaTime }}
+             </div>
+          </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="px-6 py-4 bg-gray-50 flex flex-wrap items-center justify-end gap-3 border-t border-gray-200">
+          <button @click="closeModal" class="px-5 py-2 text-sm font-semibold text-[#4B5054] bg-white border border-[#E5E7EB] rounded-[8px] hover:bg-gray-50 transition-colors">
+            Close
+          </button>
+          <button @click="handleAction('Escalate')" class="px-5 py-2 text-sm font-semibold text-[#EF4444] bg-[#FEE2E2] rounded-[8px] hover:bg-red-200 transition-colors">
+            Escalate
+          </button>
+          <button @click="handleAction('Resolve Ticket')" class="px-5 py-2 text-sm font-semibold text-white bg-[#228B22] rounded-[8px] hover:bg-green-700 transition-colors shadow-sm">
+            Resolve Ticket
+          </button>
+        </div>
+
+      </div>
+    </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed} from 'vue'
 import gauge from '../components/gauge.vue'
 import supportchart from '../components/supportchart.vue'
 
@@ -539,4 +622,37 @@ onMounted(async () => {
     }, 3000)
   }
 })
+
+// Add these to your existing imports
+
+
+// Modal State Logic
+const isModalOpen = ref(false)
+const selectedTicket = ref(null)
+
+const openTicketModal = (ticket) => {
+  selectedTicket.value = ticket
+  isModalOpen.value = true
+  document.body.style.overflow = 'hidden' // Prevent background scrolling
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+  setTimeout(() => {
+    selectedTicket.value = null
+  }, 300) // Wait for transition to finish
+  document.body.style.overflow = 'auto'
+}
+
+// Action Handlers
+const handleAction = (actionType) => {
+  console.log(`${actionType} clicked for ticket:`, selectedTicket.value.id)
+  
+  if (actionType === 'Resolve Ticket') {
+    selectedTicket.value.status = 'Resolved'
+    // You would typically make an API call here
+  }
+  
+  closeModal()
+}
 </script>

@@ -364,26 +364,49 @@
   
           <!-- Pagination Footer -->
           <div class="flex justify-between items-center mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
-            <p class="text-xs text-black">
-              showing <span class="font-semibold">{{ showAllClients ? 1 : pageStart }}</span> to
-              <span class="font-semibold">{{ pageEnd }}</span> of
-              <span class="font-semibold">{{ allClients.length }}</span> results
+            <p class="text-xs text-gray-700">
+              Showing <span class="font-semibold text-[#0F151F]">{{ showAllClients ? 1 : pageStart }}</span> to
+              <span class="font-semibold text-[#0F151F]">{{ pageEnd }}</span> of
+              <span class="font-semibold text-[#0F151F]">{{ allClients.length }}</span> results
             </p>
             
-            <!-- Only show buttons if we aren't displaying the full list -->
-            <div v-if="!showAllClients" class="flex gap-[8px]">
+            <!-- Modern Pagination Buttons -->
+            <div v-if="!showAllClients" class="flex items-center gap-[4px]">
+              
+              <!-- Previous Arrow -->
               <button
                 @click="prevPage"
                 :disabled="currentPage === 1"
-                class="px-[14px] py-[8px] text-xs font-medium bg-[#F5F5F5] text-[#4B5054] rounded-[8px] disabled:opacity-40 hover:bg-[#E5E5E5] transition-colors"
-              >Previous</button>
+                class="flex items-center justify-center w-[32px] h-[32px] rounded-[8px] border border-[#E5E7EB] text-[#4B5054] disabled:opacity-40 hover:bg-[#F5F5F5] transition-colors"
+              >
+                <span class="text-lg leading-none mb-[2px]">‹</span>
+              </button>
+              
+              <!-- Individual Page Numbers -->
+              <button
+                v-for="page in totalPages"
+                :key="page"
+                @click="currentPage = page"
+                :class="currentPage === page ? 'bg-[#228B22] text-white border-[#228B22]' : 'border-[#E5E7EB] text-[#4B5054] hover:bg-[#F5F5F5]'"
+                class="flex items-center justify-center w-[32px] h-[32px] rounded-[8px] border text-xs font-semibold transition-colors"
+              >
+                {{ page }}
+              </button>
+              
+              <!-- Next Arrow -->
               <button
                 @click="nextPage"
                 :disabled="currentPage === totalPages"
-                class="px-[14px] py-[8px] text-xs font-medium bg-[#F5F5F5] text-[#4B5054] rounded-[8px] disabled:opacity-40 hover:bg-[#E5E5E5] transition-colors"
-              >Next</button>
+                class="flex items-center justify-center w-[32px] h-[32px] rounded-[8px] border border-[#E5E7EB] text-[#4B5054] disabled:opacity-40 hover:bg-[#F5F5F5] transition-colors"
+              >
+                <span class="text-lg leading-none mb-[2px]">›</span>
+              </button>
+
             </div>
           </div>
+
+          
+
 
           </div>
           </div>

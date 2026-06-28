@@ -122,7 +122,7 @@
             <div class="flex gap-[16px] mb-[16px]">
               <div class="flex-1">
                 <label class="text-xs font-medium text-[#0F151F] mb-[6px] block">Phone Number <span class="text-red-500">*</span></label>
-                <input type="text" placeholder="+123 456 789 0" class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#22C55E]"/>
+               <input v-model="clientPhone" type="text" placeholder="+123 456 789 0" class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#22C55E]"/>
               </div>
               <div class="flex-1">
                 <label class="text-xs font-medium text-[#0F151F] mb-[6px] block">BVN (Bank Verification Number) <span class="text-red-500">*</span></label>
@@ -133,15 +133,15 @@
             <div class="flex gap-[16px] mb-[16px]">
               <div class="flex-1">
                 <label class="text-xs font-medium text-[#0F151F] mb-[6px] block">ID Type <span class="text-red-500">*</span></label>
-                <select class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none bg-white">
+               <select v-model="clientIdType" class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none bg-white">
                   <option>National ID</option>
                   <option>Passport</option>
                   <option>Driver's License</option>
-                </select>
+               </select>
               </div>
               <div class="flex-1">
                 <label class="text-xs font-medium text-[#0F151F] mb-[6px] block">ID Number <span class="text-red-500">*</span></label>
-                <input type="text" placeholder="Enter ID number" class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#22C55E]"/>
+                <input v-model="clientIdNumber" type="text" placeholder="Enter ID number" class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none focus:border-[#22C55E]"/>
               </div>
             </div>
 
@@ -212,7 +212,7 @@
             <div class="flex gap-[16px]">
               <div class="flex-1">
                 <label class="text-xs font-medium text-[#0F151F] mb-[6px] block">Annual Income Level <span class="text-red-500">*</span></label>
-                <select class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none bg-white">
+                <select v-model="annualIncome" class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none bg-white">
                   <option>Select Income Range</option>
                   <option>Below ₦500k</option>
                   <option>₦500k - ₦2M</option>
@@ -221,7 +221,7 @@
               </div>
               <div class="flex-1">
                 <label class="text-xs font-medium text-[#0F151F] mb-[6px] block">Investment Experience <span class="text-red-500">*</span></label>
-                <select class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none bg-white">
+                <select v-model="investmentExperience" class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none bg-white">
                   <option>Select experience level</option>
                   <option>Beginner</option>
                   <option>Intermediate</option>
@@ -306,7 +306,7 @@
             <!-- Account Type -->
             <div class="mb-[16px]">
               <label class="text-xs font-medium text-[#0F151F] mb-[6px] block">Account Type <span class="text-red-500">*</span></label>
-              <select class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none bg-white">
+              <select v-model="accountType" class="w-full border border-[#E5E7EB] rounded-[8px] px-[14px] py-[10px] text-sm outline-none bg-white">
                 <option>Individual Account</option>
                 <option>Joint Account</option>
                 <option>Corporate Account</option>
@@ -365,6 +365,13 @@
 import { ref } from 'vue'
 
 import { useRoute } from 'vue-router'
+
+const clientPhone = ref('')
+const clientIdType = ref('National ID')
+const clientIdNumber = ref('')
+const annualIncome = ref('')
+const investmentExperience = ref('')
+const accountType = ref('Individual Account')
 
 const route = useRoute()
 
@@ -425,9 +432,15 @@ function completeOnboarding() {
   clientStore.addClient({
     name: clientName.value,
     email: clientEmail.value,
+    phone: clientPhone.value,
     bvn: clientBvn.value,
+    idType: clientIdType.value,
+    idNumber: clientIdNumber.value,
     goal: selectedGoal.value,
     riskProfile: selectedRisk.value,
+    annualIncome: annualIncome.value,
+    investmentExperience: investmentExperience.value,
+    accountType: accountType.value,
   })
 
   router.push('/retail')

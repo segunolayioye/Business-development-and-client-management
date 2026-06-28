@@ -92,48 +92,72 @@
           <div class="grid grid-cols-2 gap-[16px] mb-[20px]">
 
             <!-- Contact Info -->
-            <div class="bg-white rounded-[12px] p-[20px]">
-              <p class="font-semibold text-[16px] text-[#0F151F] mb-[16px]">Contact Information</p>
-              <div class="flex flex-col gap-[12px]">
-                <div>
-                  <p class="text-[10px] text-[#A9A9A9] uppercase">Email Address</p>
-                  <p class="text-sm text-[#0F151F]">{{ client.email || 'Not provided' }}</p>
-                </div>
-                <div>
-                  <p class="text-[10px] text-[#A9A9A9] uppercase">BVN</p>
-                  <p class="text-sm text-[#0F151F]">{{ client.bvn || 'Not provided' }}</p>
-                </div>
-                <div>
-                  <p class="text-[10px] text-[#A9A9A9] uppercase">Last Activity</p>
-                  <p class="text-sm text-[#0F151F]">{{ client.lastActivity }}</p>
-                </div>
+          
+          <div class="bg-white rounded-[12px] p-[20px]">
+            <p class="font-semibold text-[16px] text-[#0F151F] mb-[16px]">Contact Information</p>
+            <div class="flex flex-col gap-[12px]">
+              <div>
+                <p class="text-[10px] text-[#A9A9A9] uppercase">Email Address</p>
+                <p class="text-sm text-[#0F151F]">{{ client.email || 'Not provided' }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-[#A9A9A9] uppercase">Phone Number</p>
+                <p class="text-sm text-[#0F151F]">{{ client.phone || 'Not provided' }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-[#A9A9A9] uppercase">BVN</p>
+                <p class="text-sm text-[#0F151F]">{{ client.bvn || 'Not provided' }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-[#A9A9A9] uppercase">ID Type</p>
+                <p class="text-sm text-[#0F151F]">{{ client.idType || 'Not provided' }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-[#A9A9A9] uppercase">ID Number</p>
+                <p class="text-sm text-[#0F151F]">{{ client.idNumber || 'Not provided' }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-[#A9A9A9] uppercase">Last Activity</p>
+                <p class="text-sm text-[#0F151F]">{{ client.lastActivity }}</p>
               </div>
             </div>
+          </div>
 
-            <!-- Investment Profile -->
-            <div class="bg-white rounded-[12px] p-[20px]">
-              <p class="font-semibold text-[16px] text-[#0F151F] mb-[16px]">Investment Profile</p>
-              <div class="flex flex-col gap-[12px]">
-                <div>
-                  <p class="text-[10px] text-[#A9A9A9] uppercase">Assets Under Management</p>
-                  <p class="text-sm font-semibold text-[#0F151F]">{{ client.aum }}</p>
-                </div>
-                <div>
-                  <p class="text-[10px] text-[#A9A9A9] uppercase">Risk Profile</p>
-                  <div class="flex items-center gap-2 mt-1">
-                    <div v-if="client.riskProfile !== 'Not profiled'" class="h-[5px] w-[60px] rounded-full bg-[#D9D9D9]">
-                      <div class="h-full rounded-full" :class="client.riskColor" :style="{ width: client.riskWidth }"></div>
-                    </div>
-                    <p class="text-sm text-[#0F151F]">{{ client.riskProfile }}</p>
+          <!-- Investment Profile -->
+          <div class="bg-white rounded-[12px] p-[20px]">
+            <p class="font-semibold text-[16px] text-[#0F151F] mb-[16px]">Investment Profile</p>
+            <div class="flex flex-col gap-[12px]">
+              <div>
+                <p class="text-[10px] text-[#A9A9A9] uppercase">Assets Under Management</p>
+                <p class="text-sm font-semibold text-[#0F151F]">{{ client.aum }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-[#A9A9A9] uppercase">Risk Profile</p>
+                <div class="flex items-center gap-2 mt-1">
+                  <div v-if="client.riskProfile !== 'Not profiled'" class="h-[5px] w-[60px] rounded-full bg-[#D9D9D9]">
+                    <div class="h-full rounded-full" :class="client.riskColor" :style="{ width: client.riskWidth }"></div>
                   </div>
-                </div>
-                <div>
-                  <p class="text-[10px] text-[#A9A9A9] uppercase">Investment Goal</p>
-                  <p class="text-sm text-[#0F151F]">{{ client.goal || 'Not set' }}</p>
+                  <p class="text-sm text-[#0F151F]">{{ client.riskProfile }}</p>
                 </div>
               </div>
+              <div>
+                <p class="text-[10px] text-[#A9A9A9] uppercase">Investment Goal</p>
+                <p class="text-sm text-[#0F151F]">{{ client.goal || 'Not set' }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-[#A9A9A9] uppercase">Annual Income</p>
+                <p class="text-sm text-[#0F151F]">{{ client.annualIncome || 'Not provided' }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-[#A9A9A9] uppercase">Investment Experience</p>
+                <p class="text-sm text-[#0F151F]">{{ client.investmentExperience || 'Not provided' }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-[#A9A9A9] uppercase">Account Type</p>
+                <p class="text-sm text-[#0F151F]">{{ client.accountType || 'Not provided' }}</p>
+              </div>
             </div>
-
+          </div>
           </div>
 
           <!-- Activity / Notes placeholder -->

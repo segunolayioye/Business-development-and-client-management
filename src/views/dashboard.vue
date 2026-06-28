@@ -1,77 +1,3 @@
-<script setup>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-// Smooth scroll
-const quickActionsRef = ref(null)
-const scrollToQuickActions = () => {
-  if (quickActionsRef.value) {
-    quickActionsRef.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-}
-
-// Active tab
-const activeTab = ref('View All')
-
-// Client Data
-const clients = ref([
-  { id: '0001', name: 'John Doe', initials: 'JD', status: 'Active', aum: 24000, aumFormatted: '$24,000', riskLabel: 'Mod', riskWidth: '60%', riskBg: 'bg-orange-400', time: '2 mins ago' },
-  { id: '0002', name: 'John Doe', initials: 'JD', status: 'Pending KYC', aum: 24000, aumFormatted: '$24,000', riskLabel: 'Not set', riskWidth: '0%', riskBg: '', time: '2 mins ago' },
-  { id: '0003', name: 'John Doe', initials: 'JD', status: 'Active', aum: 150000, aumFormatted: '$150,000', riskLabel: 'Aggres', riskWidth: '100%', riskBg: 'bg-red-500', time: '2 mins ago' },
-  { id: '0004', name: 'John Doe', initials: 'JD', status: 'Active', aum: 85000, aumFormatted: '$85,000', riskLabel: 'Mod', riskWidth: '60%', riskBg: 'bg-orange-400', time: '2 mins ago' },
-  { id: '0005', name: 'John Doe', initials: 'JD', status: 'Active', aum: 24000, aumFormatted: '$24,000', riskLabel: 'Cons', riskWidth: '30%', riskBg: 'bg-green-500', time: '1 day ago' },
-])
-
-// Filter Logic
-const filteredClients = computed(() => {
-  if (activeTab.value === 'Pending KYC') return clients.value.filter(c => c.status === 'Pending KYC')
-  if (activeTab.value === 'High Value') return clients.value.filter(c => c.aum >= 50000)
-  return clients.value
-})
-
-// ── QUICK ONBOARD FORM ────────────────────────────────────
-// These are the 3 buckets that store what the user types
-const clientName = ref('')
-const clientEmail = ref('')
-const clientBvn = ref('')
-const formError = ref('')
-
-function continueToProfile() {
-  // Check if all fields are filled
-  if (!clientName.value || !clientEmail.value || !clientBvn.value) {
-    formError.value = 'Please fill in all fields before continuing.'
-    return
-  }
-
-  // Clear any error
-  formError.value = ''
-
-  // Navigate to new-app and carry the data in the URL
-  router.push({
-    path: '/new-app',
-    query: {
-      name: clientName.value,
-      email: clientEmail.value,
-      bvn: clientBvn.value
-    }
-  })
-}
-
-// ── EXPORT ────────────────────────────────────────────────
-const showModal = ref(false)
-const exporting = ref(false)
-
-function handleExport() {
-  exporting.value = true
-  setTimeout(() => {
-    exporting.value = false
-    showModal.value = true
-  }, 1500)
-}
-</script>
-
 <template>
   <div class="flex h-screen w-full bg-[#F4F0F0] overflow-hidden">
 
@@ -124,8 +50,6 @@ function handleExport() {
             <span class="text-sm font-medium text-gray-800">Jane Peters</span>
             <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]" alt="dropdown"/>
           </div>
-          <!-- ADDED @click HERE -->
-          
         </div>
       </nav>
 
@@ -140,6 +64,7 @@ function handleExport() {
           </div>
           <div class="flex gap-4">
            <select class="w-[140px] h-[40px] px-3 text-sm font-semibold text-[#4B5054] bg-white border border-[#E5E5E5] rounded-lg outline-none cursor-pointer">
+              <option>Today</option>
               <option>This Week</option>
               <option>This Month</option>
               <option>Last Month</option>
@@ -311,7 +236,6 @@ function handleExport() {
         </div>
 
         <!-- Quick Actions -->
-        <!-- ADDED ref="quickActionsRef" HERE -->
         <div ref="quickActionsRef" class="mb-6 p-6 bg-white rounded-xl">
           <p class="font-semibold text-sm mb-4">Quick Actions</p>
           <div class="flex gap-4">
@@ -369,135 +293,158 @@ function handleExport() {
                 <div class="h-1 bg-[#FD4F00] rounded-full w-[30%]"></div>
               </div>
              <div class="flex flex-col gap-4">
-  <div>
-    <label class="text-xs font-medium text-[#000000] mb-1 block">Client Name</label>
-    <input 
-      v-model="clientName"
-      type="text" 
-      placeholder="Full Legal Name" 
-      class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00]"
-    />
-  </div>
-  <div>
-    <label class="text-xs font-medium text-[#000000] mb-1 block">Email Address</label>
-    <input 
-      v-model="clientEmail"
-      type="email" 
-      placeholder="client@gmail.com" 
-      class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00]"
-    />
-  </div>
-  <div>
-    <label class="text-xs font-medium text-[#000000] mb-1 block">ID Number (BVN/NIN)</label>
-    <div class="relative">
-      <input 
-        v-model="clientBvn"
-        type="text" 
-        placeholder="Enter ID Number" 
-        class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00] pr-8"
-      />
-      <span class="absolute right-3 top-1/2 -translate-y-1/2">
-        <img src="../assets/orange-check.svg" class="w-[20px] h-[20px]" alt="orange-check"/>
-      </span>
-    </div>
-    <p class="text-xs text-[#FD4F00] mt-3 font-semibold flex items-center gap-[4px]">
-      <img src="../assets/shield.svg" alt=""/> Real-time validation active
-    </p>
-  </div>
-</div>
+              <div>
+                <label class="text-xs font-medium text-[#000000] mb-1 block">Client Name</label>
+                <input 
+                  v-model="clientName"
+                  type="text" 
+                  placeholder="Full Legal Name" 
+                  class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00]"
+                />
+              </div>
+              <div>
+                <label class="text-xs font-medium text-[#000000] mb-1 block">Email Address</label>
+                <input 
+                  v-model="clientEmail"
+                  type="email" 
+                  placeholder="client@gmail.com" 
+                  class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00]"
+                />
+              </div>
+              <div>
+                <label class="text-xs font-medium text-[#000000] mb-1 block">ID Number (BVN/NIN)</label>
+                <div class="relative">
+                  <input 
+                    v-model="clientBvn"
+                    type="text" 
+                    placeholder="Enter ID Number" 
+                    class="w-full border border-[#C4C4C4] rounded-lg px-3 py-2 text-sm outline-none focus:border-[#FD4F00] pr-8"
+                  />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2">
+                    <img src="../assets/orange-check.svg" class="w-[20px] h-[20px]" alt="orange-check"/>
+                  </span>
+                </div>
+                <p class="text-xs text-[#FD4F00] mt-3 font-semibold flex items-center gap-[4px]">
+                  <img src="../assets/shield.svg" alt=""/> Real-time validation active
+                </p>
+              </div>
+            </div>
 
-<!-- Error message - only shows if fields are empty -->
-<p v-if="formError" class="text-xs text-red-500 mt-2">{{ formError }}</p>
+            <!-- Error message - only shows if fields are empty -->
+            <p v-if="formError" class="text-xs text-red-500 mt-2">{{ formError }}</p>
 
-<!-- Button now calls continueToProfile instead of router-link -->
-<button 
-  @click="continueToProfile"
-  class="w-full h-[45px] bg-[#FD4F00] text-white rounded-xl py-3 text-sm font-medium mt-6"
->
-  Continue to Profiling
-</button>
+            <!-- Button now calls continueToProfile instead of router-link -->
+            <button 
+              @click="continueToProfile"
+              class="w-full h-[45px] bg-[#FD4F00] text-white rounded-xl py-3 text-sm font-medium mt-6"
+            >
+              Continue to Profiling
+            </button>
             </div>
 
             <!-- Client Lists -->
             <div class="flex-1 bg-white rounded-xl p-6">
-              <div class="flex justify-between items-center mb-6">
-                <p class="font-semibold text-lg text-[#000000]">Client Lists</p>
+              
+              <!-- Header & Tabs -->
+              <div class="flex justify-between items-center mb-4">
+                <p class="font-bold text-lg text-[#0F151F]">Client Lists</p>
                 
-                <!-- FILTER TABS: Bind active state styling -->
+                <!-- FILTER TABS: Pill-shaped, matching the screenshot -->
                 <div class="flex gap-2">
+                  <router-link to="/retail">
+                  <button 
+                    class="text-[11px] font-semibold px-4 py-1.5 rounded-full transition-colors text-white bg-[#FD4F00] hover:text-[#4B5054]"
+                  >View all</button>
+                  </router-link>
                   <button 
                     @click="activeTab = 'Pending KYC'"
-                    :class="activeTab === 'Pending KYC' ? 'text-[#FD4F00] bg-[#FD4F0033]' : 'text-[#4B5054] bg-[#F5F5F5]'"
-                    class="text-xs px-3 py-1 rounded-lg transition-colors"
+                    :class="activeTab === 'Pending KYC' ? 'text-[#FD4F00] bg-[#FFF0EB]' : 'text-[#A9A9A9] bg-[#F5F5F5] hover:text-[#4B5054]'"
+                    class="text-[11px] font-semibold px-4 py-1.5 rounded-full transition-colors"
                   >Pending KYC</button>
                   
                   <button 
                     @click="activeTab = 'High Value'"
-                    :class="activeTab === 'High Value' ? 'text-[#FD4F00] bg-[#FD4F0033]' : 'text-[#4B5054] bg-[#F5F5F5]'"
-                    class="text-xs px-3 py-1 rounded-lg transition-colors"
+                    :class="activeTab === 'High Value' ? 'text-[#FD4F00] bg-[#FFF0EB]' : 'text-[#A9A9A9] bg-[#F5F5F5] hover:text-[#4B5054]'"
+                    class="text-[11px] font-semibold px-4 py-1.5 rounded-full transition-colors"
                   >High Value</button>
                   
                   <button 
-                    @click="activeTab = 'View All'"
-                    :class="activeTab === 'View All' ? 'text-[#FD4F00] bg-[#FD4F0033]' : 'text-[#4B5054] bg-[#F5F5F5]'"
-                    class="text-xs px-3 py-1 rounded-lg transition-colors"
-                  >View All</button>
+                    @click="activeTab = 'Clients'"
+                    :class="activeTab === 'Clients' ? 'text-[#FD4F00] bg-[#FFF0EB]' : 'text-[#A9A9A9] bg-[#F5F5F5] hover:text-[#4B5054]'"
+                    class="text-[11px] font-semibold px-4 py-1.5 rounded-full transition-colors"
+                  >Clients</button>
                 </div>
               </div>
 
-              <!-- List Headers -->
-              <div class="grid grid-cols-6 text-[#000000] text-sm pb-3 border-b border-gray-100 px-2">
-                <span class="col-span-2">CLIENT NAME</span>
+              <!-- List Headers (Solid gray background, exact spacing) -->
+              <div class="grid grid-cols-[2fr_1fr_1fr_1.5fr_1fr_50px] gap-4 bg-[#F9F9F9] text-[#4B5054] text-[12px] font-semibold uppercase tracking-wider px-4 py-3 rounded-t-xl border-b border-[#E5E7EB]">
+                <span>CLIENT NAME</span>
                 <span>STATUS</span>
                 <span>AUM</span>
                 <span>RISK PROFILE</span>
                 <span>LAST ACTIVITY</span>
+                <span class="text-right">ACTION</span>
               </div>
 
-              <!-- List Items: Loop through filteredClients -->
+              <!-- List Items: Loop through filteredClients (max 5) -->
               <div class="flex flex-col">
                 <div 
                   v-for="client in filteredClients" 
                   :key="client.id" 
-                  class="grid grid-cols-6 items-center py-3 border-b border-gray-50 px-2 hover:bg-gray-50 rounded-lg transition-colors"
+                  class="grid grid-cols-[2fr_1fr_1fr_1.5fr_1fr_50px] gap-4 items-center py-4 px-4 border-b border-[#F5F5F5] hover:bg-gray-50 transition-colors"
                 >
-                  <div class="col-span-2 flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium flex-shrink-0">{{ client.initials }}</div>
-                    <div>
-                      <p class="text-sm font-medium">{{ client.name }}</p>
-                      <p class="text-xs text-gray-400">ID: #{{ client.id }}</p>
+                  
+                  <!-- CLIENT NAME -->
+                  <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-9 h-9 rounded-full bg-[#E5E7EB] flex items-center justify-center text-xs font-semibold text-[#4B5054] flex-shrink-0">{{ client.initials }}</div>
+                    <div class="min-w-0 flex-1">
+                      <p class="text-sm font-semibold text-[#0F151F] truncate">{{ client.name }}</p>
+                      <p class="text-[11px] text-[#A9A9A9] truncate">ID: #{{ client.id }}</p>
                     </div>
                   </div>
                   
-                  <!-- Dynamic Status Pill -->
-                  <span 
-                    class="text-xs px-2 py-1 rounded-full w-fit whitespace-nowrap"
-                    :class="client.status === 'Active' ? 'text-green-600 bg-green-50' : 'text-orange-600 bg-orange-50'"
-                  >{{ client.status }}</span>
+                  <!-- STATUS -->
+                  <div class="min-w-0">
+                    <span 
+                      class="text-[11px] px-1 py-1 rounded-[8px] whitespace-nowrap inline-block text-center font-medium"
+                      :class="client.status === 'Active' ? 'text-[#22C55E] bg-[#DCFCE7]' : (client.status === 'Draft' ? 'text-[#4B5054] bg-[#F5F5F5]' : 'text-[#FD4F00] bg-[#FFF0EB]')"
+                    >{{ client.status }}</span>
+                  </div>
                   
-                  <span class="text-sm">{{ client.aumFormatted }}</span>
+                  <!-- AUM -->
+                  <div class="min-w-0">
+                    <span class="text-sm font-semibold text-[#0F151F] truncate block">{{ client.aumFormatted }}</span>
+                  </div>
                   
-                  <!-- Dynamic Risk Progress Bar -->
-                  <div class="flex items-center gap-2">
-                    <template v-if="client.riskLabel !== 'Not set'">
-                      <div class="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                  <!-- RISK PROFILE -->
+                  <div class="flex items-center gap-2 min-w-0">
+                    <template v-if="client.riskLabel !== 'Not set' && client.riskLabel !== 'Not profiled'">
+                      <div class="w-10 sm:w-12 h-1.5 bg-gray-200 rounded-full overflow-hidden flex-shrink-0">
                         <div class="h-full rounded-full" :class="client.riskBg" :style="{ width: client.riskWidth }"></div>
                       </div>
-                      <span class="text-xs text-gray-500">{{ client.riskLabel }}</span>
+                      <span class="text-xs text-[#A9A9A9] truncate">{{ client.riskLabel }}</span>
                     </template>
                     <template v-else>
-                      <span class="text-xs text-gray-400">Not set</span>
+                      <span class="text-xs text-[#A9A9A9] truncate">Not set</span>
                     </template>
                   </div>
                   
-                  <div class="flex items-center justify-between">
-                    <span class="text-xs text-gray-400">{{ client.time }}</span>
-                    <span class="text-gray-300 cursor-pointer">›</span>
+                  <!-- LAST ACTIVITY -->
+                  <div class="min-w-0">
+                    <span class="text-xs text-[#A9A9A9] truncate block">{{ client.time }}</span>
                   </div>
+
+                  <!-- ACTION ARROW -->
+                  <div class="text-right flex justify-end">
+                    <span 
+                      @click="goToProfile(client.id)"
+                      class="text-[#A9A9A9] text-lg cursor-pointer hover:text-[#0F151F] font-bold">›</span>
+                  </div>
+
                 </div>
 
                 <!-- Empty State Check -->
-                <div v-if="filteredClients.length === 0" class="py-6 text-center text-sm text-gray-500">
+                <div v-if="filteredClients.length === 0" class="py-6 text-center text-sm text-[#A9A9A9]">
                   No clients found for this filter.
                 </div>
               </div>
@@ -539,28 +486,128 @@ function handleExport() {
         </div>
       </main>
     </div>
+    
     <Transition name="modal">
-  <div 
-    v-if="showModal"
-    class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
-    @click.self="showModal = false"
-  >
-    <div class="bg-white rounded-2xl p-10 w-[420px] flex flex-col items-center gap-4 shadow-xl">
-      <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
-        <span class="text-green-500 text-4xl font-bold">✓</span>
-      </div>
-      <h2 class="text-xl font-bold text-gray-900 mt-2">Report Exported!</h2>
-      <p class="text-sm text-gray-500 text-center">
-        Your dashboard report has been successfully exported and is ready to download.
-      </p>
-      <button 
-        @click="showModal = false"
-        class="w-full bg-[#FD4F00] text-white py-3 rounded-xl font-semibold text-sm mt-2"
+      <div 
+        v-if="showModal"
+        class="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm bg-black/30"
+        @click.self="showModal = false"
       >
-        Back to Dashboard
-      </button>
-    </div>
-  </div>
-</Transition>
+        <div class="bg-white rounded-2xl p-10 w-[420px] flex flex-col items-center gap-4 shadow-xl">
+          <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+            <span class="text-green-500 text-4xl font-bold">✓</span>
+          </div>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">Report Exported!</h2>
+          <p class="text-sm text-gray-500 text-center">
+            Your dashboard report has been successfully exported and is ready to download.
+          </p>
+          <button 
+            @click="showModal = false"
+            class="w-full bg-[#FD4F00] text-white py-3 rounded-xl font-semibold text-sm mt-2"
+          >
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
+
+<script setup>
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+// Change this line to match exactly what your file is named in the stores folder!
+// If your file is named "clients.js", use '../stores/clients'
+import { useClientStore } from '../stores/clients' 
+
+const router = useRouter()
+const clientStore = useClientStore() 
+
+// Smooth scroll
+const quickActionsRef = ref(null)
+const scrollToQuickActions = () => {
+  if (quickActionsRef.value) {
+    quickActionsRef.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
+
+// Active tab
+const activeTab = ref('View All')
+
+// GET DATA FROM PINIA AND FORMAT IT FOR THE DASHBOARD
+const formattedClients = computed(() => {
+  return clientStore.clients.map(client => {
+    // Automatically generate initials (e.g., "Sarah Akpola" -> "SA")
+    const nameParts = client.name ? client.name.split(' ') : ['U', 'N']
+    const initials = nameParts.length > 1 
+      ? (nameParts[0][0] + nameParts[1][0]).toUpperCase() 
+      : (nameParts[0][0] || 'U').toUpperCase()
+
+    return {
+      ...client,
+      initials: initials,
+      aumFormatted: client.aum, 
+      riskLabel: client.riskProfile,
+      riskBg: client.riskColor,
+      time: client.lastActivity
+    }
+  })
+})
+
+// Filter Logic & Slice to max 5 items!
+const filteredClients = computed(() => {
+  let result = formattedClients.value
+  
+  if (activeTab.value === 'Pending KYC') {
+    result = result.filter(c => c.status === 'Pending KYC')
+  } else if (activeTab.value === 'High Value') {
+    result = result.filter(c => {
+      if (!c.aum || c.aum === '...') return false
+      const numericAum = parseInt(String(c.aum).replace(/\D/g, ''))
+      return numericAum >= 50000
+    })
+  }
+  
+  // Return only the first 5 clients to keep the dashboard summarized
+  return result.slice(0, 5)
+})
+
+// ── QUICK ONBOARD FORM ────────────────────────────────────
+const clientName = ref('')
+const clientEmail = ref('')
+const clientBvn = ref('')
+const formError = ref('')
+
+function continueToProfile() {
+  if (!clientName.value || !clientEmail.value || !clientBvn.value) {
+    formError.value = 'Please fill in all fields before continuing.'
+    return
+  }
+  formError.value = ''
+  router.push({
+    path: '/new-app',
+    query: {
+      name: clientName.value,
+      email: clientEmail.value,
+      bvn: clientBvn.value
+    }
+  })
+}
+
+// ── EXPORT ────────────────────────────────────────────────
+const showModal = ref(false)
+const exporting = ref(false)
+
+function handleExport() {
+  exporting.value = true
+  setTimeout(() => {
+    exporting.value = false
+    showModal.value = true
+  }, 1500)
+}
+
+function goToProfile(clientId) {
+  router.push(`/client/${clientId}`)
+}
+</script>
