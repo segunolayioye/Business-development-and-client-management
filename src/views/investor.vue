@@ -295,7 +295,7 @@
             </div>
      <div 
         id="client Assignments"
-        :class="highlightedSection === 'client Assignments' ? 'ring-2 ring-[#FD4F00] bg-[#FFF0EB]' : ''"
+        
         class="transition-all duration-500 rounded-lg">
           <div class="bg-white rounded-[12px] p-[20px] mb-[32px] ">
   <div class="flex justify-between items-center mb-[16px]">
