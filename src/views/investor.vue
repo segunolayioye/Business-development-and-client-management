@@ -363,48 +363,59 @@
 
   
           <!-- Pagination Footer -->
-          <div class="flex justify-between items-center mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
-            <p class="text-xs text-gray-700">
-              Showing <span class="font-semibold text-[#0F151F]">{{ showAllClients ? 1 : pageStart }}</span> to
-              <span class="font-semibold text-[#0F151F]">{{ pageEnd }}</span> of
-              <span class="font-semibold text-[#0F151F]">{{ allClients.length }}</span> results
-            </p>
-            
-            <!-- Modern Pagination Buttons -->
-            <div v-if="!showAllClients" class="flex items-center gap-[4px]">
-              
-              <!-- Previous Arrow -->
-              <button
-                @click="prevPage"
-                :disabled="currentPage === 1"
-                class="flex items-center justify-center w-[32px] h-[32px] rounded-[8px] border border-[#E5E7EB] text-[#4B5054] disabled:opacity-40 hover:bg-[#F5F5F5] transition-colors"
-              >
-                <span class="text-lg leading-none mb-[2px]">‹</span>
-              </button>
-              
-              <!-- Individual Page Numbers -->
-              <button
-                v-for="page in totalPages"
-                :key="page"
-                @click="currentPage = page"
-                :class="currentPage === page ? 'bg-[#228B22] text-white border-[#228B22]' : 'border-[#E5E7EB] text-[#4B5054] hover:bg-[#F5F5F5]'"
-                class="flex items-center justify-center w-[32px] h-[32px] rounded-[8px] border text-xs font-semibold transition-colors"
-              >
-                {{ page }}
-              </button>
-              
-              <!-- Next Arrow -->
-              <button
-                @click="nextPage"
-                :disabled="currentPage === totalPages"
-                class="flex items-center justify-center w-[32px] h-[32px] rounded-[8px] border border-[#E5E7EB] text-[#4B5054] disabled:opacity-40 hover:bg-[#F5F5F5] transition-colors"
-              >
-                <span class="text-lg leading-none mb-[2px]">›</span>
-              </button>
+         <!-- Pagination Footer -->
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
+  
+  <!-- Left Side: Button-like Range Indicator -->
+  <div class="inline-flex items-center justify-center px-[12px] py-[6px] border border-[#E5E7EB] bg-white rounded-[6px] shadow-sm text-[13px] font-semibold text-[#4B5054]">
+    {{ showAllClients ? 1 : pageStart }} - {{ pageEnd }}
+  </div>
+  
+  <!-- Right Side: Numbered Pagination + Icons -->
+  <div v-if="!showAllClients" class="flex items-center gap-[4px]">
+    
+    <!-- Previous Button -->
+    <button
+      @click="prevPage"
+      :disabled="currentPage === 1"
+      class="inline-flex items-center justify-center w-[32px] h-[32px] rounded-[6px] border border-[#E5E7EB] text-[#4B5054] bg-white hover:bg-[#F5F5F5] shadow-sm disabled:opacity-40 disabled:shadow-none disabled:cursor-not-allowed transition-colors"
+      aria-label="Previous page"
+    >
+      <svg class="w-[16px] h-[16px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </button>
 
-            </div>
-          </div>
+    <!-- Page Numbers -->
+    <div class="hidden sm:flex items-center gap-[4px]">
+      <button
+        v-for="page in totalPages"
+        :key="page"
+        @click="currentPage = page"
+        :class="[
+          'inline-flex items-center justify-center w-[32px] h-[32px] rounded-[6px] text-[13px] font-semibold transition-all border',
+          currentPage === page 
+            ? 'bg-[#228B22] text-white border-[#228B22] shadow-sm' 
+            : 'bg-white border-[#E5E7EB] text-[#4B5054] hover:bg-[#F5F5F5] shadow-sm'
+        ]"
+      >
+        {{ page }}
+      </button>
+    </div>
 
+    <!-- Next Button -->
+    <button
+      @click="nextPage"
+      :disabled="currentPage === totalPages"
+      class="inline-flex items-center justify-center w-[32px] h-[32px] rounded-[6px] border border-[#E5E7EB] text-[#4B5054] bg-white hover:bg-[#F5F5F5] shadow-sm disabled:opacity-40 disabled:shadow-none disabled:cursor-not-allowed transition-colors"
+      aria-label="Next page"
+    >
+      <svg class="w-[16px] h-[16px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </button>
+  </div>
+</div>
           
 
 
@@ -545,9 +556,7 @@
         <button @click="closeContentModal" class="border border-[#E5E7EB] text-[#4B5054] px-[20px] py-[10px] rounded-[8px] text-sm font-medium hover:bg-gray-50 transition-colors">
           Close
         </button>
-        <button class="bg-[#22C55E] text-white px-[20px] py-[10px] rounded-[8px] text-sm font-medium hover:bg-[#16a34a] transition-colors flex items-center gap-2">
-          Start {{ selectedContent.format }}
-        </button>
+        
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@
   <div class="flex h-screen w-full bg-[#F4F0F0] overflow-hidden">
 
     <!-- Sidebar -->
-     <aside class="bg-[#0F151F] text-white w-[253px] h-screen fixed top-0 left-0 p-6 z-20 flex-shrink-0">
+     <aside class="hidden md:flex bg-[#0F151F] flex-col text-white w-[253px] h-screen fixed top-0 left-0 p-6 z-20 flex-shrink-0">
       <div class="flex flex-col gap-[45px] mt-[65px]">
         <router-link to="/" class="flex gap-[10px] text-white hover:text-[#FD4F00]  bg-[#1E2736] px-[10px] py-[8px] rounded-[8px]">
           <img src="../assets/dashboard.svg" class="w-[18px] h-[18px] mt-[4px]"/>
@@ -35,11 +35,11 @@
     </aside>
 
     <!-- Right Area -->
-    <div class="flex flex-col flex-1 ml-[253px] h-screen overflow-hidden">
+    <div class="flex flex-col flex-1 ml:0 md:ml-[253px] h-screen overflow-hidden">
 
       <!-- Navbar -->
-      <nav class="h-[95px] w-full bg-white shadow-md flex items-center justify-between px-[29px] flex-shrink-0">
-        <button class="bg-[#F5F5F5] rounded-[8px] w-[430px] h-[34px] py-[5px] px-[8px] flex items-center gap-[10px] text-[#A9A9A9]">
+      <nav class="h-[95px] w-full bg-white shadow-md flex items-center justify-between px-[29px] flex-col md:flex-row flex-shrink-0">
+        <button class="bg-[#F5F5F5] rounded-[8px]  w-full md:w-[430px] h-[34px] py-[5px] px-[8px] flex items-center gap-[10px] text-[#A9A9A9]">
           <img src="../assets/search-icon.svg" class="w-[24px] h-[24px]" alt="search icon"/>
           Search clients, products or campaigns...
         </button>
@@ -517,8 +517,7 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
-// Change this line to match exactly what your file is named in the stores folder!
-// If your file is named "clients.js", use '../stores/clients'
+
 import { useClientStore } from '../stores/clients' 
 
 const router = useRouter()

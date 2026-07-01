@@ -11,9 +11,18 @@ export const useClientStore = defineStore('clients', {
         name: 'Sarah Akpola', id: '12346', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced', riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago',
         email: 'sarah2@example.com', phone: '+234 802 345 6789', bvn: '11122233344', idType: 'Passport', idNumber: 'A0987654', goal: 'Retirement', annualIncome: '₦500k - ₦2M', investmentExperience: 'Beginner', accountType: 'Joint Account'
       },
-      { name: 'Sarah Akpola', id: '12347', status: 'Draft', aum: '...', riskProfile: 'Not profiled', riskColor: '', riskWidth: '0%', lastActivity: 'Just now' },
-      { name: 'Sarah Akpola', id: '12348', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced', riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago' },
-      { name: 'Sarah Akpola', id: '12349', status: 'Active', aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
+      { 
+        name: 'Tunde Kola', id: '12300', status: 'Active', aum: '$450,000', riskProfile: 'Aggressive', riskColor: 'bg-[#E50303]', riskWidth: '90%', lastActivity: '1 Hour Ago',
+        email: 'tunde.kola@example.com', phone: '+234 803 456 7890', bvn: '55566677788', idType: 'Driver\'s License', idNumber: 'DL-998877', goal: 'Wealth Growth', annualIncome: 'Above ₦2M', investmentExperience: 'Expert', accountType: 'Individual Account'
+      },
+      { 
+        name: 'Sarah Akpola', id: '12345', status: 'Active', aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago',
+        email: 'sarah.akpola@example.com', phone: '+234 801 234 5678', bvn: '22233344455', idType: 'National ID', idNumber: 'NIN-1234567', goal: 'Wealth Growth', annualIncome: 'Above ₦2M', investmentExperience: 'Intermediate', accountType: 'Individual Account'
+      },
+      { 
+        name: 'Tunde Kola', id: '12300', status: 'Active', aum: '$450,000', riskProfile: 'Aggressive', riskColor: 'bg-[#E50303]', riskWidth: '90%', lastActivity: '1 Hour Ago',
+        email: 'tunde.kola@example.com', phone: '+234 803 456 7890', bvn: '55566677788', idType: 'Driver\'s License', idNumber: 'DL-998877', goal: 'Wealth Growth', annualIncome: 'Above ₦2M', investmentExperience: 'Expert', accountType: 'Individual Account'
+      },
       { name: 'Sarah Akpola', id: '12340', status: 'Pending KYC', aum: '$123,000', riskProfile: 'Balanced', riskColor: 'bg-[#313EB2]', riskWidth: '45%', lastActivity: '2 Hours Ago' },
       { name: 'Sarah Akpola', id: '12341', status: 'Active', aum: '$123,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: '2 Hours Ago' },
       { name: 'Sarah Akpola', id: '12342', status: 'Active', aum: '$200,000', riskProfile: 'Mod. Aggressive', riskColor: 'bg-[#FD4F00]', riskWidth: '65%', lastActivity: 'Just now' },

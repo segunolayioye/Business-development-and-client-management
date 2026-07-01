@@ -486,11 +486,9 @@
             </tbody>
           </table>
           <div class="flex justify-between items-center mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
-          <span class="text-xs text-[#4B5054]">
-            Showing <span class="font-semibold text-[#0F151F]">{{ pageStart }}</span> to
-            <span class="font-semibold text-[#0F151F]">{{ pageEnd }}</span> of
-            <span class="font-semibold text-[#0F151F]">{{ documents.length }}</span> documents
-          </span>
+          <div class="inline-flex items-center justify-center px-[12px] py-[6px] border border-[#E5E7EB] bg-white rounded-[6px] shadow-sm text-[13px] font-semibold text-[#4B5054]">
+    {{ showAllClients ? 1 : pageStart }} - {{ pageEnd }}
+  </div>
 
           <div class="flex items-center gap-[6px]">
             <!-- Previous -->

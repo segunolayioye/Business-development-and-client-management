@@ -82,10 +82,7 @@
           </div>
           
           <div class="flex flex-wrap items-center gap-[8px] w-full md:w-auto">
-            <button class="flex items-center gap-[6px] bg-[#228B22] text-white px-[14px] py-[8px] rounded-[8px] text-sm font-medium w-full md:w-auto justify-center">
-              <img src="../assets/plus.svg" alt="plus-icon">
-              New Ticket
-            </button>
+           
             <div class="flex gap-[8px] w-full md:w-auto mt-2 md:mt-0">
               <select class="flex-1 md:flex-none text-xs text-[#4B5054] border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-white">
                 <option>Last 2 days</option>
@@ -243,11 +240,24 @@
               <option>Medium</option>
               <option>Low</option>
             </select>
-            <button class="font-semibold flex items-center gap-[8px] text-[12px] border border-[#E5E7EB] px-[10px] py-[6px] rounded-[4px] bg-white text-[#228B22]">
+           <button
+              @click="currentView = 'list'"
+              :class="[
+                'font-semibold flex items-center gap-[8px] text-[12px] px-[12px] py-[6px] rounded-[6px] transition-all',
+                currentView === 'list' ? 'bg-white text-[#228B22] shadow-sm' : 'text-[#4B5054] hover:bg-gray-100'
+              ]"
+            >
               <img src="../assets/list.svg" alt="list-icon" class="w-[14px] h-[14px]">
               List
             </button>
-            <button class="font-semibold flex items-center gap-[6px] text-[12px] border border-transparent px-[10px] py-[6px] rounded-[4px] text-[#4B5054] hover:bg-gray-50">
+
+            <button 
+              @click="currentView = 'board'"
+              :class="[
+                'font-semibold flex items-center gap-[6px] text-[12px] px-[12px] py-[6px] rounded-[6px] transition-all',
+                currentView === 'board' ? 'bg-white text-[#228B22] shadow-sm' : 'text-[#4B5054] hover:bg-gray-100'
+              ]"
+            >
               <img src="../assets/board.svg" alt="board-icon" class="w-[16px] h-[16px]">
               Board
             </button>
@@ -256,89 +266,171 @@
         </div>
 
         <!-- Support Ticket Queue (Responsive Table Wrapper) -->
+        
         <div class="bg-white rounded-[12px] p-[20px] mb-[24px]">
           
           <div class="overflow-x-auto w-full">
-            <table class="w-full text-sm min-w-[800px]">
-              <thead>
-                <tr class="border-b border-[#F5F5F5]">
-                  <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">TICKET ID / SUBJECT</th>
-                  <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">CLIENT</th>
-                  <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">PRIORITY</th>
-                  <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">STATUS</th>
-                  <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">SLA TIMER</th>
-                  <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">ASSIGNEE</th>
-                  <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-[#F5F5F5]">
-                <tr v-for="(ticket, index) in paginatedTickets" :key="index" class="hover:bg-gray-50">
-                  <td class="py-[14px] pr-4">
-                    <p class="text-xs font-semibold text-[#000000]">{{ ticket.id }} {{ ticket.subject }}</p>
-                    <p class="text-[10px] text-[#4B5054]">{{ ticket.detail }}</p>
-                  </td>
-                  <td class="py-[14px] pr-4">
-                    <div class="flex items-center gap-[6px]">
-                      <div class="w-[24px] h-[24px] rounded-full bg-[#D9D9D9] flex items-center justify-center text-[10px] font-bold text-[#313EB2]">
-                        {{ getInitials(ticket.client) }}
+            <div v-if="currentView === 'list'">
+              <table class="w-full text-sm min-w-[800px]">
+                <thead>
+                  <tr class="border-b border-[#F5F5F5]">
+                    <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">TICKET ID / SUBJECT</th>
+                    <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">CLIENT</th>
+                    <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">PRIORITY</th>
+                    <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">STATUS</th>
+                    <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">SLA TIMER</th>
+                    <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">ASSIGNEE</th>
+                    <th class="text-left text-[12px] text-[#4B5054] font-medium py-[10px]">ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#F5F5F5]">
+                  <tr v-for="(ticket, index) in paginatedTickets" :key="index" class="hover:bg-gray-50">
+                    <td class="py-[14px] pr-4">
+                      <p class="text-xs font-semibold text-[#000000]">{{ ticket.id }} {{ ticket.subject }}</p>
+                      <p class="text-[10px] text-[#4B5054]">{{ ticket.detail }}</p>
+                    </td>
+                    <td class="py-[14px] pr-4">
+                      <div class="flex items-center gap-[6px]">
+                        <div class="w-[24px] h-[24px] rounded-full bg-[#D9D9D9] flex items-center justify-center text-[10px] font-bold text-[#313EB2]">
+                          {{ getInitials(ticket.client) }}
+                        </div>
+                        <span class="text-xs text-[#0F151F] whitespace-nowrap">{{ ticket.client }}</span>
                       </div>
-                      <span class="text-xs text-[#0F151F] whitespace-nowrap">{{ ticket.client }}</span>
-                    </div>
+                    </td>
+                    <td class="py-[14px] pr-4">
+                      <span :class="`font-semibold ${ticket.priorityColor} text-[10px] px-[8px] py-[2px] rounded-full flex items-center gap-[4px] w-fit`">
+                        <img :src="getFlagIcon(ticket.priority)" class="w-[12px] h-[12px]" alt="flag"/>
+                        {{ ticket.priority }}
+                      </span>
+                    </td>
+                    <td class="py-[14px] pr-4">
+                      <span class="bg-[#E8F0FE] text-[#3B4FE0] text-[10px] px-[8px] py-[2px] rounded-full">{{ ticket.status }}</span>
+                    </td>
+                    <td class="py-[14px] pr-4">
+                      <template v-if="!ticket.notSla">
+                        <div class="w-[80px] h-[4px] bg-[#D9D9D9] rounded-full">
+                          <div class="h-[4px] rounded-full" :class="ticket.slaColor" :style="{ width: ticket.slaWidth }"></div>
+                        </div>
+                        <p class="text-[9px] mt-[2px] whitespace-nowrap" :class="ticket.slaTimeColor">{{ ticket.slaTime }}</p>
+                      </template>
+                      <template v-else>
+                        <span class="bg-[#FEE2E2] text-[#EF4444] text-[9px] px-[6px] py-[1px] rounded whitespace-nowrap">Not SLA</span>
+                      </template>
+                    </td>
+                    <td class="py-[14px] pr-4">
+                      <div :class="`w-[28px] h-[28px] rounded-full ${ticket.assigneeBg} flex items-center justify-center text-[10px] text-white font-bold`">SA</div>
+                    </td>
+                  <td class="py-[14px]">
+                      <button 
+                        @click="openTicketModal(ticket)" 
+                        class="text-[#A9A9A9] hover:text-[#0F151F] cursor-pointer text-xl font-medium transition-colors w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"
+                      >
+                        ›
+                      </button>
                   </td>
-                  <td class="py-[14px] pr-4">
-                    <span :class="`font-semibold ${ticket.priorityColor} text-[10px] px-[8px] py-[2px] rounded-full flex items-center gap-[4px] w-fit`">
-                      <img :src="getFlagIcon(ticket.priority)" class="w-[12px] h-[12px]" alt="flag"/>
-                      {{ ticket.priority }}
-                    </span>
-                  </td>
-                  <td class="py-[14px] pr-4">
-                    <span class="bg-[#E8F0FE] text-[#3B4FE0] text-[10px] px-[8px] py-[2px] rounded-full">{{ ticket.status }}</span>
-                  </td>
-                  <td class="py-[14px] pr-4">
-                    <template v-if="!ticket.notSla">
-                      <div class="w-[80px] h-[4px] bg-[#D9D9D9] rounded-full">
-                        <div class="h-[4px] rounded-full" :class="ticket.slaColor" :style="{ width: ticket.slaWidth }"></div>
-                      </div>
-                      <p class="text-[9px] mt-[2px] whitespace-nowrap" :class="ticket.slaTimeColor">{{ ticket.slaTime }}</p>
-                    </template>
-                    <template v-else>
-                      <span class="bg-[#FEE2E2] text-[#EF4444] text-[9px] px-[6px] py-[1px] rounded whitespace-nowrap">Not SLA</span>
-                    </template>
-                  </td>
-                  <td class="py-[14px] pr-4">
-                    <div :class="`w-[28px] h-[28px] rounded-full ${ticket.assigneeBg} flex items-center justify-center text-[10px] text-white font-bold`">SA</div>
-                  </td>
-                 <td class="py-[14px]">
-                    <button 
-                      @click="openTicketModal(ticket)" 
-                      class="text-[#A9A9A9] hover:text-[#0F151F] cursor-pointer text-xl font-medium transition-colors w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center"
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+           <!-- BOARD VIEW (Kanban) -->
+   
+           <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] w-full pb-4">
+              <div 
+                v-for="ticket in paginatedTickets" 
+                :key="ticket.id"
+                @click="openTicketModal(ticket)"
+                class="bg-white p-[20px] rounded-[12px] border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-gray-200 transition-all cursor-pointer flex flex-col justify-between min-h-[180px]"
+              >
+                <div>
+                  <div class="flex justify-between items-start mb-[8px]">
+                    <p class="text-[12px] font-bold text-[#6B7280]">{{ ticket.id }}</p>
+                    <span 
+                      class="text-[10px] px-[8px] py-[2px] rounded-full font-semibold"
+                      :class="ticket.status === 'Resolved' ? 'bg-[#DCFCE7] text-[#22C55E]' : ticket.status === 'In Progress' ? 'bg-[#DBEAFE] text-[#3B82F6]' : 'bg-[#E0E7FF] text-[#6366F1]'"
                     >
-                      ›
-                    </button>
-                 </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-[16px]">
-            <p class="text-xs text-black">
-              Showing {{ pageStart }} to {{ pageEnd }} of {{ tickets.length }} tickets
-            </p>
-            <div class="flex gap-[8px]">
-              <button
-                @click="prevPage"
-                :disabled="currentPage === 1"
-                class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[12px] py-[6px] rounded-[6px] disabled:opacity-40 hover:bg-[#F5F5F5]"
-              >Previous</button>
-              <button
-                @click="nextPage"
-                :disabled="currentPage === totalPages"
-                class="text-xs text-[#4B5054] border border-[#E5E7EB] px-[12px] py-[6px] rounded-[6px] disabled:opacity-40 hover:bg-[#F5F5F5]"
-              >Next</button>
+                      {{ ticket.status }}
+                    </span>
+                  </div>
+                  
+                  <h4 class="text-[14px] font-bold text-[#0F151F] leading-snug mb-[8px] truncate">{{ ticket.subject }}</h4>
+                  
+                  <p class="text-[12px] text-[#6B7280] mb-[20px] line-clamp-2 leading-relaxed">{{ ticket.detail }}</p>
+                </div>
+                
+                <div class="flex justify-between items-center mt-auto pt-[12px] border-t border-gray-50">
+                  <div class="flex items-center gap-[8px]">
+                    <div class="w-[28px] h-[28px] rounded-full bg-[#EEF2FF] flex items-center justify-center text-[11px] font-bold text-[#4F46E5]">
+                      {{ getInitials(ticket.client) }}
+                    </div>
+                    <span class="text-[12px] font-medium text-[#4B5054] truncate max-w-[100px]">{{ ticket.client }}</span>
+                  </div>
+                  
+                  <span :class="`font-semibold ${ticket.priorityColor} text-[11px] px-[10px] py-[4px] rounded-full flex-shrink-0`">
+                    {{ ticket.priority }}
+                  </span>
+                </div>
+              </div>
+              
+              <div v-if="paginatedTickets.length === 0" class="col-span-1 md:col-span-2 lg:col-span-3 h-[180px] text-[12px] text-[#A9A9A9] italic flex items-center justify-center py-[24px] border-2 border-dashed border-[#E5E7EB] rounded-[12px]">
+                No tickets found
+              </div>
             </div>
           </div>
+
+          <div 
+          v-if="currentView === 'list'"
+          class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
+  <!-- Left Side: Button-like Range Indicator -->
+  <div class="inline-flex items-center justify-center px-[12px] py-[6px] border border-[#E5E7EB] bg-white rounded-[6px] shadow-sm text-[13px] font-semibold text-[#4B5054]">
+    {{ pageStart }} - {{ pageEnd }}
+  </div>
+  
+  <!-- Right Side: Numbered Pagination + Icons -->
+  <div class="flex items-center gap-[4px]">
+    <!-- Previous Button -->
+    <button
+      @click="prevPage"
+      :disabled="currentPage === 1"
+      class="inline-flex items-center justify-center w-[32px] h-[32px] rounded-[6px] border border-[#E5E7EB] text-[#4B5054] bg-white hover:bg-[#F5F5F5] shadow-sm disabled:opacity-40 disabled:shadow-none disabled:cursor-not-allowed transition-colors"
+      aria-label="Previous page"
+    >
+      <svg class="w-[16px] h-[16px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </button>
+
+    <!-- Page Numbers -->
+    <div class="hidden sm:flex items-center gap-[4px]">
+      <button
+        v-for="page in totalPages"
+        :key="page"
+        @click="currentPage = page"
+        :class="[
+          'inline-flex items-center justify-center w-[32px] h-[32px] rounded-[6px] text-[13px] font-semibold transition-all border',
+          currentPage === page 
+            ? 'bg-[#228B22] text-white border-[#228B22] shadow-sm' 
+            : 'bg-white border-[#E5E7EB] text-[#4B5054] hover:bg-[#F5F5F5] shadow-sm'
+        ]"
+      >
+        {{ page }}
+      </button>
+    </div>
+
+    <!-- Next Button -->
+    <button
+      @click="nextPage"
+      :disabled="currentPage === totalPages"
+      class="inline-flex items-center justify-center w-[32px] h-[32px] rounded-[6px] border border-[#E5E7EB] text-[#4B5054] bg-white hover:bg-[#F5F5F5] shadow-sm disabled:opacity-40 disabled:shadow-none disabled:cursor-not-allowed transition-colors"
+      aria-label="Next page"
+    >
+      <svg class="w-[16px] h-[16px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </button>
+  </div>
+</div>
         </div>
+        
 
         <!-- KYC Alert Feed + Upcomings -->
         <div class="flex flex-col lg:flex-row gap-[16px] mb-[32px]">
@@ -547,6 +639,43 @@ import RedFlag from '../assets/red-flag.svg'
 import YellowFlag from '../assets/yellow-flag.svg'
 import BlackFlag from '../assets/black-flag.svg'
 
+const currentView = ref('list')
+const groupedTickets = computed(() => {
+  // We define exactly the 3 columns we want, and attach specific Tailwind colors to them
+  return [
+    {
+      id: 'Open',
+      title: 'To Do', 
+      lineColor: 'bg-[#6366F1]', // Indigo/Purple line to match the image
+      btnColor: 'text-[#6366F1]',
+      items: tickets.value.filter(ticket => ticket.status === 'Open' || ticket.status === 'New')
+    },
+    {
+      id: 'In Progress',
+      title: 'In Progress',
+      lineColor: 'bg-[#3B82F6]', // Blue line
+      btnColor: 'text-[#3B82F6]',
+      items: tickets.value.filter(ticket => ticket.status === 'In Progress')
+    },
+    {
+      id: 'Resolved',
+      title: 'Resolved',
+      lineColor: 'bg-[#22C55E]', // Green line (replacing the red escalated column)
+      btnColor: 'text-[#22C55E]',
+      items: tickets.value.filter(ticket => ticket.status === 'Resolved')
+    }
+    ]
+  
+  tickets.value.forEach(ticket => {
+    if (columns[ticket.status]) {
+      columns[ticket.status].push(ticket)
+    } else {
+      columns['Open'].push(ticket)
+    }
+  })
+  
+  return columns
+})
 const currentPage = ref(1)
 const itemsPerPage = 3
 
