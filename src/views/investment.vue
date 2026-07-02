@@ -40,25 +40,11 @@
     <div class="flex-1 flex flex-col ml-[253px] h-screen overflow-hidden">
 
       <!-- Navbar -->
-      <nav class="h-[95px] w-full bg-white shadow-md flex items-center justify-between px-[40px] flex-shrink-0">
-        <div class="font-semibold text-[#0F151F] text-xl">InvestFlow</div>
-        <div class="bg-[#F5F5F5] rounded-lg px-5 py-3 flex items-center gap-2 w-[320px]">
-          <img src="../assets/search-icon.svg" class="w-[18px] h-[18px]" alt="search icon">
-          <input
-            type="text"
-            placeholder="Search clients, accounts..."
-            class="bg-transparent focus:outline-none w-full text-sm text-[#A5A5A8]"
-          />
-        </div>
-        <div class="flex items-center gap-[10px]">
-          <img src="../assets/notification.svg" class="w-[22px] h-[24px]" alt="notification icon">
-          <img src="../assets/picture.svg" class="w-[42px] h-[42px] rounded-full" alt="user avatar">
-          <span class="text-sm font-medium text-gray-800">Jane Peters</span>
-          <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]" alt="dropdown">
-        </div>
-        
-      </nav>
-      <!-- End Navbar -->
+      <navbar 
+        title="InvestFlow"
+        searchPlaceholder="Search clients, accounts..."
+        v-model="searchQuery"
+      />
 
       <!-- Main Content -->
       <main class="flex-1 overflow-y-auto px-[32px] py-[20px] w-full">
@@ -818,6 +804,8 @@
     import greenIcon from '../assets/green-spin.svg'
     import globeIcon from '../assets/globe.svg'
     import microchipIcon from '../assets/microchip.svg'
+
+    import navbar from '../components/navbar.vue'
    
     const activeTab = ref('All')
     const tabs = ['All', 'Real Estate', 'Equities', 'Sukuk', 'VC Funds']

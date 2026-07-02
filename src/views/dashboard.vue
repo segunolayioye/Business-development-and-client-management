@@ -37,21 +37,11 @@
     <!-- Right Area -->
     <div class="flex flex-col flex-1 ml:0 md:ml-[253px] h-screen overflow-hidden">
 
-      <!-- Navbar -->
-      <nav class="h-[95px] w-full bg-white shadow-md flex items-center justify-between px-[29px] flex-col md:flex-row flex-shrink-0">
-        <button class="bg-[#F5F5F5] rounded-[8px]  w-full md:w-[430px] h-[34px] py-[5px] px-[8px] flex items-center gap-[10px] text-[#A9A9A9]">
-          <img src="../assets/search-icon.svg" class="w-[24px] h-[24px]" alt="search icon"/>
-          Search clients, products or campaigns...
-        </button>
-        <div class="flex items-center gap-[12px]">
-          <div class="flex items-center gap-[10px]">
-            <img src="../assets/notification.svg" class="w-[22px] h-[24px]" alt="notification icon"/>
-            <img src="../assets/picture.svg" class="w-[42px] h-[42px] rounded-full" alt="user avatar"/>
-            <span class="text-sm font-medium text-gray-800">Jane Peters</span>
-            <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]" alt="dropdown"/>
-          </div>
-        </div>
-      </nav>
+      <navbar 
+        
+        searchPlaceholder="Search clients, products, or campaigns......"
+        v-model="searchQuery"
+      />
 
       <!-- Main Content -->
       <main class="flex-1 overflow-y-auto px-[20px] py-[24px]">
@@ -517,11 +507,13 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
+import navbar from '../components/navbar.vue'
 
 import { useClientStore } from '../stores/clients' 
 
 const router = useRouter()
 const clientStore = useClientStore() 
+const searchQuery = ref('')
 
 // Smooth scroll
 const quickActionsRef = ref(null)
@@ -557,6 +549,14 @@ const formattedClients = computed(() => {
 // Filter Logic & Slice to max 5 items!
 const filteredClients = computed(() => {
   let result = formattedClients.value
+
+  if (searchQuery.value) {
+    const query = searchQuery.value.toLowerCase()
+    result = result.filter(c => 
+      (c.name && c.name.toLowerCase().includes(query)) || 
+      (c.id && String(c.id).includes(query))
+    )
+  }
   
   if (activeTab.value === 'Pending KYC') {
     result = result.filter(c => c.status === 'Pending KYC')

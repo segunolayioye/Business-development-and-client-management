@@ -45,7 +45,7 @@
           <div class="flex items-center gap-[8px]">
             <img src="../assets/picture.svg" class="w-[32px] h-[32px] rounded-full"/>
             <span class="text-sm font-medium text-[#0F151F]">Jane Peters</span>
-            <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]"/>
+           
           </div>
         </div>
       </nav>

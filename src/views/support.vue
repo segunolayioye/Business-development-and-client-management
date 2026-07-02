@@ -66,7 +66,7 @@
             <img src="../assets/notification.svg" class="w-[22px] h-[24px]" alt="notification icon">
             <img src="../assets/picture.svg" class="w-[42px] h-[42px] rounded-full" alt="user avatar">
             <span class="hidden md:inline text-sm font-medium text-gray-800">Jane Peters</span>
-            <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]" alt="dropdown" hidden md:block>
+           
           </div>
         </div>
       </nav>
@@ -234,11 +234,12 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-[16px]">
           <p class="font-semibold text-[18px] lg:text-[22px] text-[#000000]">Support Ticket Queue</p>
           <div class="flex items-center gap-[8px] w-full sm:w-auto">
-            <select class="flex-1 sm:flex-none text-xs text-[#4B5054] border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-white">
-              <option>All Priorities</option>
-              <option>High</option>
-              <option>Medium</option>
-              <option>Low</option>
+            <!-- Bound Priority Filter -->
+            <select v-model="selectedPriority" class="flex-1 sm:flex-none text-xs text-[#4B5054] border border-[#E5E7EB] px-[10px] py-[6px] rounded-[8px] bg-white">
+              <option value="All Priorities">All Priorities</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
             </select>
            <button
               @click="currentView = 'list'"
@@ -332,103 +333,129 @@
                 </tbody>
               </table>
             </div>
+            
            <!-- BOARD VIEW (Kanban) -->
-   
-           <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] w-full pb-4">
-              <div 
-                v-for="ticket in paginatedTickets" 
-                :key="ticket.id"
-                @click="openTicketModal(ticket)"
-                class="bg-white p-[20px] rounded-[12px] border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-gray-200 transition-all cursor-pointer flex flex-col justify-between min-h-[180px]"
-              >
-                <div>
-                  <div class="flex justify-between items-start mb-[8px]">
-                    <p class="text-[12px] font-bold text-[#6B7280]">{{ ticket.id }}</p>
-                    <span 
-                      class="text-[10px] px-[8px] py-[2px] rounded-full font-semibold"
-                      :class="ticket.status === 'Resolved' ? 'bg-[#DCFCE7] text-[#22C55E]' : ticket.status === 'In Progress' ? 'bg-[#DBEAFE] text-[#3B82F6]' : 'bg-[#E0E7FF] text-[#6366F1]'"
-                    >
-                      {{ ticket.status }}
-                    </span>
-                  </div>
-                  
-                  <h4 class="text-[14px] font-bold text-[#0F151F] leading-snug mb-[8px] truncate">{{ ticket.subject }}</h4>
-                  
-                  <p class="text-[12px] text-[#6B7280] mb-[20px] line-clamp-2 leading-relaxed">{{ ticket.detail }}</p>
-                </div>
-                
-                <div class="flex justify-between items-center mt-auto pt-[12px] border-t border-gray-50">
-                  <div class="flex items-center gap-[8px]">
-                    <div class="w-[28px] h-[28px] rounded-full bg-[#EEF2FF] flex items-center justify-center text-[11px] font-bold text-[#4F46E5]">
-                      {{ getInitials(ticket.client) }}
-                    </div>
-                    <span class="text-[12px] font-medium text-[#4B5054] truncate max-w-[100px]">{{ ticket.client }}</span>
-                  </div>
-                  
-                  <span :class="`font-semibold ${ticket.priorityColor} text-[11px] px-[10px] py-[4px] rounded-full flex-shrink-0`">
-                    {{ ticket.priority }}
-                  </span>
-                </div>
-              </div>
-              
-              <div v-if="paginatedTickets.length === 0" class="col-span-1 md:col-span-2 lg:col-span-3 h-[180px] text-[12px] text-[#A9A9A9] italic flex items-center justify-center py-[24px] border-2 border-dashed border-[#E5E7EB] rounded-[12px]">
-                No tickets found
-              </div>
-            </div>
+           
+          <!-- BOARD VIEW (Slider) -->
+<div v-else class="w-full pb-4">
+  
+  <!-- THE TRAIN TRACK (Added custom-scrollbar class) -->
+  <div 
+    ref="boardContainer" 
+    class="flex gap-[24px] w-full overflow-x-auto scroll-smooth custom-scrollbar pb-6"
+  >
+    <!-- THE TRAIN CARS (Now exactly 3 per slide!) -->
+    <div 
+      v-for="ticket in filteredTickets" 
+      :key="ticket.id"
+      @click="openTicketModal(ticket)"
+      class="bg-white p-[20px] rounded-[12px] border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-gray-200 transition-all cursor-pointer flex flex-col justify-between min-h-[180px] w-[calc(33.333%-16px)] flex-shrink-0"
+    >
+      <div>
+        <div class="flex justify-between items-start mb-[8px]">
+          <p class="text-[12px] font-bold text-[#6B7280]">{{ ticket.id }}</p>
+          <span 
+            class="text-[10px] px-[8px] py-[2px] rounded-full font-semibold"
+            :class="ticket.status === 'Resolved' ? 'bg-[#DCFCE7] text-[#22C55E]' : ticket.status === 'In Progress' ? 'bg-[#DBEAFE] text-[#3B82F6]' : 'bg-[#E0E7FF] text-[#6366F1]'"
+          >
+            {{ ticket.status }}
+          </span>
+        </div>
+        <h4 class="text-[14px] font-bold text-[#0F151F] leading-snug mb-[8px] truncate">{{ ticket.subject }}</h4>
+        <p class="text-[12px] text-[#6B7280] mb-[20px] line-clamp-2 leading-relaxed">{{ ticket.detail }}</p>
+      </div>
+      
+      <div class="flex justify-between items-center mt-auto pt-[12px] border-t border-gray-50">
+        <div class="flex items-center gap-[8px]">
+          <div class="w-[28px] h-[28px] rounded-full bg-[#EEF2FF] flex items-center justify-center text-[11px] font-bold text-[#4F46E5]">
+            {{ getInitials(ticket.client) }}
+          </div>
+          <span class="text-[12px] font-medium text-[#4B5054] truncate max-w-[100px]">{{ ticket.client }}</span>
+        </div>
+        <span :class="`font-semibold ${ticket.priorityColor} text-[11px] px-[10px] py-[4px] rounded-full flex-shrink-0`">
+          {{ ticket.priority }}
+        </span>
+      </div>
+    </div>
+    
+    <div v-if="filteredTickets.length === 0" class="w-full min-h-[180px] text-[12px] text-[#A9A9A9] italic flex items-center justify-center py-[24px] border-2 border-dashed border-[#E5E7EB] rounded-[12px]">
+      No tickets found
+    </div>
+  </div>
+
+  <!-- THE ARROW BUTTONS (Moved below the track, in the center) -->
+  <div class="flex justify-center items-center gap-6 mt-2">
+    <button 
+      @click="scrollBoard('left')" 
+      class="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center border border-gray-200 text-[#4B5054] hover:text-black hover:bg-gray-100 transition-colors"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+    </button>
+
+    <button 
+      @click="scrollBoard('right')" 
+      class="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center border border-gray-200 text-[#4B5054] hover:text-black hover:bg-gray-100 transition-colors"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+    </button>
+  </div>
+
+</div>
           </div>
 
+          <!-- Universal Pagination Logic (Applies to List & Board views) -->
           <div 
-          v-if="currentView === 'list'"
-          class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
-  <!-- Left Side: Button-like Range Indicator -->
-  <div class="inline-flex items-center justify-center px-[12px] py-[6px] border border-[#E5E7EB] bg-white rounded-[6px] shadow-sm text-[13px] font-semibold text-[#4B5054]">
-    {{ pageStart }} - {{ pageEnd }}
-  </div>
-  
-  <!-- Right Side: Numbered Pagination + Icons -->
-  <div class="flex items-center gap-[4px]">
-    <!-- Previous Button -->
-    <button
-      @click="prevPage"
-      :disabled="currentPage === 1"
-      class="inline-flex items-center justify-center w-[32px] h-[32px] rounded-[6px] border border-[#E5E7EB] text-[#4B5054] bg-white hover:bg-[#F5F5F5] shadow-sm disabled:opacity-40 disabled:shadow-none disabled:cursor-not-allowed transition-colors"
-      aria-label="Previous page"
-    >
-      <svg class="w-[16px] h-[16px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-      </svg>
-    </button>
+           v-show="currentView === 'list'"
+           class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
+            <!-- Left Side: Button-like Range Indicator -->
+            <div class="inline-flex items-center justify-center px-[12px] py-[6px] border border-[#E5E7EB] bg-white rounded-[6px] shadow-sm text-[13px] font-semibold text-[#4B5054]">
+              {{ pageStart }} - {{ pageEnd }}
+            </div>
+            
+            <!-- Right Side: Numbered Pagination + Icons -->
+            <div class="flex items-center gap-[4px]">
+              <!-- Previous Button -->
+              <button
+                @click="prevPage"
+                :disabled="currentPage === 1"
+                class="inline-flex items-center justify-center w-[32px] h-[32px] rounded-[6px] border border-[#E5E7EB] text-[#4B5054] bg-white hover:bg-[#F5F5F5] shadow-sm disabled:opacity-40 disabled:shadow-none disabled:cursor-not-allowed transition-colors"
+                aria-label="Previous page"
+              >
+                <svg class="w-[16px] h-[16px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+              </button>
 
-    <!-- Page Numbers -->
-    <div class="hidden sm:flex items-center gap-[4px]">
-      <button
-        v-for="page in totalPages"
-        :key="page"
-        @click="currentPage = page"
-        :class="[
-          'inline-flex items-center justify-center w-[32px] h-[32px] rounded-[6px] text-[13px] font-semibold transition-all border',
-          currentPage === page 
-            ? 'bg-[#228B22] text-white border-[#228B22] shadow-sm' 
-            : 'bg-white border-[#E5E7EB] text-[#4B5054] hover:bg-[#F5F5F5] shadow-sm'
-        ]"
-      >
-        {{ page }}
-      </button>
-    </div>
+              <!-- Page Numbers -->
+              <div class="hidden sm:flex items-center gap-[4px]">
+                <button
+                  v-for="page in totalPages"
+                  :key="page"
+                  @click="currentPage = page"
+                  :class="[
+                    'inline-flex items-center justify-center w-[32px] h-[32px] rounded-[6px] text-[13px] font-semibold transition-all border',
+                    currentPage === page 
+                      ? 'bg-[#228B22] text-white border-[#228B22] shadow-sm' 
+                      : 'bg-white border-[#E5E7EB] text-[#4B5054] hover:bg-[#F5F5F5] shadow-sm'
+                  ]"
+                >
+                  {{ page }}
+                </button>
+              </div>
 
-    <!-- Next Button -->
-    <button
-      @click="nextPage"
-      :disabled="currentPage === totalPages"
-      class="inline-flex items-center justify-center w-[32px] h-[32px] rounded-[6px] border border-[#E5E7EB] text-[#4B5054] bg-white hover:bg-[#F5F5F5] shadow-sm disabled:opacity-40 disabled:shadow-none disabled:cursor-not-allowed transition-colors"
-      aria-label="Next page"
-    >
-      <svg class="w-[16px] h-[16px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-      </svg>
-    </button>
-  </div>
-</div>
+              <!-- Next Button -->
+              <button
+                @click="nextPage"
+                :disabled="currentPage === totalPages || totalPages === 0"
+                class="inline-flex items-center justify-center w-[32px] h-[32px] rounded-[6px] border border-[#E5E7EB] text-[#4B5054] bg-white hover:bg-[#F5F5F5] shadow-sm disabled:opacity-40 disabled:shadow-none disabled:cursor-not-allowed transition-colors"
+                aria-label="Next page"
+              >
+                <svg class="w-[16px] h-[16px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
         
 
@@ -631,53 +658,17 @@
 </template>
 
 <script setup>
-import { ref, computed} from 'vue'
+import { ref, computed, watch, nextTick, onMounted } from 'vue'
 import gauge from '../components/gauge.vue'
 import supportchart from '../components/supportchart.vue'
+import { useRoute } from 'vue-router'
 
 import RedFlag from '../assets/red-flag.svg'
 import YellowFlag from '../assets/yellow-flag.svg'
 import BlackFlag from '../assets/black-flag.svg'
 
 const currentView = ref('list')
-const groupedTickets = computed(() => {
-  // We define exactly the 3 columns we want, and attach specific Tailwind colors to them
-  return [
-    {
-      id: 'Open',
-      title: 'To Do', 
-      lineColor: 'bg-[#6366F1]', // Indigo/Purple line to match the image
-      btnColor: 'text-[#6366F1]',
-      items: tickets.value.filter(ticket => ticket.status === 'Open' || ticket.status === 'New')
-    },
-    {
-      id: 'In Progress',
-      title: 'In Progress',
-      lineColor: 'bg-[#3B82F6]', // Blue line
-      btnColor: 'text-[#3B82F6]',
-      items: tickets.value.filter(ticket => ticket.status === 'In Progress')
-    },
-    {
-      id: 'Resolved',
-      title: 'Resolved',
-      lineColor: 'bg-[#22C55E]', // Green line (replacing the red escalated column)
-      btnColor: 'text-[#22C55E]',
-      items: tickets.value.filter(ticket => ticket.status === 'Resolved')
-    }
-    ]
-  
-  tickets.value.forEach(ticket => {
-    if (columns[ticket.status]) {
-      columns[ticket.status].push(ticket)
-    } else {
-      columns['Open'].push(ticket)
-    }
-  })
-  
-  return columns
-})
-const currentPage = ref(1)
-const itemsPerPage = 3
+const selectedPriority = ref('All Priorities') // New Reactive Data Point for the Filter
 
 const tickets = ref([
   { id: '#TK-2025-001', subject: 'KYC Verification Failed',    detail: 'Document upload error on step 3', client: 'John Doe', priority: 'High',   priorityColor: 'bg-[#FEE2E2] text-[#E50303]', status: 'In Progress', slaColor: 'bg-[#EF4444]', slaWidth: '70%', slaTime: '2h left',  slaTimeColor: 'text-[#EF4444]', assigneeBg: 'bg-[#FD4F00]',  notSla: false },
@@ -685,26 +676,41 @@ const tickets = ref([
   { id: '#TK-2025-003', subject: 'KYC Verification Failed',    detail: 'Document upload error on step 6', client: 'John Doe', priority: 'Low',    priorityColor: 'bg-[#F5F5F5] text-[#4B5054]',  status: 'In Progress', slaColor: '',             slaWidth: '0%',  slaTime: '',         slaTimeColor: '',               assigneeBg: 'bg-[#22C55E]',  notSla: true  },
   { id: '#TK-2025-004', subject: 'Account Login Issue',        detail: 'Client unable to login via app',  client: 'Amina Musa', priority: 'High', priorityColor: 'bg-[#FEE2E2] text-[#E50303]',   status: 'Open',        slaColor: 'bg-[#EF4444]', slaWidth: '85%', slaTime: '1h left',  slaTimeColor: 'text-[#EF4444]', assigneeBg: 'bg-[#FD4F00]',  notSla: false },
   { id: '#TK-2025-005', subject: 'Fund Transfer Delayed',      detail: 'Transfer stuck for over 48hrs',   client: 'Tunde Kola', priority: 'High', priorityColor: 'bg-[#FEE2E2] text-[#E50303]',   status: 'In Progress', slaColor: 'bg-[#EF4444]', slaWidth: '60%', slaTime: '3h left',  slaTimeColor: 'text-[#EF4444]', assigneeBg: 'bg-[#3B4FE0]',  notSla: false },
-  { id: '#TK-2025-006', subject: 'Wrong Statement Generated',  detail: 'Q3 statement shows wrong AUM',    client: 'Fatima Aliyu', priority: 'Medium', priorityColor: 'bg-[#FEF9C3] text-[#CA8A04]', status: 'Open',       slaColor: 'bg-[#22C55E]', slaWidth: '30%', slaTime: '8h left',  slaTimeColor: 'text-[#22C55E]', assigneeBg: 'bg-[#22C55E]',  notSla: false },
+  { id: '#TK-2025-006', subject: 'Wrong Statement Generated',  detail: 'Q3 statement shows wrong AUM',    client: 'Fatima Aliyu', priority: 'Medium', priorityColor: 'bg-[#FEF9C3] text-[#CA8A04]', status: 'Open',        slaColor: 'bg-[#22C55E]', slaWidth: '30%', slaTime: '8h left',  slaTimeColor: 'text-[#22C55E]', assigneeBg: 'bg-[#22C55E]',  notSla: false },
   { id: '#TK-2025-007', subject: 'Password Reset Not Working', detail: 'OTP not delivered to email',      client: 'Bello Lawal', priority: 'Low',  priorityColor: 'bg-[#F5F5F5] text-[#4B5054]',  status: 'Resolved',    slaColor: 'bg-[#22C55E]', slaWidth: '100%',slaTime: 'Done',     slaTimeColor: 'text-[#22C55E]', assigneeBg: 'bg-[#FD4F00]',  notSla: false },
   { id: '#TK-2025-008', subject: 'Dividend Not Credited',      detail: 'July dividend missing from acc',  client: 'Kemi Adeyemi', priority: 'High', priorityColor: 'bg-[#FEE2E2] text-[#E50303]',   status: 'In Progress', slaColor: 'bg-[#EF4444]', slaWidth: '75%', slaTime: '2h left',  slaTimeColor: 'text-[#EF4444]', assigneeBg: 'bg-[#3B4FE0]',  notSla: false },
-  { id: '#TK-2025-009', subject: 'App Crashing on Launch',     detail: 'iOS version 16 affected',         client: 'Ola Eze',    priority: 'Medium', priorityColor: 'bg-[#FEF9C3] text-[#CA8A04]',  status: 'Open',       slaColor: 'bg-[#22C55E]', slaWidth: '50%', slaTime: '5h left',  slaTimeColor: 'text-[#22C55E]', assigneeBg: 'bg-[#22C55E]',  notSla: false },
+  { id: '#TK-2025-009', subject: 'App Crashing on Launch',     detail: 'iOS version 16 affected',         client: 'Ola Eze',    priority: 'Medium', priorityColor: 'bg-[#FEF9C3] text-[#CA8A04]',  status: 'Open',        slaColor: 'bg-[#22C55E]', slaWidth: '50%', slaTime: '5h left',  slaTimeColor: 'text-[#22C55E]', assigneeBg: 'bg-[#22C55E]',  notSla: false },
   { id: '#TK-2025-010', subject: 'Sukuk Fund Not Showing',     detail: 'Product missing from portfolio',  client: 'Sola Akin',  priority: 'Low',    priorityColor: 'bg-[#F5F5F5] text-[#4B5054]',   status: 'Open',        slaColor: '',             slaWidth: '0%',  slaTime: '',         slaTimeColor: '',               assigneeBg: 'bg-[#FD4F00]',  notSla: true  },
   { id: '#TK-2025-011', subject: 'Duplicate Transaction',      detail: 'Client charged twice on Oct 2',   client: 'Remi Ibrahim', priority: 'High', priorityColor: 'bg-[#FEE2E2] text-[#E50303]',   status: 'In Progress', slaColor: 'bg-[#EF4444]', slaWidth: '90%', slaTime: '30m left', slaTimeColor: 'text-[#EF4444]', assigneeBg: 'bg-[#3B4FE0]',  notSla: false },
   { id: '#TK-2025-012', subject: 'Profile Update Failing',     detail: 'Cannot save new phone number',    client: 'Ngozi Obi',  priority: 'Medium', priorityColor: 'bg-[#FEF9C3] text-[#CA8A04]',  status: 'Resolved',   slaColor: 'bg-[#22C55E]', slaWidth: '100%',slaTime: 'Done',     slaTimeColor: 'text-[#22C55E]', assigneeBg: 'bg-[#22C55E]',  notSla: false },
 ])
 
+// Filter Logic Array
+const filteredTickets = computed(() => {
+  if (selectedPriority.value === 'All Priorities') {
+    return tickets.value
+  }
+  return tickets.value.filter(ticket => ticket.priority === selectedPriority.value)
+})
 
+const currentPage = ref(1)
+const itemsPerPage = ref(6) // Set to 6 to handle 3 cards in 2 rows for both view cases
 
-const totalPages = computed(() => Math.ceil(tickets.value.length / itemsPerPage))
+const totalPages = computed(() => Math.ceil(filteredTickets.value.length / itemsPerPage.value))
 
 const paginatedTickets = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage
-  return tickets.value.slice(start, start + itemsPerPage)
+  const start = (currentPage.value - 1) * itemsPerPage.value
+  return filteredTickets.value.slice(start, start + itemsPerPage.value)
 })
+
 const timeframe = ref('monthly')
-const pageStart = computed(() => (currentPage.value - 1) * itemsPerPage + 1)
-const pageEnd = computed(() => Math.min(currentPage.value * itemsPerPage, tickets.value.length))
+const pageStart = computed(() => filteredTickets.value.length === 0 ? 0 : (currentPage.value - 1) * itemsPerPage.value + 1)
+const pageEnd = computed(() => Math.min(currentPage.value * itemsPerPage.value, filteredTickets.value.length))
+
+// Reset Pagination on Filter Change or View Swap
+watch([selectedPriority, currentView], () => {
+  currentPage.value = 1
+})
 
 function getInitials(name) {
   if (!name) return '';
@@ -729,9 +735,6 @@ const getFlagIcon = (priority) => {
   return BlackFlag
 }
 
-import { useRoute } from 'vue-router'
-import {  onMounted, nextTick } from 'vue'
-
 const route = useRoute()
 const highlightedSection = ref(null)
 
@@ -751,9 +754,6 @@ onMounted(async () => {
     }, 3000)
   }
 })
-
-// Add these to your existing imports
-
 
 // Modal State Logic
 const isModalOpen = ref(false)
@@ -779,9 +779,38 @@ const handleAction = (actionType) => {
   
   if (actionType === 'Resolve Ticket') {
     selectedTicket.value.status = 'Resolved'
-    // You would typically make an API call here
   }
   
   closeModal()
 }
+
+// 1. We create a memory slot to hold onto our "train track" HTML element
+const boardContainer = ref(null)
+
+// 2. We build the remote control buttons
+const scrollBoard = (direction) => {
+  if (!boardContainer.value) return 
+  
+  // We calculate exactly how wide 1/3 of the screen is so the train moves perfectly
+  const scrollAmount = boardContainer.value.clientWidth / 3 
+  
+  if (direction === 'left') {
+    boardContainer.value.scrollBy({ left: -scrollAmount, behavior: 'smooth' })
+  } else {
+    boardContainer.value.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+  }
+}
 </script>
+
+<style scoped>
+/* 1. The Invisibility Cloak for Chrome, Safari, and newer Edge browsers */
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* 2. The Invisibility Cloak for Firefox and older browsers */
+.custom-scrollbar {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+</style>

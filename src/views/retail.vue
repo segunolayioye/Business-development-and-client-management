@@ -47,20 +47,12 @@
     <div class="flex-1 flex flex-col ml-[253px] h-screen overflow-hidden">
 
       <!-- Navbar -->
-      <nav class="h-[95px] w-full bg-white shadow-md flex items-center justify-between px-[40px] flex-shrink-0">
-        <div class="font-semibold text-[#0F151F] text-xl">Retail Clients</div>
-        <div class="bg-[#F5F5F5] rounded-lg px-5 py-3 flex items-center gap-2 w-[320px]">
-          <img src="../assets/search-icon.svg" class="w-[18px] h-[18px]" alt="search icon">
-          <input type="text" placeholder="Search clients, accounts..." class="bg-transparent focus:outline-none w-full text-sm text-[#A5A5A8]"/>
-        </div>
-        <div class="flex items-center gap-[10px]">
-          <img src="../assets/notification.svg" class="w-[22px] h-[24px]" alt="notification icon">
-          <img src="../assets/picture.svg" class="w-[42px] h-[42px] rounded-full" alt="user avatar">
-          <span class="text-sm font-medium text-gray-800">Jane Peters</span>
-          <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]" alt="dropdown">
-        </div>
-        
-      </nav>
+     <!-- Navbar Component -->
+      <navbar 
+        title="Retail Clients"
+        searchPlaceholder="Search clients, accounts..."
+        v-model="searchQuery"
+      />
 
       <!-- Main Content -->
       <main class="flex-1 overflow-y-auto px-[40px] py-[20px]">
@@ -440,12 +432,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router' 
-
+import navbar from '../components/navbar.vue'
 const router = useRouter()
 
 const activeTab = ref('All Clients')
+const searchQuery = ref('')
 
 const tabs = ['All Clients', 'Pending KYC', 'High Value', 'New This Week']
 
@@ -459,11 +452,33 @@ const clientStore = useClientStore()
 const clients = computed(() => clientStore.clients) 
 
 const filteredClients = computed(() => {
-  if (activeTab.value === 'All Clients')   return clients.value
-  if (activeTab.value === 'Pending KYC')   return clients.value.filter(c => c.status === 'Pending KYC')
-  if (activeTab.value === 'High Value')    return clients.value.filter(c => c.aum !== '...' && parseInt(c.aum.replace(/\D/g, '')) >= 150000)
-  if (activeTab.value === 'New This Week') return clients.value.filter(c => c.lastActivity === 'Just now')
-  return clients.value
+  let result = clients.value
+
+  // 1. Apply Tab Filters
+  if (activeTab.value === 'Pending KYC') {
+    result = result.filter(c => c.status === 'Pending KYC')
+  } else if (activeTab.value === 'High Value') {
+    result = result.filter(c => c.aum !== '...' && parseInt(c.aum.replace(/\D/g, '')) >= 150000)
+  } else if (activeTab.value === 'New This Week') {
+    result = result.filter(c => c.lastActivity === 'Just now')
+  }
+
+  // 2. Apply Search Filter
+  if (searchQuery.value.trim() !== '') {
+    const query = searchQuery.value.toLowerCase().trim()
+    result = result.filter(c => 
+      c.name.toLowerCase().includes(query) || 
+      c.id.toString().toLowerCase().includes(query) || // Allows searching by ID
+      c.status.toLowerCase().includes(query)         // Optional: Allows searching by Status
+    )
+  }
+
+  return result
+})
+
+// Reset to page 1 whenever the user types in the search bar
+watch(searchQuery, () => {
+  currentPage.value = 1
 })
 
 const totalPages = computed(() => Math.ceil(filteredClients.value.length / itemsPerPage))

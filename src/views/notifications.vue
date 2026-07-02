@@ -36,20 +36,11 @@
 
     <div class="flex flex-col flex-1 ml-[253px] h-screen overflow-hidden">
 
-      <nav class="h-[95px] w-full bg-white shadow-sm flex items-center justify-between px-[40px] flex-shrink-0">
-        <div class="bg-[#F5F5F5] rounded-lg px-4 py-2 flex gap-2 w-[380px]">
-          <img src="../assets/search-icon.svg" class="w-[16px] h-[16px]"/>
-          <input type="text" placeholder="Search notifications..." class="bg-transparent focus:outline-none w-full text-xs text-[#A5A5A8]"/>
-        </div>
-        <div class="flex items-center gap-[16px]">
-          <img src="../assets/notification.svg" class="w-[20px] h-[20px]"/>
-          <div class="flex items-center gap-[8px]">
-            <img src="../assets/picture.svg" class="w-[32px] h-[32px] rounded-full"/>
-            <span class="text-sm font-medium text-[#0F151F]">Jane Peters</span>
-            <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]"/>
-          </div>
-        </div>
-      </nav>
+      <navbar 
+        title="Notifications"
+        searchPlaceholder="Search notifications..."
+        v-model="searchQuery"
+      />
 
       <div class="flex-1 overflow-y-auto px-[32px] py-[20px]">
 
@@ -277,6 +268,7 @@ import { ref, computed } from 'vue' // Added computed
 import announceSvg from '../assets/announce.svg'
 import profileSvg  from '../assets/2ndpic.svg'
 import warningSvg  from '../assets/warning.svg'
+import navbar from '../components/navbar.vue'
 
 // ── FILTER TABS LOGIC ─────────────────────────────────────
 const filterTabs = ['All', 'Unread', 'Last 7 Days', 'Older']

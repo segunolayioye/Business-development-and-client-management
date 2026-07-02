@@ -39,21 +39,11 @@
 
         <div class="flex-1 flex flex-col h-screen overflow-hidden ml-[253px]">
 
-          <nav class="h-[95px] w-full bg-white shadow-md flex items-center px-[40px] flex-shrink-0">
-            <div class="bg-[#F5F5F5] rounded-lg px-5 py-3 flex gap-2 w-[480px]">
-              <img src="../assets/search-icon.svg" class="w-[18px] h-[18px]" alt="search icon"/>
-              <input type="text" placeholder="Search content, webinars, clients.." class="bg-transparent focus:outline-none w-full text-sm text-[#A5A5A8]"/>
-            </div>
-            <div class="ml-auto flex items-center gap-4">
-              <div class="flex items-center gap-[10px]">
-                <img src="../assets/notification.svg" class="w-[22px] h-[24px]" alt="notification icon">
-                <img src="../assets/picture.svg" class="w-[42px] h-[42px] rounded-full" alt="user avatar">
-                <span class="text-sm font-medium text-gray-800">Jane Peters</span>
-                <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]" alt="dropdown">
-              </div>
-            </div>
-          </nav>
+          <navbar
+            searchPlaceholder="Search tickets, clients, alerts..."
+          />
 
+        
           <div class="flex-1 overflow-y-auto px-[32px] py-[20px]">
 
             <div class="flex justify-between items-start mb-[20px]">
@@ -75,7 +65,7 @@
 
                 <button
                   @click="openSessionModal"
-                  class="flex items-center gap-[6px] bg-[#22C55E] text-white px-[14px] py-[8px] rounded-[8px] text-sm font-medium"
+                  class="flex items-center gap-[6px] bg-[#228B22] text-white px-[14px] py-[8px] rounded-[8px] text-sm font-medium"
                 >
                   + Create New Session
                 </button>
@@ -567,6 +557,7 @@
 <script setup>
 import Doughnutchart from '../components/doughnutchart.vue'
 import investorchart from '../components/investorchart.vue'
+import navbar from '../components/navbar.vue'
 
 import { ref, computed } from 'vue'
 

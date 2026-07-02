@@ -46,7 +46,7 @@
           <img src="../assets/notification.svg" class="w-[22px] h-[24px]" alt="notification icon">
           <img src="../assets/picture.svg" class="w-[42px] h-[42px] rounded-full" alt="user avatar">
           <span class="text-sm font-medium text-gray-800">Jane Peters</span>
-          <img src="../assets/down-arrow.svg" class="w-[10px] h-[10px]" alt="dropdown">
+         
         </div>
        
         
