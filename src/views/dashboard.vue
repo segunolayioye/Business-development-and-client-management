@@ -38,7 +38,7 @@
     <div class="flex flex-col flex-1 ml:0 md:ml-[253px] h-screen overflow-hidden">
 
       <navbar 
-        
+        title="Dashboard"
         searchPlaceholder="Search clients, products, or campaigns......"
         v-model="searchQuery"
       />

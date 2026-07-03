@@ -49,27 +49,10 @@
     <div class="flex-1 flex flex-col h-screen overflow-hidden w-full lg:ml-[253px]">
       
       <!-- Navbar -->
-      <nav class="h-[70px] lg:h-[95px] w-full bg-white shadow-md flex items-center justify-between px-[20px] lg:px-[40px] flex-shrink-0">
-        
-        <!-- Hamburger Menu Button (Mobile Only) -->
-        <button @click="isMobileMenuOpen = true" class="lg:hidden p-2 text-gray-600">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-        </button>
-
-        <div class="hidden md:flex bg-[#F5F5F5] rounded-lg px-5 py-3 gap-2 w-full max-w-[480px]">
-          <img src="../assets/search-icon.svg" class="w-[18px] h-[18px]" alt="search icon"/>
-          <input type="text" placeholder="Search content, webinars, clients.." class="bg-transparent focus:outline-none w-full text-sm text-[#A5A5A8]"/>
-        </div>
-
-        <div class="ml-auto flex items-center gap-4">
-          <div class="flex items-center gap-[10px]">
-            <img src="../assets/notification.svg" class="w-[22px] h-[24px]" alt="notification icon">
-            <img src="../assets/picture.svg" class="w-[42px] h-[42px] rounded-full" alt="user avatar">
-            <span class="hidden md:inline text-sm font-medium text-gray-800">Jane Peters</span>
-           
-          </div>
-        </div>
-      </nav>
+      <navbar 
+        title="Help Center & Support"
+        searchPlaceholder="Search tickets, clients, alerts..."
+      />
 
       <!-- Scrollable Content -->
       <div class="flex-1 overflow-y-auto px-[20px] lg:px-[36px] py-[20px]">
@@ -662,6 +645,7 @@ import { ref, computed, watch, nextTick, onMounted } from 'vue'
 import gauge from '../components/gauge.vue'
 import supportchart from '../components/supportchart.vue'
 import { useRoute } from 'vue-router'
+import navbar from '../components/navbar.vue'
 
 import RedFlag from '../assets/red-flag.svg'
 import YellowFlag from '../assets/yellow-flag.svg'

@@ -40,6 +40,7 @@
         <div class="flex-1 flex flex-col h-screen overflow-hidden ml-[253px]">
 
           <navbar
+            title="Investor Education"
             searchPlaceholder="Search tickets, clients, alerts..."
           />
 
