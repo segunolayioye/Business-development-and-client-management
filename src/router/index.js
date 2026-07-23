@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import dashboard from '../views/dashboard.vue'
+import dashboard from '../views/new-dashboard.vue'
 import retail from '../views/retail.vue'
 import investment from '../views/investment.vue'
 import campaigns from '../views/campaigns.vue'
