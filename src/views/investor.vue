@@ -284,7 +284,7 @@
                
               </div>
             </div>
-     <div 
+           <div 
         id="client Assignments"
         
         class="transition-all duration-500 rounded-lg">
@@ -351,9 +351,6 @@
       </tr>
     </tbody>
   </table>
-
-  
-          <!-- Pagination Footer -->
          <!-- Pagination Footer -->
 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
   
@@ -587,27 +584,27 @@ const sessionTitle = ref('')
 const sessionDate = ref('')
 
 function saveSession() {
-  // Prevent saving if title or date is empty
+  
   if (!sessionTitle.value || !sessionDate.value) {
     alert("Please enter a title and select a date.")
     return
   }
 
   if (editingEvent.value) {
-    // We are editing an existing event
+   
     const index = events.value.findIndex(e => e.id === editingEvent.value.id)
     if (index !== -1) {
       events.value[index].title = sessionTitle.value
       events.value[index].date = sessionDate.value
-      // Color remains whatever it was previously
+      
     }
   } else {
-    // We are creating a new event
+    
     events.value.push({
       id: Date.now(),
       date: sessionDate.value,
       title: sessionTitle.value,
-      color: 'bg-[#DCFCE7] text-[#22C55E]' // Defaulting to a green pill for new sessions
+      color: 'bg-[#DCFCE7] text-[#22C55E]' 
     })
   }
 
@@ -644,11 +641,11 @@ const calendarDays = computed(() => {
   const firstDay = new Date(currentYear.value, currentMonth.value, 1)
   const lastDay = new Date(currentYear.value, currentMonth.value + 1, 0)
 
-  // Get the day of week for first day (make Monday = 0)
+  
   let startDow = firstDay.getDay() - 1
   if (startDow === -1) startDow = 6
 
-  // Fill previous month days
+  
   for (let i = startDow - 1; i >= 0; i--) {
     const d = new Date(currentYear.value, currentMonth.value, -i)
     days.push({
@@ -697,15 +694,15 @@ function openAddEvent(day) {
   if (!day.currentMonth) return
   editingEvent.value = null
   sessionTitle.value = ''
-  sessionDate.value = day.fullDate // Auto-fill the date clicked
-  showSessionModal.value = true    // Open the Session Modal instead
+  sessionDate.value = day.fullDate 
+  showSessionModal.value = true    
 }
 
 function openEditEvent(event) {
   editingEvent.value = event
   sessionTitle.value = event.title
   sessionDate.value = event.date
-  showSessionModal.value = true    // Open the Session Modal for editing
+  showSessionModal.value = true    
 }
 
 function prevMonth() {
@@ -737,7 +734,7 @@ function handleExport() {
   }, 1500)
 }
 
-const allClients = ref([ // Changed from allclients
+const allClients = ref([
   { id: 1, initials: 'JD', name: 'John Doe', type: 'Retail Investor', risk: 'Moderate', riskColor: 'bg-[#FEF9C3] text-[#A16207]' ,avatarBg: 'bg-[#313EB233] text-[#313EB2]', content: 'Halal Investing Principles', format: 'Video - Beginner',status: 'Pending'},
   { id: 2, initials: 'JD', name: 'John Doe', type: 'Retail Investor', risk: 'Aggresive', riskColor: 'bg-[#FEE2E2] text-[#EF4444]' ,avatarBg: 'bg-[#FEE2E2] text-[#EF4444]', content: 'Halal Investing Principles', format: 'Video - Beginner', status: 'Pending'},
   { id: 3, initials: 'JD', name: 'John Doe', type: 'Retail Investor', risk: 'Conservative', riskColor: 'bg-[#DCFCE7] text-[#22C55E]' ,avatarBg: 'bg-[#DCFCE7] text-[#22C55E]', content: 'Halal Investing Principles', format: 'Video - Beginner', status: 'Pending'},
@@ -754,13 +751,13 @@ const allClients = ref([ // Changed from allclients
 
 const showAllClients = ref(false)
 const currentPage = ref(1)
-const itemsPerPage = 4 // shows 4 rows by default
+const itemsPerPage = 4
 
 const totalPages = computed(() =>
   Math.ceil(allClients.value.length / itemsPerPage)
 )
 
-// this is the key one — switches between paginated and all
+
 const displayedClients = computed(() => {
   if (showAllClients.value) {
     return allClients.value // show everything
@@ -890,7 +887,7 @@ onMounted(async () => {
       el.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
 
-    // remove highlight after 3 seconds
+    
     setTimeout(() => {
       highlightedSection.value = null
     }, 3000)

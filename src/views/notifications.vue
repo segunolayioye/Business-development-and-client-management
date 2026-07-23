@@ -283,8 +283,7 @@ const filteredNotifications = computed(() => {
   return notifications.value
 })
 
-// ── NOTIFICATIONS DATA ────────────────────────────────────
-// Added "daysOld" to each item so the filters know how to sort them
+// ── NOTIFICATIONS DATA ──────
 const notifications = ref([
   {
     id: 1,
@@ -354,7 +353,7 @@ const notifications = ref([
   },
 ])
 
-// ── MARK AS READ ──────────────────────────────────────────
+// ── MARK AS READ ─────
 function markAsRead(notification) {
   notification.read = true
 }
@@ -363,12 +362,12 @@ function markAllAsRead() {
   notifications.value.forEach(n => n.read = true)
 }
 
-// ── DELETE ────────────────────────────────────────────────
+// ── DELETE ─────
 function deleteNotification(id) {
   notifications.value = notifications.value.filter(n => n.id !== id)
 }
 
-// ── REPLY MODAL ───────────────────────────────────────────
+// ── REPLY MODAL ─────
 const showReplyModal = ref(false)
 const replyingTo = ref(null)
 const replyText = ref('')
@@ -392,7 +391,7 @@ function sendReply() {
   }, 3000)
 }
 
-// ── NOTIFICATION DETAIL MODAL ─────────────────────────────
+// ── NOTIFICATION DETAIL MODAL ────
 const showNotificationModal = ref(false)
 const activeNotification = ref(null)
 

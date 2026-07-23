@@ -176,7 +176,7 @@
             <!-- Actions -->
             <div class="pl-12 relative">
               <button 
-                @click.stop="toggleDropdown(client.id)" 
+                 @click="toggleDropdown(client.id, $event)"
                 class="text-[#000000] hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center transition-colors focus:outline-none"
               >
                 ⋮
@@ -184,9 +184,10 @@
 
               <!-- Dropdown Menu -->
               <div 
-                v-if="activeDropdown === client.id"
-                class="absolute right-[40px] top-[30px] w-[200px] bg-white border border-[#F5F5F5] rounded-xl shadow-lg z-50 py-2 flex flex-col text-left"
-              >
+                  v-if="activeDropdown === client.id"
+                  @click.stop
+                  class="absolute right-[40px] top-[30px] w-[200px] bg-white border border-[#F5F5F5] rounded-xl shadow-lg z-50 py-2 flex flex-col text-left"
+                >
                 <button @click="handleAction('View Profile', client)" class="px-4 py-2 text-sm text-[#4B5054] hover:bg-[#F5F5F5] hover:text-[#0F151F] text-left transition-colors">
                   View Profile
                 </button>
@@ -252,7 +253,7 @@
         @click="showDraftModal = false"
         class="w-full bg-[#4B5054] text-white py-3 rounded-xl font-semibold text-sm mt-2 hover:bg-[#3a3e42] transition-colors"
       >
-        Back to Dashboard
+        Back 
       </button>
 
     </div>
@@ -445,6 +446,8 @@ const tabs = ['All Clients', 'Pending KYC', 'High Value', 'New This Week']
 const currentPage = ref(1)
 const itemsPerPage = 10
 
+const showProfileModal = ref(false)
+const profileClient = ref(null)
 
 import { useClientStore } from '../stores/clients'
 
@@ -454,7 +457,7 @@ const clients = computed(() => clientStore.clients)
 const filteredClients = computed(() => {
   let result = clients.value
 
-  // 1. Apply Tab Filters
+  
   if (activeTab.value === 'Pending KYC') {
     result = result.filter(c => c.status === 'Pending KYC')
   } else if (activeTab.value === 'High Value') {
@@ -463,20 +466,20 @@ const filteredClients = computed(() => {
     result = result.filter(c => c.lastActivity === 'Just now')
   }
 
-  // 2. Apply Search Filter
+  
   if (searchQuery.value.trim() !== '') {
     const query = searchQuery.value.toLowerCase().trim()
     result = result.filter(c => 
       c.name.toLowerCase().includes(query) || 
-      c.id.toString().toLowerCase().includes(query) || // Allows searching by ID
-      c.status.toLowerCase().includes(query)         // Optional: Allows searching by Status
+      c.id.toString().toLowerCase().includes(query) || 
+      c.status.toLowerCase().includes(query)         
     )
   }
 
   return result
 })
 
-// Reset to page 1 whenever the user types in the search bar
+
 watch(searchQuery, () => {
   currentPage.value = 1
 })
@@ -499,7 +502,7 @@ function prevPage() {
   if (currentPage.value > 1) currentPage.value--
 }
 
-// reset to page 1 when tab changes
+
 function changeTab(tab) {
   activeTab.value = tab
   currentPage.value = 1
@@ -519,11 +522,12 @@ function handleSaveDraft() {
 // --- Dropdown Menu Logic ---
 const activeDropdown = ref(null)
 
-const toggleDropdown = (clientId) => {
+const toggleDropdown = (clientId, event) => {
+  event.stopPropagation()
   if (activeDropdown.value === clientId) {
-    activeDropdown.value = null // Close if already open
+    activeDropdown.value = null
   } else {
-    activeDropdown.value = clientId // Open this row's menu
+    activeDropdown.value = clientId
   }
 }
 
@@ -568,7 +572,6 @@ function saveClientEdit() {
   showClientEditModal.value = false
 }
 
-// ── REMINDER TOAST ─────────────────────────────────────────
 const showReminderToast = ref(false)
 const reminderClientName = ref('')
 
@@ -581,7 +584,7 @@ function sendReminder(client) {
   }, 3000)
 }
 
-// ── DELETE CONFIRMATION ────────────────────────────────────
+
 const showDeleteConfirm = ref(false)
 const deletingClient = ref(null)
 
@@ -596,7 +599,7 @@ function deleteClient() {
   showDeleteConfirm.value = false
 }
 
-// ── UPDATED handleAction (routes to the right function) ────
+
 const handleAction = (action, client) => {
   if (action === 'View Profile') viewProfile(client)
   else if (action === 'Edit') editClient(client)
@@ -606,18 +609,12 @@ const handleAction = (action, client) => {
 }
 
 // Close the dropdown if the user clicks anywhere else on the screen
-const closeOnClickOutside = () => {
-  if (activeDropdown.value !== null) {
-    closeDropdown()
-  }
-}
-
 onMounted(() => {
-  window.addEventListener('click', closeOnClickOutside)
+  document.addEventListener('click', closeDropdown)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('click', closeOnClickOutside)
+  document.removeEventListener('click', closeDropdown)
 })
 
 </script>

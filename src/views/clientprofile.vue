@@ -194,6 +194,6 @@ import { computed } from 'vue'
 const route = useRoute()
 const clientStore = useClientStore()
 
-// Looks up the client matching the :id in the URL
+
 const client = computed(() => clientStore.getClientById(route.params.id))
 </script>

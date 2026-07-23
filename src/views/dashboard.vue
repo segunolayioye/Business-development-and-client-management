@@ -323,7 +323,7 @@
             <!-- Error message - only shows if fields are empty -->
             <p v-if="formError" class="text-xs text-red-500 mt-2">{{ formError }}</p>
 
-            <!-- Button now calls continueToProfile instead of router-link -->
+            
             <button 
               @click="continueToProfile"
               class="w-full h-[45px] bg-[#FD4F00] text-white rounded-xl py-3 text-sm font-medium mt-6"
@@ -339,7 +339,7 @@
               <div class="flex justify-between items-center mb-4">
                 <p class="font-bold text-lg text-[#0F151F]">Client Lists</p>
                 
-                <!-- FILTER TABS: Pill-shaped, matching the screenshot -->
+                
                 <div class="flex gap-2">
                   <router-link to="/retail">
                   <button 
@@ -366,7 +366,7 @@
                 </div>
               </div>
 
-              <!-- List Headers (Solid gray background, exact spacing) -->
+              
               <div class="grid grid-cols-[2fr_1fr_1fr_1.5fr_1fr_50px] gap-4 bg-[#F9F9F9] text-[#4B5054] text-[12px] font-semibold uppercase tracking-wider px-4 py-3 rounded-t-xl border-b border-[#E5E7EB]">
                 <span>CLIENT NAME</span>
                 <span>STATUS</span>
@@ -408,15 +408,15 @@
                   
                   <!-- RISK PROFILE -->
                   <div class="flex items-center gap-2 min-w-0">
-                    <template v-if="client.riskLabel !== 'Not set' && client.riskLabel !== 'Not profiled'">
+                    <div v-if="client.riskLabel !== 'Not set' && client.riskLabel !== 'Not profiled'">
                       <div class="w-10 sm:w-12 h-1.5 bg-gray-200 rounded-full overflow-hidden flex-shrink-0">
                         <div class="h-full rounded-full" :class="client.riskBg" :style="{ width: client.riskWidth }"></div>
                       </div>
                       <span class="text-xs text-[#A9A9A9] truncate">{{ client.riskLabel }}</span>
-                    </template>
-                    <template v-else>
-                      <span class="text-xs text-[#A9A9A9] truncate">Not set</span>
-                    </template>
+                    </div>
+                    <div v-else>
+                      <span class="text-xs text-[#A9A9A9] truncate">Not set  </span>
+                    </div>
                   </div>
                   
                   <!-- LAST ACTIVITY -->
@@ -526,7 +526,7 @@ const scrollToQuickActions = () => {
 // Active tab
 const activeTab = ref('View All')
 
-// GET DATA FROM PINIA AND FORMAT IT FOR THE DASHBOARD
+
 const formattedClients = computed(() => {
   return clientStore.clients.map(client => {
     // Automatically generate initials (e.g., "Sarah Akpola" -> "SA")
@@ -546,7 +546,7 @@ const formattedClients = computed(() => {
   })
 })
 
-// Filter Logic & Slice to max 5 items!
+
 const filteredClients = computed(() => {
   let result = formattedClients.value
 
@@ -568,11 +568,11 @@ const filteredClients = computed(() => {
     })
   }
   
-  // Return only the first 5 clients to keep the dashboard summarized
+ 
   return result.slice(0, 5)
 })
 
-// ── QUICK ONBOARD FORM ────────────────────────────────────
+// ── QUICK ONBOARD FORM ───────
 const clientName = ref('')
 const clientEmail = ref('')
 const clientBvn = ref('')
@@ -594,7 +594,7 @@ function continueToProfile() {
   })
 }
 
-// ── EXPORT ────────────────────────────────────────────────
+// ── EXPORT ── //
 const showModal = ref(false)
 const exporting = ref(false)
 

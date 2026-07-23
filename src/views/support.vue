@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-screen overflow-hidden bg-[#F4F0F0]">
     
-    <!-- Mobile Overlay (Darkens background when menu is open) -->
+   
     <div 
       v-if="isMobileMenuOpen" 
       @click="isMobileMenuOpen = false" 
@@ -54,7 +54,7 @@
         searchPlaceholder="Search tickets, clients, alerts..."
       />
 
-      <!-- Scrollable Content -->
+     
       <div class="flex-1 overflow-y-auto px-[20px] lg:px-[36px] py-[20px]">
 
         <!-- Header -->
@@ -78,7 +78,7 @@
           </div>
         </div>
 
-        <!-- Stats Cards (CSS Grid) -->
+        <!-- Stats Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-[16px] mb-[24px]">
           <div class="bg-white rounded-[12px] p-[16px]">
             <div class="flex justify-between items-start">
@@ -96,7 +96,7 @@
               <span class="text-xs text-[#4B5054]">vs last week</span>
             </div>
           </div>
-          <!-- Repeat similar classes for the other 3 cards -->
+          
           <div class="bg-white rounded-[12px] p-[16px]">
             <div class="flex justify-between items-start">
               <p class="text-xs text-[#4B5054]">AVG. RESOLUTION TIME</p>
@@ -249,7 +249,7 @@
         </div>
         </div>
 
-        <!-- Support Ticket Queue (Responsive Table Wrapper) -->
+        <!-- Support Ticket Queue -->
         
         <div class="bg-white rounded-[12px] p-[20px] mb-[24px]">
           
@@ -317,76 +317,76 @@
               </table>
             </div>
             
-           <!-- BOARD VIEW (Kanban) -->
+           
            
           <!-- BOARD VIEW (Slider) -->
-<div v-else class="w-full pb-4">
-  
-  <!-- THE TRAIN TRACK (Added custom-scrollbar class) -->
-  <div 
-    ref="boardContainer" 
-    class="flex gap-[24px] w-full overflow-x-auto scroll-smooth custom-scrollbar pb-6"
-  >
-    <!-- THE TRAIN CARS (Now exactly 3 per slide!) -->
-    <div 
-      v-for="ticket in filteredTickets" 
-      :key="ticket.id"
-      @click="openTicketModal(ticket)"
-      class="bg-white p-[20px] rounded-[12px] border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-gray-200 transition-all cursor-pointer flex flex-col justify-between min-h-[180px] w-[calc(33.333%-16px)] flex-shrink-0"
-    >
-      <div>
-        <div class="flex justify-between items-start mb-[8px]">
-          <p class="text-[12px] font-bold text-[#6B7280]">{{ ticket.id }}</p>
-          <span 
-            class="text-[10px] px-[8px] py-[2px] rounded-full font-semibold"
-            :class="ticket.status === 'Resolved' ? 'bg-[#DCFCE7] text-[#22C55E]' : ticket.status === 'In Progress' ? 'bg-[#DBEAFE] text-[#3B82F6]' : 'bg-[#E0E7FF] text-[#6366F1]'"
-          >
-            {{ ticket.status }}
-          </span>
-        </div>
-        <h4 class="text-[14px] font-bold text-[#0F151F] leading-snug mb-[8px] truncate">{{ ticket.subject }}</h4>
-        <p class="text-[12px] text-[#6B7280] mb-[20px] line-clamp-2 leading-relaxed">{{ ticket.detail }}</p>
-      </div>
-      
-      <div class="flex justify-between items-center mt-auto pt-[12px] border-t border-gray-50">
-        <div class="flex items-center gap-[8px]">
-          <div class="w-[28px] h-[28px] rounded-full bg-[#EEF2FF] flex items-center justify-center text-[11px] font-bold text-[#4F46E5]">
-            {{ getInitials(ticket.client) }}
+          <div v-else class="w-full pb-4">
+            
+            
+            <div 
+              ref="boardContainer" 
+              class="flex gap-[24px] w-full overflow-x-auto scroll-smooth custom-scrollbar pb-6"
+            >
+              
+              <div 
+                v-for="ticket in filteredTickets" 
+                :key="ticket.id"
+                @click="openTicketModal(ticket)"
+                class="bg-white p-[20px] rounded-[12px] border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-gray-200 transition-all cursor-pointer flex flex-col justify-between min-h-[180px] w-[calc(33.333%-16px)] flex-shrink-0"
+              >
+                <div>
+                  <div class="flex justify-between items-start mb-[8px]">
+                    <p class="text-[12px] font-bold text-[#6B7280]">{{ ticket.id }}</p>
+                    <span 
+                      class="text-[10px] px-[8px] py-[2px] rounded-full font-semibold"
+                      :class="ticket.status === 'Resolved' ? 'bg-[#DCFCE7] text-[#22C55E]' : ticket.status === 'In Progress' ? 'bg-[#DBEAFE] text-[#3B82F6]' : 'bg-[#E0E7FF] text-[#6366F1]'"
+                    >
+                      {{ ticket.status }}
+                    </span>
+                  </div>
+                  <h4 class="text-[14px] font-bold text-[#0F151F] leading-snug mb-[8px] truncate">{{ ticket.subject }}</h4>
+                  <p class="text-[12px] text-[#6B7280] mb-[20px] line-clamp-2 leading-relaxed">{{ ticket.detail }}</p>
+                </div>
+                
+                <div class="flex justify-between items-center mt-auto pt-[12px] border-t border-gray-50">
+                  <div class="flex items-center gap-[8px]">
+                    <div class="w-[28px] h-[28px] rounded-full bg-[#EEF2FF] flex items-center justify-center text-[11px] font-bold text-[#4F46E5]">
+                      {{ getInitials(ticket.client) }}
+                    </div>
+                    <span class="text-[12px] font-medium text-[#4B5054] truncate max-w-[100px]">{{ ticket.client }}</span>
+                  </div>
+                  <span :class="`font-semibold ${ticket.priorityColor} text-[11px] px-[10px] py-[4px] rounded-full flex-shrink-0`">
+                    {{ ticket.priority }}
+                  </span>
+                </div>
+              </div>
+              
+              <div v-if="filteredTickets.length === 0" class="w-full min-h-[180px] text-[12px] text-[#A9A9A9] italic flex items-center justify-center py-[24px] border-2 border-dashed border-[#E5E7EB] rounded-[12px]">
+                No tickets found
+              </div>
+            </div>
+
+            <!-- THE ARROW BUTTONS -->
+            <div class="flex justify-center items-center gap-6 mt-2">
+              <button 
+                @click="scrollBoard('left')" 
+                class="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center border border-gray-200 text-[#4B5054] hover:text-black hover:bg-gray-100 transition-colors"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+              </button>
+
+              <button 
+                @click="scrollBoard('right')" 
+                class="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center border border-gray-200 text-[#4B5054] hover:text-black hover:bg-gray-100 transition-colors"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              </button>
+            </div>
+
           </div>
-          <span class="text-[12px] font-medium text-[#4B5054] truncate max-w-[100px]">{{ ticket.client }}</span>
-        </div>
-        <span :class="`font-semibold ${ticket.priorityColor} text-[11px] px-[10px] py-[4px] rounded-full flex-shrink-0`">
-          {{ ticket.priority }}
-        </span>
-      </div>
-    </div>
-    
-    <div v-if="filteredTickets.length === 0" class="w-full min-h-[180px] text-[12px] text-[#A9A9A9] italic flex items-center justify-center py-[24px] border-2 border-dashed border-[#E5E7EB] rounded-[12px]">
-      No tickets found
-    </div>
-  </div>
-
-  <!-- THE ARROW BUTTONS (Moved below the track, in the center) -->
-  <div class="flex justify-center items-center gap-6 mt-2">
-    <button 
-      @click="scrollBoard('left')" 
-      class="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center border border-gray-200 text-[#4B5054] hover:text-black hover:bg-gray-100 transition-colors"
-    >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-    </button>
-
-    <button 
-      @click="scrollBoard('right')" 
-      class="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center border border-gray-200 text-[#4B5054] hover:text-black hover:bg-gray-100 transition-colors"
-    >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-    </button>
-  </div>
-
-</div>
           </div>
 
-          <!-- Universal Pagination Logic (Applies to List & Board views) -->
+          <!-- Universal Pagination Logic -->
           <div 
            v-show="currentView === 'list'"
            class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
@@ -515,7 +515,7 @@
                 <div class="w-[8px] h-[8px] rounded-full bg-[#EF4444] mt-[4px]"></div>
               </div>
 
-              <!-- Repeated Upcoming Items -->
+              
               <div class="flex items-start gap-[12px]">
                 <div class="w-[36px] h-[36px] bg-[#FEE2E2] rounded-[8px] flex flex-col items-center justify-center flex-shrink-0">
                   <span class="text-[10px] text-[#EF4444] font-bold">15</span>
@@ -732,7 +732,7 @@ onMounted(async () => {
       el.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
 
-    // remove highlight after 3 seconds
+   
     setTimeout(() => {
       highlightedSection.value = null
     }, 3000)
@@ -768,14 +768,14 @@ const handleAction = (actionType) => {
   closeModal()
 }
 
-// 1. We create a memory slot to hold onto our "train track" HTML element
+
 const boardContainer = ref(null)
 
-// 2. We build the remote control buttons
+
 const scrollBoard = (direction) => {
   if (!boardContainer.value) return 
   
-  // We calculate exactly how wide 1/3 of the screen is so the train moves perfectly
+  
   const scrollAmount = boardContainer.value.clientWidth / 3 
   
   if (direction === 'left') {
@@ -787,14 +787,14 @@ const scrollBoard = (direction) => {
 </script>
 
 <style scoped>
-/* 1. The Invisibility Cloak for Chrome, Safari, and newer Edge browsers */
+
 .custom-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-/* 2. The Invisibility Cloak for Firefox and older browsers */
+
 .custom-scrollbar {
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
 }
 </style>

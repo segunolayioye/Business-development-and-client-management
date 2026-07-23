@@ -91,7 +91,7 @@
           </div>
           <!-- End Active Products -->
 
-          <!-- Pending Approval -->
+          
           <!-- Pending Approval -->
 <div class="flex-1 bg-white rounded-lg p-4">
   <div class="flex justify-between items-center mb-2">
@@ -265,7 +265,6 @@
       </div>
           <!-- End Comparison Engine -->
 
-          <!-- Comparison Matrix -->
           <!-- Comparison Matrix -->
       <div class="bg-white rounded-[12px] p-[20px] flex-1 flex flex-col gap-[16px]">
         <div class="flex justify-between items-center">
@@ -473,8 +472,8 @@
           </table>
           <div class="flex justify-between items-center mt-[16px] pt-[16px] border-t border-[#F5F5F5]">
           <div class="inline-flex items-center justify-center px-[12px] py-[6px] border border-[#E5E7EB] bg-white rounded-[6px] shadow-sm text-[13px] font-semibold text-[#4B5054]">
-    {{ showAllClients ? 1 : pageStart }} - {{ pageEnd }}
-  </div>
+            {{ showAllClients ? 1 : pageStart }} - {{ pageEnd }}
+          </div>
 
           <div class="flex items-center gap-[6px]">
             <!-- Previous -->
@@ -586,7 +585,7 @@
     </div>
   </div>
 </Transition>
-<!-- Download Toast -->
+<!-- Download  -->
 <Transition name="modal">
   <div
     v-if="showDownloadToast"
@@ -810,7 +809,7 @@
     const activeTab = ref('All')
     const tabs = ['All', 'Real Estate', 'Equities', 'Sukuk', 'VC Funds']
 
-    // ── PRODUCT DATA ──────────────────────────────────────────
+    // ── PRODUCT DATA ──────
     const products = ref([
       {
         id: 1,
@@ -898,7 +897,7 @@
       },
     ])
 
-    // ── DETAILS MODAL ─────────────────────────────────────────
+    // ── DETAILS MODAL ─────────────────
     const showDetailsModal = ref(false)
     const selectedProduct = ref(null)
 
@@ -907,7 +906,7 @@
       showDetailsModal.value = true
     }
 
-    // ── ADD TO COMPARISON ─────────────────────────────────────
+    // ── ADD TO COMPARISON ───────────
     const comparisonList = ref([
       { id: 1 }, // preloaded
       { id: 2 }, // preloaded
@@ -930,7 +929,7 @@
       comparisonList.value = comparisonList.value.filter(c => c.id !== productId)
     }
 
-    // ── GENERATE MATRIX ───────────────────────────────────────
+    // ── GENERATE MATRIX ────────────
     const matrixGenerated = ref(true) // true by default since products are preloaded
     const matrixProducts = ref([
       products.value[0],
@@ -946,7 +945,7 @@
       matrixGenerated.value = true
     }
 
-    // ── COMPLIANCE DOCUMENTS ──────────────────────────────────
+    // ── COMPLIANCE DOCUMENTS ───────
 const documents = ref([
   { id: 1, name: 'Annual Prospectus 2025', date: 'Oct 12, 2024', status: 'Approved', auditor: 'Lagos Auditing Office' },
   { id: 2, name: 'Q3 Financial Report',    date: 'Oct 12, 2024', status: 'Approved', auditor: 'Lagos Auditing Office' },
@@ -959,7 +958,7 @@ const documents = ref([
   { id: 9, name: 'Compliance Certificate', date: 'Oct 12, 2024', status: 'Pending Review', auditor: 'Lagos Auditing Office'}
 ])
 
-// ── DOWNLOAD FUNCTION ─────────────────────────────────────
+// ── DOWNLOAD FUNCTION ─────────
 const showDownloadToast = ref(false)
 const downloadedDoc = ref('')
 
@@ -971,7 +970,7 @@ function downloadDocument(doc) {
   }, 3000)
 }
 
-// ── EDIT MODAL ────────────────────────────────────────────
+// ── EDIT MODAL ─────────
 const showEditModal = ref(false)
 const editingDoc = ref(null)
 const editName = ref('')
@@ -999,7 +998,7 @@ function saveEdit() {
   showEditModal.value = false
 }
 
-// ── PENDING APPROVAL ──────────────────────────────────────
+// ── PENDING APPROVAL ─────────
 const pendingItems = ref([
   { id: 1, name: 'Green Sukuk Fund', type: 'Sukuk', status: 'Pending Review', submittedBy: 'Jane Peters', date: 'Oct 12, 2024', description: 'New Shari\'ah compliant Sukuk fund targeting infrastructure projects across West Africa.' },
   { id: 2, name: 'Growth ETF',       type: 'Equities', status: 'Draft',          submittedBy: 'John Adeyemi', date: 'Oct 10, 2024', description: 'Exchange traded fund focused on high growth equities in the Nigerian stock exchange.' },
@@ -1083,7 +1082,7 @@ const previousPage = () => {
   }
 }
 
-// ── CHART TIME RANGE ───────────────────────────────────────
+// ── CHART TIME RANGE ───────
 const chartRange = ref('1Y')
 
 const chartDataSets = {

@@ -6,7 +6,6 @@ import investment from '../views/investment.vue'
 import campaigns from '../views/campaigns.vue'
 import investor from '../views/investor.vue'
 import support from '../views/support.vue'
-import session from '../views/session.vue'
 import newapp from '../views/new-app.vue'
 import client from '../views/client-overview.vue'
 import campaignmanagement from '../views/campaignmanagement.vue'
@@ -48,11 +47,6 @@ const routes = [
     path: '/help-center',
     name: 'support',
     component: support,
-  },
-  {
-    path: '/session',
-    name: 'session',
-    component: session,
   },
   {
     path: '/new-app',
